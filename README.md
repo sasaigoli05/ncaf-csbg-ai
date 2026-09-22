@@ -38,7 +38,8 @@ Static site. No build step, no dependencies. Everything that ships lives in `src
 
 ```
 src/
-  index.html                      course home
+  index.html                      dashboard / course home
+  setup.html                      the intake (nine questions, ~1 min)
   module-1-foundations.html
   module-2-how-to-prompt.html
   module-3-data-privacy.html
@@ -49,6 +50,9 @@ src/
   assets/
     course.css                    the whole design system
     course.js                     nav, progress, quizzes, sorters, copy buttons
+    learn.js                      the stepped card flow + Learn/Read toggle
+    interactions.js               redact / compute / tells / checklist exercises
+    profile.js                    agency profile + tailoring engine
     feedback.js                   reviewer feedback widget
     draft-banner.js               the review-draft notice
     config.js                     ← the one file you edit
@@ -72,6 +76,56 @@ Source: GitHub Actions**. That is the only setting to change.
 The workflow uploads `src/` as the site, so pages land at the root of the Pages URL rather than
 under `/src/`. Every later push to `main` redeploys — a couple of minutes the first time, under a
 minute after that.
+
+---
+
+## How a module works
+
+Modules are authored as ordinary scrollable documents. `learn.js` restructures that same markup
+into **cards** at runtime, so there is one source of content and two ways to read it:
+
+- **Learn** (default) — one idea per card, and a card holding an unfinished exercise will not let
+  you continue. Borrowed from Brilliant: commit to an answer first, then get the explanation.
+- **Read** — the untouched document, for scanning in submission week.
+
+The toggle sits in the top bar and is remembered per device.
+
+**Card boundaries** are automatic. A new card starts at any element marked `data-card`, and also
+before a major exhibit (`.model-card`, `.risk`, `.compare`, `.quiz-q`, `.exercise`, a table…) when
+the current card already has prose in it — so cards read as "a paragraph or two, then the thing it
+is about". You rarely need to mark anything by hand.
+
+**Exercises** are declared in the HTML and wire themselves up from `interactions.js`. Each adds
+`is-complete` when finished, which is what the gate reads:
+
+| Type | Where | What it does |
+|---|---|---|
+| `redact` | Module 3 | Click the identifiers in a real case note. Targets are `<b data-pii="why">`. |
+| `compute` | Module 4 | Recompute a reported figure and find the mismatch. `data-answer`, `data-tolerance`. |
+| `tells` | Module 5 | Live scan for machine-writing markers. Runs in the browser; paste your own draft. |
+| `checklist` | Module 6 | Judge a real vendor pitch against the five adoption questions. `data-verdict`. |
+
+---
+
+## Tailoring
+
+`setup.html` collects an **organization** profile — name, counties, size, service model, programs,
+case-management system, whether anyone uses AI today, biggest time sink, funders. It is stored in
+the browser and never transmitted. There is no field for client information anywhere in the schema,
+and the intake says so on its first screen.
+
+Modules then use it two ways:
+
+```html
+<span data-slot="org.name">your agency</span>          <!-- substitution; authored text is the fallback -->
+<div data-if="system:CARDS">…</div>                    <!-- shown only when it applies -->
+```
+
+Available tests: `program:`, `model:`, `system:`, `report:`, `ai:`, `staff:`, `role:`, `setup:`,
+each negatable with `!`. An unknown test resolves to *shown*, so content is never lost to a typo.
+Blocks that do not apply are dropped from the card deck entirely rather than rendering blank.
+
+Skipping setup is always allowed — every module reads correctly with an empty profile.
 
 ---
 
@@ -177,8 +231,10 @@ a hosting decision.
 
 - **Module 2's practice sandbox is inert on a static host.** See above.
 - **Modules 1 and 3–6 have not been through faculty review.** Scheduled for October 2026.
-- **No personalization yet.** A profile-driven version that tailors examples to an agency's own
-  programs and systems exists as a separate prototype and has not been merged into these pages.
+- **Tailoring is thin so far.** The engine is in place and wired, but only Modules 1, 3 and 5
+  actually use it. Adding slots and conditionals to 4 and 6 is authoring work, not engineering.
+- **Module 2 has no card breaks of its own**, so in Learn mode its sections become larger cards
+  than the other modules'. Adding `data-card` markers would fix it, but that is Meryem's file.
 - **Progress and feedback are per-browser.** Someone reviewing on a laptop and a phone has two
   separate sets of notes. Export from both.
 

@@ -68,7 +68,8 @@
     </div>
 
     <p>
-      This is genuinely different from the other software you use. CARDS, Cap60, SmartForms and a
+      This is genuinely different from the other software you use.
+      <span data-slot="derived.systemName">CARDS, Cap60</span>, SmartForms and a
       spreadsheet all do the same thing every time because someone wrote a rule. An AI tool produces
       something new each time, and nobody wrote a rule for your specific question.
     </p>
@@ -88,7 +89,8 @@
         <ul>
           <li>A search engine &mdash; it is not looking anything up</li>
           <li>A database &mdash; it stores no records</li>
-          <li>Connected to your systems &mdash; it cannot see CARDS, Cap60, your general ledger or your case files</li>
+          <li>Connected to your systems &mdash; it cannot see
+              <span data-slot="derived.systemName">CARDS, Cap60</span>, your general ledger or your case files</li>
           <li>Current &mdash; it may not know a rule that changed last month</li>
         </ul>
       </div>
@@ -146,7 +148,7 @@
     </p>
 
     <div class="risk">
-      <h3>The rule this gives you</h3>
+      <h3 data-card>The rule this gives you</h3>
       <p style="margin-bottom:.6rem;"><strong>Anything you would put your agency's name behind, you verify.</strong></p>
       <ul class="plain">
         <li><strong>Numbers.</strong> Poverty rates, census figures, funding amounts, percentages. Check them against Census, SAIPE, your own FNPI file, or your own ledger.</li>
@@ -226,7 +228,7 @@
     </div>
 
     <div class="horizon">
-      <h3>Why Community Action work sits on the assistive side</h3>
+      <h3 data-card>Why Community Action work sits on the assistive side</h3>
       <p>
         Your clients cannot take their business elsewhere. When a private company's algorithm gets
         something wrong, a customer switches products. When an agency's process gets something wrong,
@@ -286,7 +288,7 @@
     </p>
 
     <div class="checklist">
-      <h3>Before you finish this module</h3>
+      <h3 data-card>Before you finish this module</h3>
       <label><input type="checkbox"> <span>Find out whether your agency has a written AI use policy, and where it lives.</span></label>
       <label><input type="checkbox"> <span>Find your data privacy or confidentiality policy. It almost certainly exists, and it almost certainly already covers client information going to outside parties.</span></label>
       <label><input type="checkbox"> <span>Find out whether your agency pays for an AI account or whether staff are using free personal ones. A paid organizational account can be set not to train on what you type. A free personal one usually is not.</span></label>
@@ -294,7 +296,19 @@
       <label><input type="checkbox"> <span>If the answer to any of these is &ldquo;we don't have that,&rdquo; say so to your director. That is a finding, not a failure.</span></label>
     </div>
 
-    <p>
+    <div data-if="system:CARDS" data-card>
+      <div class="model-card">
+        <p>This one applies directly to you</p>
+        <p style="margin-bottom:0">
+          You told us <span data-slot="org.name">your agency</span> works in CARDS. Worth being
+          precise, then: an AI tool in a browser tab has no connection to CARDS whatsoever. Anything
+          that moves between them moves because a person copied it. That is a limitation, and
+          &mdash; as Module 3 covers &mdash; it is also the protection.
+        </p>
+      </div>
+    </div>
+
+    <p data-card>
       There is one more constraint specific to this network. In North Carolina, community service
       data-entry systems must be approved by the Office of Economic Opportunity. At least one agency
       &mdash; Mountain Projects &mdash; found new software with AI features that would have improved
@@ -374,6 +388,7 @@
 
 <script src="assets/config.js"></script>
 <script src="assets/draft-banner.js"></script>
+<script src="assets/profile.js"></script>
 <script>
 window.SORT_TASKS = [
   { answer: "go",
@@ -408,7 +423,9 @@ window.SORT_TASKS = [
     why: "The data is fine — it's aggregate. The tool is the question. Free consumer tools often train on what you type and may have no agreement with your agency at all. Check what account you're supposed to be using." }
 ];
 </script>
-<script src="assets/course.js" defer></script>
+<script src="assets/interactions.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/learn.js"></script>
 <script src="assets/feedback.js" defer></script>
 </body>
 </html>

@@ -128,7 +128,7 @@
     </p>
 
     <div class="horizon">
-      <h3>What this means practically</h3>
+      <h3 data-card>What this means practically</h3>
       <p style="margin-bottom:0;">
         A tool can tell you whose voices are thin in your sample. Only people &mdash; outreach
         workers, partners, residents in open conversation &mdash; can tell you what nobody thought
@@ -160,7 +160,7 @@
     </p>
 
     <div class="risk">
-      <h3>What those proxies quietly encoded</h3>
+      <h3 data-card>What those proxies quietly encoded</h3>
       <ul class="plain">
         <li><strong>Who gets reported in the first place.</strong> Re-referral measures contact with the reporting system, not harm. Families already under scrutiny generate more of it.</li>
         <li><strong>Who uses public services at all.</strong> The tool could only see data from residents who had touched public programs. Families wealthy enough to use private doctors, private therapists and private childcare were structurally close to invisible.</li>
@@ -227,7 +227,7 @@
     </p>
 
     <div class="checklist">
-      <h3>Before adopting any AI tool</h3>
+      <h3 data-card>Before adopting any AI tool</h3>
       <label><input type="checkbox"> <span><strong>Who owns this?</strong> One named person answers for what it produces. Not &ldquo;the team&rdquo; &mdash; a name.</span></label>
       <label><input type="checkbox"> <span><strong>What may it touch, and what may it never touch?</strong> Written down, in one sentence each, before anyone uses it.</span></label>
       <label><input type="checkbox"> <span><strong>How will we know if it's wrong?</strong> A specific check somebody actually runs on a schedule &mdash; not &ldquo;we'll keep an eye on it.&rdquo;</span></label>
@@ -235,7 +235,58 @@
       <label><input type="checkbox"> <span><strong>Can the person using it overrule it without friction?</strong> If overriding is harder than agreeing, you have automation bias by design.</span></label>
     </div>
 
-    <h3>Questions for any vendor</h3>
+
+    <div class="exercise" data-interaction="checklist" data-card
+         data-gate-hint="Judge all five before moving on">
+      <h3 style="margin-top:0">Run it against a real pitch</h3>
+      <p class="ex-prompt">
+        Here is a vendor email of the kind agencies are already receiving. Read it, then take the
+        five questions one at a time and decide whether this pitch actually answers each one.
+      </p>
+
+      <div class="ex weak" style="margin:1rem 0">
+        <span class="tag">The pitch</span>
+        <span class="quote">
+          &ldquo;CaseFlow AI plugs straight into your existing intake and uses machine learning to
+          surface the clients most at risk of disengaging, so your caseworkers can prioritise
+          outreach. Our engagement-risk score is trained on over 4 million service records from
+          agencies nationwide. Everything is reviewed by your staff before action is taken &mdash;
+          the human is always in the loop. Enterprise-grade security, SOC 2 compliant, hosted in
+          the cloud. Most partners are live in under two weeks. Happy to set up a demo!&rdquo;
+        </span>
+      </div>
+
+      <div data-verdict="fail"
+           data-q="1. Who owns this? Does the pitch name who at your agency would answer for what it produces?"
+           data-why="No. &lsquo;Reviewed by your staff&rsquo; spreads responsibility across everyone, which means nobody. The checklist asks for a name, and a vendor cannot supply one — but a pitch that never raises the question is one that expects you not to."></div>
+
+      <div data-verdict="fail"
+           data-q="2. What may it touch, and what may it never touch? Is the data boundary stated?"
+           data-why="No. &lsquo;Plugs straight into your existing intake&rsquo; is the opposite of a boundary — it means full access to client records by design. And in North Carolina, anything touching an approved data-entry system is an OEO approval question before it is a product question."></div>
+
+      <div data-verdict="fail"
+           data-q="3. How will we know if it is wrong? Is there any way to check the risk score?"
+           data-why="No. &lsquo;Trained on 4 million records&rsquo; is a scale claim, not an accuracy claim, and says nothing about whether it works on your caseload. Ask what the error rate is for agencies like yours, and what happens to a client it scores wrongly."></div>
+
+      <div data-verdict="fail"
+           data-q="4. What happens when it is wrong? Who is told, what gets corrected, who talks to the client?"
+           data-why="Not addressed. SOC 2 covers the vendor&rsquo;s security posture, not their liability for a bad recommendation. A client deprioritised by a wrong score never finds out it happened."></div>
+
+      <div data-verdict="fail"
+           data-q="5. Can the person using it overrule it without friction, and does anyone track how often they do?"
+           data-why="The pitch asserts the human is always in the loop and offers no evidence that overriding is easy or recorded. A score presented first anchors the judgment — that is automation bias by design, and it is the single most common way &lsquo;human in the loop&rsquo; becomes a fig leaf."></div>
+    </div>
+
+    <div class="horizon" data-card>
+      <h3 style="margin-top:0">Five for five</h3>
+      <p style="margin-bottom:0">
+        Nothing in that email is a lie, and the product may well work. But it answers none of the
+        five questions, and it is built around exactly the use this course recommends against
+        &mdash; a system that ranks people. The checklist did not need you to be technical. It
+        needed you to notice what was missing.
+      </p>
+    </div>
+    <h3 data-card>Questions for any vendor</h3>
     <ul class="plain">
       <li>Where does our data go, and which country is it stored in?</li>
       <li>Is anything we enter used to train your models? Can that be turned off in writing?</li>
@@ -246,7 +297,7 @@
     </ul>
 
     <div class="risk">
-      <h3>The procurement trap</h3>
+      <h3 data-card>The procurement trap</h3>
       <p style="margin-bottom:0;">
         When you buy a tool rather than build one, you can accidentally outsource a policy decision
         and never notice. What counts as a resolved case? What counts as a flagged risk? What is the
@@ -361,7 +412,10 @@
 
 <script src="assets/config.js"></script>
 <script src="assets/draft-banner.js"></script>
-<script src="assets/course.js" defer></script>
+<script src="assets/profile.js"></script>
+<script src="assets/interactions.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/learn.js"></script>
 <script src="assets/feedback.js" defer></script>
 </body>
 </html>

@@ -90,7 +90,7 @@
     </ul>
 
     <div class="horizon">
-      <h3>Everything on that list is agency-authored and aggregate</h3>
+      <h3 data-card>Everything on that list is agency-authored and aggregate</h3>
       <p style="margin-bottom:0;">
         Which means the whole library is safe to work with. The one thing to watch: past
         applications sometimes contain a client success story with a real name. Strip those before
@@ -129,6 +129,9 @@ If our material doesn't actually answer part of their question, say so instead o
     </div>
 
     <p>
+      <span data-if="setup:">If you named a funder at setup, swap
+      <b data-slot="derived.topFunder">that funder</b> into the second paragraph and run it on a
+      real question of theirs.</span>
       Two instructions in there do most of the work. <strong>&ldquo;Mark with [CHECK] any place you
       used a figure&rdquo;</strong> gives you a verification checklist for free. <strong>&ldquo;If
       our material doesn't answer part of their question, say so&rdquo;</strong> stops it inventing
@@ -249,6 +252,23 @@ Be blunt. I'd rather hear it from you than from a rejection letter.
       </span>
     </div>
 
+
+    <div class="exercise" data-interaction="tells" data-card data-seed="Our organization is deeply committed to not just addressing immediate needs, but fostering long-term self-sufficiency across the vibrant tapestry of communities we serve. By leveraging robust partnerships, holistic case management, and transformative workforce development, we underscore our dedication to meaningful outcomes. Our comprehensive approach is a testament to the pivotal role community action plays in the anti-poverty landscape."
+         data-gate-hint="Scan the paragraph to continue">
+      <h3 style="margin-top:0">Scan it and see</h3>
+      <p class="ex-prompt">
+        The paragraph is already loaded. Hit scan. Then delete it, paste something you have actually
+        submitted, and scan that.
+      </p>
+    </div>
+
+    <p data-card>
+      The count that matters is the second one. Markers are a symptom; <strong>the absence of
+      numbers is the disease.</strong> Text with six figures in it and a couple of stray
+      &ldquo;robust&rdquo;s reads as written by someone who knows the programme. Text with no figures
+      and immaculate vocabulary reads as generated, because in a real sense it was &mdash; by
+      something that did not have your data.
+    </p>
     <button class="reveal-btn" data-reveal="rw" type="button">Show the rewrite</button>
     <div class="answer" id="rw">
       <p><strong>Eleven tells in three sentences:</strong> not-just-but, tapestry, vibrant, leveraging, robust, holistic, transformative, underscore, testament to, pivotal, landscape. And not a single number.</p>
@@ -336,7 +356,10 @@ Be blunt. I'd rather hear it from you than from a rejection letter.
 
 <script src="assets/config.js"></script>
 <script src="assets/draft-banner.js"></script>
-<script src="assets/course.js" defer></script>
+<script src="assets/profile.js"></script>
+<script src="assets/interactions.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/learn.js"></script>
 <script src="assets/feedback.js" defer></script>
 </body>
 </html>

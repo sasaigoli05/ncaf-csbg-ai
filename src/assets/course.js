@@ -266,6 +266,9 @@
   /* ---------- go ---------- */
 
   function init() {
+    /* Substitute profile values and show/hide profile-conditional blocks
+       before anything else renders, so nothing flashes generic copy first. */
+    if (window.Tailor) { try { Tailor.apply(document); } catch (e) {} }
     buildTopbar();
     wireProgress();
     wireQuiz();

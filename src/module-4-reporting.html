@@ -74,7 +74,7 @@
     </p>
 
     <div class="horizon">
-      <h3>The nine service domains</h3>
+      <h3 data-card>The nine service domains</h3>
       <p style="margin-bottom:0;">
         Employment &middot; Education and Cognitive Development &middot; Income, Infrastructure and
         Asset Building &middot; Housing &middot; Health and Social/Behavioral Development &middot;
@@ -101,7 +101,7 @@
       agency already wrote. None of them requires a client record.
     </p>
 
-    <h3>2A &mdash; sorting the ledger into domains</h3>
+    <h3 data-card>2A &mdash; sorting the ledger into domains</h3>
     <p>
       The job: take your general ledger export and assign each line to one of the nine domains. The
       value is not that AI sorts faster than you. It is that it flags the lines that <em>don't</em>
@@ -121,7 +121,7 @@ Return a table with the original description, the amount, the domain, and a conf
       everything and you will never learn which calls were close.
     </p>
 
-    <h3>2C &mdash; reconciling leveraged funds</h3>
+    <h3 data-card>2C &mdash; reconciling leveraged funds</h3>
     <p>
       Non-CSBG resources live in separate spreadsheets: LIHEAP here, Head Start there, county money
       in someone's email. Reconciling them catches double-counting and missing sources.
@@ -136,7 +136,7 @@ Then tell me three things: (1) any amount that appears to be counted twice under
       <button class="copy-btn" aria-label="Copy this prompt" type="button">Copy</button>
     </div>
 
-    <h3>3 &mdash; classifying initiatives into phases</h3>
+    <h3 data-card>3 &mdash; classifying initiatives into phases</h3>
     <p>
       Phase 1 is formative work like needs assessments and focus groups. Phase 2 is formal planning
       with partner commitments. Phase 3 is active implementation with designated roles &mdash; this
@@ -145,12 +145,12 @@ Then tell me three things: (1) any amount that appears to be counted twice under
       describes, and what would have to be true to move up one.
     </p>
 
-    <h3>4A &mdash; validating FNPIs before you submit</h3>
+    <h3 data-card>4A &mdash; validating FNPIs before you submit</h3>
     <p>
       Not producing the numbers &mdash; checking them. See Part 4, which is the heart of this module.
     </p>
 
-    <h3>1B &mdash; drafting an Innovative Solutions Highlight</h3>
+    <h3 data-card>1B &mdash; drafting an Innovative Solutions Highlight</h3>
     <p>
       The state needs at least three of these. They are written from your CNA summary tables and
       service counts &mdash; aggregate material, already in your possession, and a genuinely
@@ -168,7 +168,7 @@ Then tell me three things: (1) any amount that appears to be counted twice under
     </p>
 
     <div class="risk">
-      <h3>Not these</h3>
+      <h3 data-card>Not these</h3>
       <ul class="plain">
         <li>
           <strong>4C unduplicated headcount.</strong> It works by matching name, date-of-birth and
@@ -219,7 +219,7 @@ Then tell me three things: (1) any amount that appears to be counted twice under
     </p>
 
     <div class="horizon">
-      <h3>Why a check catches things a careful person does not</h3>
+      <h3 data-card>Why a check catches things a careful person does not</h3>
       <p style="margin-bottom:0;">
         Not because staff are careless &mdash; because a systematic check asks the same question of
         every row, and a human reading a long spreadsheet gets tired around row 40. The point of
@@ -239,12 +239,62 @@ Then tell me three things: (1) any amount that appears to be counted twice under
       passed through the normal process.
     </p>
 
+
+    <div class="exercise" data-interaction="compute" data-card
+         data-answer="35.5" data-tolerance="0.6" data-unit="%"
+         data-gate-hint="Work out the percentage to continue">
+      <h3 style="margin-top:0">Do the check yourself</h3>
+      <p class="ex-prompt">
+        Here is one row as it appears in an FNPI export. The percentage column is headed
+        <strong>Actual &divide; Served</strong>. Work that out from the three numbers and see whether
+        the file agrees with its own heading.
+      </p>
+      <div class="table-scroll">
+        <table class="data" style="margin-top:0">
+          <thead>
+            <tr>
+              <th>Indicator</th>
+              <th>I &mdash; Served</th>
+              <th>II &mdash; Target</th>
+              <th>III &mdash; Actual</th>
+              <th>% (as filed)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1.1 Employed</td>
+              <td style="font-variant-numeric:tabular-nums">220</td>
+              <td style="font-variant-numeric:tabular-nums">110</td>
+              <td style="font-variant-numeric:tabular-nums">78</td>
+              <td style="font-variant-numeric:tabular-nums"><strong>70.9%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div data-compute-explain>
+        <p>
+          <strong>78 &divide; 220 = 35.5%.</strong> The file reports <strong>70.9%</strong>, which is
+          78 &divide; 110 &mdash; Actual over <em>Target</em>, not Actual over <em>Served</em>. The
+          column heading and the column contents disagree.
+        </p>
+        <p>
+          Both numbers are defensible metrics. Only one of them matches the label, and the gap
+          between them is the difference between &ldquo;we reached a third of the people we
+          served&rdquo; and &ldquo;we hit seven tenths of our goal.&rdquo; Anyone reading the
+          heading is reading the wrong story.
+        </p>
+        <p style="margin-bottom:0">
+          This is the defect that turned up in all twenty-four North Carolina files in the August
+          2026 batch. It took one division to find.
+        </p>
+      </div>
+    </div>
     <div class="ex weak" style="margin:1.1rem 0;">
       <span class="tag">Defect one</span>
       <span class="quote">
-        Every file's percentage column is <strong>labelled</strong> Actual &divide; Served, but the
-        values displayed are <strong>Actual &divide; Target</strong>. Two different denominators.
-        Anyone reading the column heading is reading the wrong metric.
+        What you just found, in every one of the twenty-four files: the percentage column is
+        <strong>labelled</strong> Actual &divide; Served and <strong>displays</strong>
+        Actual &divide; Target. Two different denominators, one heading.
       </span>
     </div>
     <div class="ex weak" style="margin:1.1rem 0;">
@@ -350,7 +400,10 @@ Then tell me three things: (1) any amount that appears to be counted twice under
 
 <script src="assets/config.js"></script>
 <script src="assets/draft-banner.js"></script>
-<script src="assets/course.js" defer></script>
+<script src="assets/profile.js"></script>
+<script src="assets/interactions.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/learn.js"></script>
 <script src="assets/feedback.js" defer></script>
 </body>
 </html>

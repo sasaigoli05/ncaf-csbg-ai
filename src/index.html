@@ -19,11 +19,17 @@
 <header class="hero home-hero">
   <div class="wrap-wide">
     <p class="kicker">NCAF AI Task Force &middot; University of North Carolina at Chapel Hill</p>
-    <h1>AI Literacy for Community Action</h1>
-    <p class="lede">
+    <div class="dash-greet">
+      <h1 id="heroTitle">AI Literacy for Community Action</h1>
+    </div>
+    <p class="lede" id="heroLede">
       Six short modules on using AI safely for the paperwork that already fills your week &mdash;
       and on knowing where it has no business being. Free, self-paced, and written for agencies
       with three to five staff and no IT department.
+    </p>
+    <p class="tailored-note" id="tailoredNote" hidden>
+      Tailored for <b id="tailoredName"></b> &middot;
+      <a href="setup.html" style="font-weight:400">edit</a>
     </p>
 
     <div class="stat-row">
@@ -46,7 +52,20 @@
       account, no sign-in, nothing reported to anyone.
     </p>
 
+    <div class="setup-invite" id="setupInvite" hidden>
+      <div class="txt">
+        <h3>Set it up for your agency first</h3>
+        <p>
+          Nine questions, about a minute. Every example then uses your programs, your systems and
+          your counties instead of generic ones. We never ask about the people you serve.
+        </p>
+      </div>
+      <a class="cta" href="setup.html">Set up my course</a>
+    </div>
+
     <div class="mod-list" id="modList"></div>
+
+    <p class="source-note" id="resumeNote" hidden></p>
   </section>
 
   <div class="callout">
@@ -154,19 +173,68 @@
 
 <script src="assets/config.js"></script>
 <script src="assets/draft-banner.js"></script>
-<script src="assets/course.js" defer></script>
+<script src="assets/profile.js"></script>
+<script src="assets/interactions.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/learn.js"></script>
 <script src="assets/feedback.js" defer></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  var host = document.getElementById("modList");
   var prog = window.NCAF_progress ? window.NCAF_progress() : {};
-  host.innerHTML = (window.NCAF_MODULES || []).map(function (m) {
+  var mods = window.NCAF_MODULES || [];
+  var P = window.Tailor ? Tailor.profile : null;
+  var setUp = !!(window.Tailor && Tailor.isSetUp());
+
+  /* Greeting */
+  if (setUp) {
+    document.getElementById("heroTitle").textContent = P.org.name;
+    document.getElementById("tailoredName").textContent = P.org.name;
+    document.getElementById("tailoredNote").hidden = false;
+
+    var bits = [];
+    if (P.org.counties.length) {
+      bits.push(P.org.counties.length === 1
+        ? P.org.counties[0] + " County"
+        : P.org.counties.slice(0, -1).join(", ") + " and " + P.org.counties[P.org.counties.length - 1] + " Counties");
+    }
+    if (P.org.programs.length) bits.push(P.org.programs.length + " programs");
+    if (P.org.staffBand) bits.push(P.org.staffBand + " staff");
+    document.getElementById("heroLede").textContent = bits.length
+      ? bits.join("  \u00b7  ") + ". Six modules on using AI safely for the paperwork that already fills your week \u2014 and knowing where it has no business being."
+      : "Six modules on using AI safely for the paperwork that already fills your week.";
+  } else {
+    document.getElementById("setupInvite").hidden = false;
+  }
+
+  /* Module list */
+  var doneCount = 0;
+  document.getElementById("modList").innerHTML = mods.map(function (m) {
     var done = prog["m" + m.n] && prog["m" + m.n].complete;
+    if (done) doneCount++;
     return '<a class="mod-card' + (done ? " done" : "") + '" href="' + m.file + '">' +
-      '<span class="num">' + (done ? "✓" : m.n) + "</span>" +
+      '<span class="num">' + (done ? "\u2713" : m.n) + "</span>" +
       '<span><span class="nm">' + m.name + '</span><span class="ds">' + m.ds + "</span></span>" +
       '<span class="mins">' + (done ? "Complete" : m.mins + " min") + "</span></a>";
   }).join("");
+
+  /* Where they left off */
+  var pos = {};
+  try { pos = JSON.parse(localStorage.getItem("ncaf-card-pos") || "{}") || {}; } catch (e) {}
+  var started = mods.filter(function (m) {
+    return pos[m.file] > 0 && !(prog["m" + m.n] && prog["m" + m.n].complete);
+  })[0];
+
+  var note = document.getElementById("resumeNote");
+  if (doneCount === mods.length) {
+    note.hidden = false;
+    note.innerHTML = "All six complete. They stay here as reference \u2014 the <b>Read</b> toggle at the top of any module flattens it back to a single page for scanning.";
+  } else if (started) {
+    note.hidden = false;
+    note.innerHTML = 'You are part-way through <a href="' + started.file + '">Module ' + started.n + " \u2014 " + started.name + "</a>.";
+  } else if (doneCount) {
+    note.hidden = false;
+    note.textContent = doneCount + " of " + mods.length + " complete.";
+  }
 });
 </script>
 </body>

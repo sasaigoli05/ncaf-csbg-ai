@@ -57,7 +57,7 @@
     </p>
 
     <div class="risk">
-      <h3>Never</h3>
+      <h3 data-card>Never</h3>
       <ul class="plain">
         <li><strong>Names.</strong> Clients, household members, children, emergency contacts.</li>
         <li><strong>Addresses.</strong> Street address, and in a small county sometimes the road alone.</li>
@@ -210,8 +210,35 @@
       detail. Any two of those together would have been enough.
     </p>
 
+
+    <div class="exercise" data-interaction="redact" data-card
+         data-gate-hint="Find the identifiers before moving on">
+      <h3 style="margin-top:0">Your turn: clean this up</h3>
+      <p class="ex-prompt">
+        A caseworker is about to paste this into an AI tool to get a follow-up letter drafted.
+        Click everything that must come out first. There are eight.
+      </p>
+      <div class="rx-text" data-redact-text>Follow-up for <b data-pii="A name. The single most direct identifier there is.">Angela Rivers</b>,
+case <b data-pii="A case number links straight back to her record in your system.">#44812</b>,
+DOB <b data-pii="A date of birth plus a county is close to a unique identifier on its own.">04/17/1988</b>.
+Currently at <b data-pii="A street address. Identifies the household outright.">214 Sycamore Street</b> in
+<b data-pii="The town. Combined with almost any other detail, this narrows it to one family.">Bryson City</b>.
+She is a <b data-pii="Household composition. On its own it is vague; with a town and an age it is not.">single mother of two</b>
+and received <b data-pii="An exact amount to the cent comes from one household&rsquo;s record, not an aggregate total.">$487.50</b>
+in emergency utility assistance last month. Reachable at
+<b data-pii="A phone number.">(828) 555-0174</b>. She asked about the weatherization waitlist and
+mentioned her hours were cut at the plant.</div>
+    </div>
+
+    <p data-card>
+      Read back what is left once those eight are gone: <em>a client received emergency utility
+      assistance last month, asked about the weatherization waitlist, and has had their hours
+      reduced.</em> That is still enough to draft a useful letter from &mdash; and it identifies
+      nobody. The information you actually needed survived. The information that put a household at
+      risk did not.
+    </p>
     <div class="horizon">
-      <h3>A working habit</h3>
+      <h3 data-card>A working habit</h3>
       <p style="margin-bottom:0;">
         Before you paste, read it back and ask: <strong>if a neighbour read this, would they know
         who it is?</strong> Not a stranger in another state &mdash; a neighbour. That is the right
@@ -242,6 +269,40 @@
       </table>
     </div>
 
+
+    <div data-if="ai:free-personal" data-card>
+      <div class="model-card" style="border-left-color:var(--rust)">
+        <p>Worth raising this week</p>
+        <p style="margin-bottom:0">
+          At setup you said staff are using free personal accounts. That is the row above with the
+          weakest protection &mdash; free tiers commonly train on what users type, and no agreement
+          exists between the vendor and <span data-slot="org.name">your agency</span>. This is not a
+          reason to stop using AI. It is a reason to move to an organizational account before anyone
+          pastes anything out of a real file.
+        </p>
+      </div>
+    </div>
+
+    <div data-if="ai:unsure" data-card>
+      <div class="model-card">
+        <p>Your first task after this module</p>
+        <p style="margin-bottom:0">
+          At setup you were not sure what kind of AI account the agency has. Find out before you
+          start Module 4 &mdash; it is the single fact that determines what is safe to type.
+        </p>
+      </div>
+    </div>
+
+    <div data-if="ai:org-account" data-card>
+      <div class="model-card" style="border-left-color:var(--green)">
+        <p>You are in the best position of the three</p>
+        <p style="margin-bottom:0">
+          <span data-slot="org.name">Your agency</span> pays for accounts, which means the
+          no-training setting is available to you. Available is not the same as switched on
+          &mdash; that is the thing to go and verify.
+        </p>
+      </div>
+    </div>
     <p>
       &ldquo;Not used for training&rdquo; is the specific thing to ask for &mdash; often called a
       zero-retention or no-training setting. It is not automatic, and on most products it is off by
@@ -249,7 +310,7 @@
     </p>
 
     <div class="checklist">
-      <h3>Find out this week</h3>
+      <h3 data-card>Find out this week</h3>
       <label><input type="checkbox"> <span>Which AI tools are in use at your agency right now, including ones nobody approved.</span></label>
       <label><input type="checkbox"> <span>Whether each is a free personal account, a paid personal account, or an agency account.</span></label>
       <label><input type="checkbox"> <span>If there is an agency account: is the no-training setting actually turned on?</span></label>
@@ -275,7 +336,7 @@
       you reveal the answer.
     </p>
 
-    <h3>One</h3>
+    <h3 data-card>One</h3>
     <div class="ex weak" style="margin:.8rem 0;">
       <span class="tag">As typed</span>
       <span class="quote">&ldquo;Write a referral letter for James Whitaker, 412 Maple Road, who needs help with his power bill. He's behind $340 and his disability check comes on the 3rd.&rdquo;</span>
@@ -291,7 +352,7 @@
       </p>
     </div>
 
-    <h3>Two</h3>
+    <h3 data-card>Two</h3>
     <div class="ex weak" style="margin:.8rem 0;">
       <span class="tag">As typed</span>
       <span class="quote">&ldquo;Here's our intake spreadsheet for last quarter. Which clients are most likely to drop out of the program?&rdquo;</span>
@@ -308,7 +369,7 @@
       </p>
     </div>
 
-    <h3>Three</h3>
+    <h3 data-card>Three</h3>
     <div class="ex weak" style="margin:.8rem 0;">
       <span class="tag">As typed</span>
       <span class="quote">&ldquo;Summarize these 40 client satisfaction survey responses into themes for our board report.&rdquo;</span>
@@ -392,7 +453,10 @@
 
 <script src="assets/config.js"></script>
 <script src="assets/draft-banner.js"></script>
-<script src="assets/course.js" defer></script>
+<script src="assets/profile.js"></script>
+<script src="assets/interactions.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/learn.js"></script>
 <script src="assets/feedback.js" defer></script>
 </body>
 </html>

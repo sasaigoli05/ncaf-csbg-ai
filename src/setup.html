@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set up your course</title>
+<meta name="description" content="Nine quick questions so the course uses your agency's programs, systems and counties instead of generic examples.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="intake">
+  <div class="intake-top">
+    <button class="back-btn" id="backBtn" type="button" disabled>&larr; Back</button>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <!-- 0 -->
+  <div class="step" data-step="0">
+    <p class="eyebrow">NCAF AI Task Force</p>
+    <h2>Let's set this up for your agency.</h2>
+    <p class="sub">
+      Nine quick questions, about a minute. Then every example in the course uses your programs and
+      your systems instead of generic ones.
+    </p>
+    <div class="promise">
+      <strong>We never ask about the people you serve.</strong>
+      <p>
+        Every question here is about your organization. There is no place in this course to enter a
+        client's name, and there never will be. Your answers stay in this browser and are not sent
+        anywhere.
+      </p>
+    </div>
+    <div class="step-actions">
+      <button class="cta" data-next type="button">Get started</button>
+      <a class="skip" href="index.html">Skip &mdash; just show me the course</a>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <div class="step" data-step="1">
+    <p class="eyebrow">Question 1 of 9</p>
+    <h2>What should we call your agency?</h2>
+    <p class="sub">However you'd say it out loud is fine.</p>
+    <input class="field" id="qName" type="text" placeholder="Mountain Projects" autocomplete="organization">
+    <div class="step-actions"><button class="cta" data-next type="button">Continue</button></div>
+  </div>
+
+  <!-- 2 -->
+  <div class="step" data-step="2">
+    <p class="eyebrow">Question 2 of 9</p>
+    <h2>Which counties do you serve?</h2>
+    <p class="sub">Separate them with commas.</p>
+    <input class="field" id="qCounties" type="text" placeholder="Haywood, Jackson">
+    <p class="whyask">
+      Used to put your own service area into examples &mdash; including one that shows how
+      convincingly an AI tool will invent a statistic about it.
+    </p>
+    <div class="step-actions">
+      <button class="cta" data-next type="button">Continue</button>
+      <button class="skip" data-next type="button">Skip</button>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="step" data-step="3">
+    <p class="eyebrow">Question 3 of 9</p>
+    <h2>How many people work there?</h2>
+    <p class="sub">Roughly &mdash; across all programs.</p>
+    <div class="choices" data-single="org.staffBand">
+      <button class="choice" type="button" data-val="1-5"><span class="mark"></span><span><span class="lbl">1 to 5</span><span class="hint">Everyone wears several hats</span></span></button>
+      <button class="choice" type="button" data-val="6-15"><span class="mark"></span><span><span class="lbl">6 to 15</span><span class="hint">Some role separation</span></span></button>
+      <button class="choice" type="button" data-val="16-50"><span class="mark"></span><span><span class="lbl">16 to 50</span><span class="hint">Distinct program teams</span></span></button>
+      <button class="choice" type="button" data-val="50+"><span class="mark"></span><span><span class="lbl">More than 50</span><span class="hint">Multiple departments</span></span></button>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="step" data-step="4">
+    <p class="eyebrow">Question 4 of 9</p>
+    <h2>How do people get help from you?</h2>
+    <div class="choices" data-single="org.model">
+      <button class="choice" type="button" data-val="direct"><span class="mark"></span><span><span class="lbl">We serve them directly</span><span class="hint">We deliver the assistance ourselves</span></span></button>
+      <button class="choice" type="button" data-val="referral"><span class="mark"></span><span><span class="lbl">We refer them out</span><span class="hint">Information and referral; partners deliver</span></span></button>
+      <button class="choice" type="button" data-val="mixed"><span class="mark"></span><span><span class="lbl">Some of both</span><span class="hint">Direct in some programs, referral in others</span></span></button>
+    </div>
+    <p class="whyask">
+      This changes a lot. Referral-only agencies face a different set of AI risks, so several
+      scenarios swap out entirely based on this answer.
+    </p>
+  </div>
+
+  <!-- 5 -->
+  <div class="step" data-step="5">
+    <p class="eyebrow">Question 5 of 9</p>
+    <h2>Which programs do you run?</h2>
+    <p class="sub">Pick all that apply.</p>
+    <div class="chips" data-multi="org.programs">
+      <button class="chip-btn" type="button" data-val="CSBG">CSBG</button>
+      <button class="chip-btn" type="button" data-val="HeadStart">Head Start</button>
+      <button class="chip-btn" type="button" data-val="WIOA">WIOA</button>
+      <button class="chip-btn" type="button" data-val="LIHEAP/WAP">LIHEAP / Weatherization</button>
+      <button class="chip-btn" type="button" data-val="HUD">Section 8 / HUD</button>
+      <button class="chip-btn" type="button" data-val="Food">Food assistance</button>
+      <button class="chip-btn" type="button" data-val="Transit">Transportation</button>
+      <button class="chip-btn" type="button" data-val="Housing">Housing / homelessness</button>
+    </div>
+    <div class="step-actions"><button class="cta" data-next type="button">Continue</button></div>
+  </div>
+
+  <!-- 6 -->
+  <div class="step" data-step="6">
+    <p class="eyebrow">Question 6 of 9</p>
+    <h2>What do you use to track clients?</h2>
+    <div class="choices" data-single="systems.caseManagement">
+      <button class="choice" type="button" data-val="CARDS"><span class="mark"></span><span><span class="lbl">CARDS</span><span class="hint">The state-built system</span></span></button>
+      <button class="choice" type="button" data-val="Cap60"><span class="mark"></span><span><span class="lbl">Cap60</span></span></button>
+      <button class="choice" type="button" data-val="other"><span class="mark"></span><span><span class="lbl">Something else</span></span></button>
+      <button class="choice" type="button" data-val="none"><span class="mark"></span><span><span class="lbl">Spreadsheets and paper</span></span></button>
+      <button class="choice" type="button" data-val="unsure"><span class="mark"></span><span><span class="lbl">Not sure</span><span class="hint">Perfectly common answer</span></span></button>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="step" data-step="7">
+    <p class="eyebrow">Question 7 of 9</p>
+    <h2>Is anyone there using AI today?</h2>
+    <div class="choices" data-single="systems.aiAccount">
+      <button class="choice" type="button" data-val="none"><span class="mark"></span><span><span class="lbl">Not that I know of</span></span></button>
+      <button class="choice" type="button" data-val="free-personal"><span class="mark"></span><span><span class="lbl">A few people, on their own free accounts</span></span></button>
+      <button class="choice" type="button" data-val="paid-individual"><span class="mark"></span><span><span class="lbl">Some staff pay for their own</span></span></button>
+      <button class="choice" type="button" data-val="org-account"><span class="mark"></span><span><span class="lbl">The agency pays for accounts</span></span></button>
+      <button class="choice" type="button" data-val="unsure"><span class="mark"></span><span><span class="lbl">Honestly, not sure</span></span></button>
+    </div>
+    <p class="whyask">
+      No wrong answer, and nothing here is reported anywhere. Most agencies land on one of the
+      middle two, which is exactly the situation Module 3 is written for.
+    </p>
+  </div>
+
+  <!-- 8 -->
+  <div class="step" data-step="8">
+    <p class="eyebrow">Question 8 of 9</p>
+    <h2>What eats the most time?</h2>
+    <p class="sub">The thing you'd hand off tomorrow if you could.</p>
+    <textarea class="field" id="qPain" placeholder="Pulling the annual report together — it takes weeks and it's our smallest grant."></textarea>
+    <div class="step-actions">
+      <button class="cta" data-next type="button">Continue</button>
+      <button class="skip" data-next type="button">Skip</button>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="step" data-step="9">
+    <p class="eyebrow">Question 9 of 9</p>
+    <h2>Who else funds you, besides CSBG?</h2>
+    <p class="sub">Comma-separated. Used in the grant-writing module.</p>
+    <input class="field" id="qFunders" type="text" placeholder="Dogwood Health Trust, United Way">
+    <div class="step-actions">
+      <button class="cta" data-next type="button">Build my course</button>
+      <button class="skip" data-next type="button">Skip</button>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="step" data-step="10">
+    <div class="building">
+      <h2 id="buildTitle">Setting things up&hellip;</h2>
+      <div class="bar"><i id="buildBar"></i></div>
+      <p class="log" id="buildLog"></p>
+    </div>
+  </div>
+</div>
+
+<script src="assets/config.js"></script>
+<script src="assets/draft-banner.js"></script>
+<script src="assets/profile.js"></script>
+<script src="assets/feedback.js" defer></script>
+<script>
+(function () {
+  "use strict";
+
+  var P = Tailor.profile;
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var LAST_Q = 9;
+  var cur = 0;
+
+  var dotsEl = document.getElementById("dots");
+  for (var i = 1; i <= LAST_Q; i++) dotsEl.appendChild(document.createElement("i")).className = "dot";
+
+  function paint() {
+    steps.forEach(function (s) {
+      s.classList.toggle("is-active", Number(s.getAttribute("data-step")) === cur);
+    });
+    Array.prototype.forEach.call(dotsEl.children, function (d, idx) {
+      var n = idx + 1;
+      d.className = "dot" + (n < cur ? " done" : n === cur ? " now" : "");
+    });
+    dotsEl.hidden = cur === 0 || cur > LAST_Q;
+    document.getElementById("backBtn").disabled = cur === 0 || cur > LAST_Q;
+    var f = steps[cur] && steps[cur].querySelector(".field");
+    if (f) setTimeout(function () { f.focus(); }, 80);
+  }
+
+  function go(n) { cur = n; if (cur > LAST_Q) return build(); paint(); }
+
+  document.getElementById("backBtn").addEventListener("click", function () { go(Math.max(0, cur - 1)); });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-next]"), function (b) {
+    b.addEventListener("click", function () { collect(); go(cur + 1); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("input.field"), function (inp) {
+    inp.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); collect(); go(cur + 1); }
+    });
+  });
+
+  /* Single-select auto-advances after a short beat — this is most of what makes
+     these flows feel quick rather than form-like. */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-single]"), function (g) {
+    var path = g.getAttribute("data-single");
+    Array.prototype.forEach.call(g.querySelectorAll(".choice"), function (btn) {
+      btn.addEventListener("click", function () {
+        Array.prototype.forEach.call(g.querySelectorAll(".choice"), function (b) { b.classList.remove("on"); });
+        btn.classList.add("on");
+        setIn(path, btn.getAttribute("data-val"));
+        setTimeout(function () { go(cur + 1); }, 220);
+      });
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-multi]"), function (g) {
+    var path = g.getAttribute("data-multi");
+    Array.prototype.forEach.call(g.querySelectorAll(".chip-btn"), function (btn) {
+      btn.addEventListener("click", function () {
+        btn.classList.toggle("on");
+        var vals = [];
+        Array.prototype.forEach.call(g.querySelectorAll(".chip-btn.on"), function (b) { vals.push(b.getAttribute("data-val")); });
+        setIn(path, vals);
+      });
+    });
+  });
+
+  function setIn(path, val) {
+    var patch = {}, ks = path.split("."), node = patch;
+    for (var i = 0; i < ks.length - 1; i++) node = node[ks[i]] = {};
+    node[ks[ks.length - 1]] = val;
+    Tailor.set(patch);
+  }
+
+  function list(s) { return (s || "").split(",").map(function (x) { return x.trim(); }).filter(Boolean); }
+
+  function collect() {
+    var n = document.getElementById("qName").value.trim();
+    Tailor.set({
+      org: { name: n || P.org.name, counties: list(document.getElementById("qCounties").value) },
+      work: { painPoint: document.getElementById("qPain").value.trim() },
+      funders: list(document.getElementById("qFunders").value)
+    });
+  }
+
+  function prefill() {
+    document.getElementById("qName").value = P.org.name || "";
+    document.getElementById("qCounties").value = (P.org.counties || []).join(", ");
+    document.getElementById("qPain").value = P.work.painPoint || "";
+    document.getElementById("qFunders").value = (P.funders || []).join(", ");
+    Array.prototype.forEach.call(document.querySelectorAll("[data-single]"), function (g) {
+      var v = g.getAttribute("data-single").split(".").reduce(function (o, k) { return o ? o[k] : null; }, P);
+      Array.prototype.forEach.call(g.querySelectorAll(".choice"), function (b) {
+        b.classList.toggle("on", b.getAttribute("data-val") === v);
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-multi]"), function (g) {
+      var arr = g.getAttribute("data-multi").split(".").reduce(function (o, k) { return o ? o[k] : null; }, P) || [];
+      Array.prototype.forEach.call(g.querySelectorAll(".chip-btn"), function (b) {
+        b.classList.toggle("on", arr.indexOf(b.getAttribute("data-val")) !== -1);
+      });
+    });
+  }
+
+  /* The build beat. Theatre, but it makes the tailoring legible instead of
+     invisible — and it names what was actually adapted. Under three seconds. */
+  function build() {
+    collect();
+    steps.forEach(function (s) { s.classList.toggle("is-active", s.getAttribute("data-step") === "10"); });
+    dotsEl.hidden = true;
+    document.getElementById("backBtn").disabled = true;
+
+    var name = P.org.name || "your agency";
+    document.getElementById("buildTitle").textContent = "Building " + name + "'s course…";
+
+    var lines = [
+      "Matching examples to your programs",
+      (P.systems.caseManagement && P.systems.caseManagement !== "unsure")
+        ? "Noting your " + P.systems.caseManagement + " constraints"
+        : "Setting up your systems guidance",
+      P.org.model === "referral" ? "Swapping in referral-model scenarios" : "Selecting reporting scenarios",
+      "Laying out six modules"
+    ];
+
+    var bar = document.getElementById("buildBar");
+    var log = document.getElementById("buildLog");
+    var n = 0;
+    (function tick() {
+      if (n >= lines.length) {
+        bar.style.width = "100%";
+        log.textContent = "Ready.";
+        setTimeout(function () { location.href = "index.html"; }, 600);
+        return;
+      }
+      log.textContent = lines[n];
+      bar.style.width = Math.round(((n + 1) / lines.length) * 92) + "%";
+      n++;
+      setTimeout(tick, 600);
+    })();
+  }
+
+  prefill();
+  paint();
+})();
+</script>
+</body>
+</html>
