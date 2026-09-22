@@ -2,3 +2,6 @@
 Thumbs.db
 *.swp
 node_modules/
+
+# Internal working scaffold — stays on disk, not part of the published site
+app-SCAFFOLD.html
