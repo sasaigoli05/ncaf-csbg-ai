@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 1 &middot; Foundations</title>
+<meta name="description" content="What a generative AI tool is actually doing, why it can be confidently wrong, and where it belongs in Community Action work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="sticky-head">
+  <div class="topbar" data-topbar></div>
+  <div class="progress-track" aria-hidden="true"><div class="progress-fill"></div></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Module 1 &middot; Foundations of Artificial Intelligence</p>
+    <h1>It predicts. It does not know.</h1>
+    <p class="lede">
+      Before you can use an AI tool well, you need an accurate picture of what it is doing when it
+      answers you. That picture explains everything else &mdash; why it is fast, why it is useful,
+      and why it is sometimes confidently wrong.
+    </p>
+    <div class="meta-row">
+      <span><strong>Module 1</strong> of six</span>
+      <span>About <strong>35 minutes</strong></span>
+      <span>Self-paced. <strong>Progress saved</strong> on this device.</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="objectives">
+    <h2>What you will be able to do</h2>
+    <ul>
+      <li>Say what a generative AI tool is, and how it differs from the other software your agency runs.</li>
+      <li>Explain, in your own words, why it can sound certain and still be wrong.</li>
+      <li>Tell the difference between using AI to draft and summarize, and using it to decide &mdash; and say why Community Action work needs the first and not the second.</li>
+      <li>Name three tasks at your agency where AI is low-risk, and three where it is not.</li>
+      <li>Find your agency's AI and data privacy policy, and name the person you ask when you are unsure.</li>
+    </ul>
+  </div>
+
+  <section class="lesson" id="s1">
+    <span class="section-num">Part 1</span>
+    <h2>What you are actually looking at</h2>
+    <p>
+      A generative AI tool &mdash; ChatGPT, Claude, Copilot, Gemini &mdash; was built by reading an
+      enormous amount of written text and learning which words tend to follow which other words.
+      When you type a question, it does not go find an answer. It produces text, one piece at a
+      time, that is statistically likely to follow what you wrote.
+    </p>
+
+    <div class="model-card">
+      <p>That is the whole mechanism.</p>
+      <p>
+        It is a very good guess about what a well-informed answer to your question would look like.
+        Most of the time a very good guess is correct, because it read a great deal of correct
+        writing. But &ldquo;looks like a correct answer&rdquo; and &ldquo;is a correct answer&rdquo;
+        are two different things, and the tool cannot tell them apart.
+      </p>
+    </div>
+
+    <p>
+      This is genuinely different from the other software you use. CARDS, Cap60, SmartForms and a
+      spreadsheet all do the same thing every time because someone wrote a rule. An AI tool produces
+      something new each time, and nobody wrote a rule for your specific question.
+    </p>
+
+    <div class="isnot">
+      <div class="col yes">
+        <h4>What it is</h4>
+        <ul>
+          <li>A writing and reading assistant</li>
+          <li>Fast at summarizing, drafting, reformatting and sorting</li>
+          <li>Good at turning dense policy into plain language</li>
+          <li>Tireless, and willing to try again</li>
+        </ul>
+      </div>
+      <div class="col no">
+        <h4>What it is not</h4>
+        <ul>
+          <li>A search engine &mdash; it is not looking anything up</li>
+          <li>A database &mdash; it stores no records</li>
+          <li>Connected to your systems &mdash; it cannot see CARDS, Cap60, your general ledger or your case files</li>
+          <li>Current &mdash; it may not know a rule that changed last month</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      That last column matters more than it first appears. The tool knows nothing about your agency
+      unless a person types it in or pastes it in. That is why it needs a thorough briefing to be
+      useful &mdash; the subject of Module&nbsp;2. It is also the reason client privacy is a real
+      risk: the only way your client data reaches an outside company's servers is if one of your
+      staff puts it there.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s1">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s2">
+    <span class="section-num">Part 2</span>
+    <h2>Why it sounds sure and is sometimes wrong</h2>
+    <p>
+      When an AI tool states something false, the industry calls it a <strong>hallucination</strong>.
+      The word makes it sound like a rare glitch. It is not a glitch. It is the same process that
+      produces correct answers, running on a question where the likely-sounding text happens not to
+      be true.
+    </p>
+    <p>
+      Here is the part that catches people. The tool has no separate place where it checks whether
+      it is right. Producing a fact and producing a plausible-sounding fabrication feel identical
+      from the inside, because they <em>are</em> the same operation. So it delivers both in the same
+      confident, well-organized, professional voice.
+    </p>
+
+    <div class="compare">
+      <div class="ex weak">
+        <span class="tag">What it gives you</span>
+        <span class="quote">
+          &ldquo;According to the most recent American Community Survey, the poverty rate in your
+          county is 18.4 percent, with 22.1 percent of children under 18 living below the federal
+          poverty line.&rdquo;
+        </span>
+      </div>
+      <div class="ex strong">
+        <span class="tag">What is true about it</span>
+        <span class="quote">
+          The format is right. The survey it names is real. The numbers are plausible. And they may
+          be invented, because nothing in the tool went and looked them up.
+        </span>
+      </div>
+    </div>
+
+    <p>
+      Nothing in how that paragraph reads tells you which it is. You cannot catch a hallucination by
+      noticing that it sounds uncertain, because it never does. You catch it by checking the claim
+      against a real source.
+    </p>
+
+    <div class="risk">
+      <h3>The rule this gives you</h3>
+      <p style="margin-bottom:.6rem;"><strong>Anything you would put your agency's name behind, you verify.</strong></p>
+      <ul class="plain">
+        <li><strong>Numbers.</strong> Poverty rates, census figures, funding amounts, percentages. Check them against Census, SAIPE, your own FNPI file, or your own ledger.</li>
+        <li><strong>Citations.</strong> It can produce a real-sounding report title, author and year that do not exist. If you cannot open it, do not cite it.</li>
+        <li><strong>Program rules.</strong> Eligibility thresholds, income guidelines, allowable costs, deadlines. Check the regulation or the notice.</li>
+        <li><strong>Anything about your own agency.</strong> It does not know your service area, your allocation, or how many households you served last quarter.</li>
+      </ul>
+    </div>
+
+    <p>
+      The practical version of this rule is simple: use AI where you can check the work. If you
+      cannot tell whether an answer is right, you are not ready to use AI for that task yet. That is
+      not a permanent limit &mdash; it is a signal about what to learn next.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s2">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s3">
+    <span class="section-num">Part 3</span>
+    <h2>Assistant, not decider</h2>
+    <p>
+      This is the one distinction that governs everything in the rest of this course, and it is
+      worth being precise about, because the two uses sound similar and are not.
+    </p>
+
+    <div class="compare">
+      <div class="ex strong">
+        <span class="tag">Assistant</span>
+        <span class="quote">
+          It drafts, summarizes, reorganizes, translates, and checks. A person reads the output,
+          fixes it, and signs their name to it. The person remains responsible.
+        </span>
+      </div>
+      <div class="ex weak">
+        <span class="tag">Decider</span>
+        <span class="quote">
+          It scores, ranks, flags or recommends who gets served, who is at risk, who is eligible. A
+          person may glance at the result, but the system shaped the outcome.
+        </span>
+      </div>
+    </div>
+
+    <p>The evidence on these two uses is not equally strong, and the gap is large enough to plan around.</p>
+
+    <div class="evidence">
+      <div class="row">
+        <div class="who">The case for assistive use</div>
+        <div class="what">
+          Nava Public Benefit Corporation, with Georgetown and Cornell, ran a randomized trial and a
+          14-week field pilot of an AI assistant that helped caseworkers navigate Medicaid and SNAP
+          policy manuals. Caseworker accuracy improved by an average of 40 percent, with the largest
+          gains on the hardest cases &mdash; exactly where a new or overloaded caseworker is most
+          likely to err. The tool helped people find the rule. It never made the decision.
+        </div>
+      </div>
+      <div class="row caution">
+        <div class="who">The case for caution</div>
+        <div class="what">
+          Allegheny County, Pennsylvania built a screening tool to help flag child-maltreatment risk.
+          Because maltreatment is not directly measurable, the designers used the closest available
+          stand-ins: re-referral and foster-care placement. It was a defensible choice, and it
+          quietly built in who tends to get reported to authorities in the first place &mdash; and
+          made families wealthy enough to use private services nearly invisible to the system. The
+          tool was not malicious. It inherited the blind spots of the data it could see.
+        </div>
+      </div>
+      <div class="row caution">
+        <div class="who">And when there is a person in the loop</div>
+        <div class="what">
+          &ldquo;A human reviews it&rdquo; is a real safeguard only when the reviewer can genuinely
+          overrule the tool. Researchers document <strong>automation bias</strong>: people defer to a
+          system's recommendation even when they have every right not to. A signature at the bottom
+          of a screen is not oversight.
+        </div>
+      </div>
+    </div>
+
+    <div class="horizon">
+      <h3>Why Community Action work sits on the assistive side</h3>
+      <p>
+        Your clients cannot take their business elsewhere. When a private company's algorithm gets
+        something wrong, a customer switches products. When an agency's process gets something wrong,
+        a household loses assistance it was entitled to, and often has no other place to go.
+      </p>
+      <p style="margin-bottom:0;">
+        That asymmetry is the reason this course keeps AI pointed at paperwork rather than at people.
+        The administrative burden is real &mdash; CSBG reporting consumes close to a
+        full-time-equivalent staff year at agencies where it is the smallest grant they administer.
+        That is a serious problem, and it is the right one to aim at.
+      </p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s3">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s4">
+    <span class="section-num">Part 4</span>
+    <h2>Sort your own week</h2>
+    <p>
+      Ten things a Community Action Agency actually does. For each one, decide whether you would go
+      ahead, check first, or not do it at all. Pick an answer to see how it sorts and why.
+    </p>
+
+    <div class="sorter">
+      <div class="legend">
+        <span><i class="swatch go"></i> <strong>Go ahead</strong> &mdash; your own aggregate data or your own words</span>
+        <span><i class="swatch ask"></i> <strong>Check first</strong> &mdash; fine in principle, but verify something</span>
+        <span><i class="swatch never"></i> <strong>Not this</strong> &mdash; client data, or a decision about a person</span>
+      </div>
+      <div id="taskList"></div>
+      <div class="score" id="sortScore" hidden></div>
+    </div>
+
+    <p class="source-note">
+      A pattern worth noticing: every &ldquo;not this&rdquo; item involves either a named person or a
+      decision about a named person. Every &ldquo;go ahead&rdquo; item involves numbers you already
+      aggregated or words your agency already wrote. That is the whole boundary, and Module&nbsp;3
+      draws it precisely.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s4">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s5">
+    <span class="section-num">Part 5</span>
+    <h2>Where the rules live at your agency</h2>
+    <p>
+      A 2026 benchmark study of 346 nonprofits found that 92 percent were already using AI in some
+      form, but only 7 percent reported any major gain in what their organization could do. The study
+      attributed the gap to governance, not technology: 47 percent had no AI policy at all, and 81
+      percent used AI ad hoc, one person at a time, with no shared practice.
+    </p>
+    <p>
+      Which means the most likely situation at your agency is that several people are already using
+      these tools and nobody has agreed on the rules. Finding out is a ten-minute task.
+    </p>
+
+    <div class="checklist">
+      <h3>Before you finish this module</h3>
+      <label><input type="checkbox"> <span>Find out whether your agency has a written AI use policy, and where it lives.</span></label>
+      <label><input type="checkbox"> <span>Find your data privacy or confidentiality policy. It almost certainly exists, and it almost certainly already covers client information going to outside parties.</span></label>
+      <label><input type="checkbox"> <span>Find out whether your agency pays for an AI account or whether staff are using free personal ones. A paid organizational account can be set not to train on what you type. A free personal one usually is not.</span></label>
+      <label><input type="checkbox"> <span>Write down the name of the one person you will ask before trying something new with AI &mdash; your executive director, fiscal officer, or whoever holds data responsibility.</span></label>
+      <label><input type="checkbox"> <span>If the answer to any of these is &ldquo;we don't have that,&rdquo; say so to your director. That is a finding, not a failure.</span></label>
+    </div>
+
+    <p>
+      There is one more constraint specific to this network. In North Carolina, community service
+      data-entry systems must be approved by the Office of Economic Opportunity. At least one agency
+      &mdash; Mountain Projects &mdash; found new software with AI features that would have improved
+      their referral tracking, and could not adopt it for that reason. So if the tool you are
+      considering touches your case-management system rather than sitting alongside it, the question
+      is not only &ldquo;is this safe&rdquo; but &ldquo;is this permitted.&rdquo; Ask before you buy.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s5">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s6">
+    <span class="section-num">Part 6</span>
+    <h2>Quick self-check</h2>
+    <p>Three questions. Pick an answer to see whether it holds up.</p>
+
+    <div class="quiz-q" data-answer="c">
+      <p class="q">1. An AI tool gives you a confident, well-written answer about a CSBG income eligibility threshold. What is the most accurate thing to say about it?</p>
+      <button class="option" data-opt="a">It is reliable, because eligibility rules are public information</button>
+      <button class="option" data-opt="b">It is unreliable, because AI tools are usually wrong</button>
+      <button class="option" data-opt="c">It may be right or wrong, and the answer itself gives you no way to tell</button>
+      <p class="feedback">Most of the time it will be close to right. The problem is that a correct answer and a fabricated one arrive looking exactly the same, so confidence carries no information. Check it against the regulation.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="b">
+      <p class="q">2. Which of these best describes what an AI tool is doing when it answers you?</p>
+      <button class="option" data-opt="a">Searching a database of verified facts and returning the closest match</button>
+      <button class="option" data-opt="b">Producing text that is statistically likely to follow what you wrote</button>
+      <button class="option" data-opt="c">Applying rules a programmer wrote for questions like yours</button>
+      <button class="option" data-opt="d">Looking up your agency's records and summarizing them</button>
+      <p class="feedback">It predicts likely text. There is no lookup step, no rulebook for your specific question, and no connection to your records &mdash; which is exactly why it needs a full briefing from you, and why it can invent a citation.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="a">
+      <p class="q">3. Your agency wants to use AI to help decide which households on the waitlist get served first. What is the strongest objection?</p>
+      <button class="option" data-opt="a">This makes the tool a decider about people, which is where the evidence is weakest and the harm is worst</button>
+      <button class="option" data-opt="b">The waitlist is too short for AI to be worth it</button>
+      <button class="option" data-opt="c">It would take longer than doing it by hand</button>
+      <p class="feedback">The research shows real gains when AI helps staff find information, and documented harm when it shapes decisions about people &mdash; because it inherits whatever bias is in the data it can see, and the people affected have no other agency to go to.</p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s6">Mark this part done</button></div>
+  </section>
+
+  <div class="takeaways">
+    <h2>The five things that stick</h2>
+    <ol>
+      <li><strong>It predicts likely text.</strong> It is not searching, not looking anything up, and not consulting a rulebook written for your question.</li>
+      <li><strong>It cannot tell when it is wrong.</strong> A correct answer and an invented one are produced the same way and arrive in the same confident voice. Verify every number, citation and rule you put your agency's name behind.</li>
+      <li><strong>It never sees your systems.</strong> Nothing reaches it unless a person puts it there &mdash; which is both why it needs a thorough briefing and why client privacy is a live risk.</li>
+      <li><strong>Assistant, not decider.</strong> It drafts, summarizes and checks. A person decides and signs. The strongest evidence is for helping staff find information; the clearest harm is from systems that shape decisions about people.</li>
+      <li><strong>Ask before you paste.</strong> Know today whether your agency has an AI policy, whether your account trains on what you type, and who you go to when you are not sure.</li>
+    </ol>
+  </div>
+
+  <div class="next" data-next-module></div>
+
+</main>
+
+<footer class="attrib">
+  <div class="wrap">
+    <h4>Attribution</h4>
+    <p>
+      Compiled from open-source educational material and built with volunteer contributions from
+      members of the NCAF AI Task Force, a student project at the University of North Carolina at
+      Chapel Hill. Provided free to the Community Action network.
+    </p>
+    <p>
+      Research cited in this module: the caseworker assistive-chatbot randomized trial by Nava Public
+      Benefit Corporation with Georgetown and Cornell Universities; Levy, Chasalow and Riley on
+      algorithmic decision-making in the public sector, including the Allegheny County Family
+      Screening Tool; Virginia Eubanks, <em>Automating Inequality</em>; and the 2026 Nonprofit AI
+      Adoption Report benchmark study of 346 organizations.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script>
+window.SORT_TASKS = [
+  { answer: "go",
+    stem: "Summarize your agency's 40-page Community Needs Assessment into a one-page briefing for your board.",
+    why: "Your own document, already going to your board, no client names. This is drafting and summarizing — exactly what the tool is good at. You still read it before it goes out." },
+  { answer: "never",
+    stem: "Paste a client's case notes so it can draft a warm follow-up letter to them.",
+    why: "Case notes are the most sensitive record your agency holds. Once pasted into an outside tool, you cannot take it back. Draft the letter from a de-identified description of the situation instead — Module 3 shows how." },
+  { answer: "go",
+    stem: "Sort your general ledger export into the nine CSBG service domains for Module 2A, and flag any line that doesn't fit cleanly.",
+    why: "Aggregate financial data, no personal information, and a tedious sorting job with a clear right answer you can spot-check. One of the strongest reporting use cases in the whole system." },
+  { answer: "ask",
+    stem: "Ask it for your county's current poverty rate to put in a grant application.",
+    why: "Not a privacy problem — a truth problem. It will give you a specific, plausible figure that may be invented. Use it to know where to look, then take the actual number from Census or SAIPE." },
+  { answer: "go",
+    stem: "Rewrite a dense eligibility paragraph at a 6th-grade reading level for a client handout.",
+    why: "Your own text, no client data, and plain-language rewriting is one of the things these tools do best. Have someone confirm the rewrite didn't change what the rule actually says." },
+  { answer: "never",
+    stem: "Have it rank which households on your waitlist should be served first.",
+    why: "This is the decider role. It requires client data, it makes a consequential decision about specific people, and the evidence for AI doing this well is thin while the documented harms are real." },
+  { answer: "never",
+    stem: "Upload your Module 4C file so it can find duplicate clients across programs.",
+    why: "Unduplicated counts work by matching names, dates of birth and addresses. There is no version of this that avoids personal information. Keep it inside your existing case-management system." },
+  { answer: "go",
+    stem: "Draft answers to a new funder's questions using narrative from your own past applications.",
+    why: "Your own words, adapted to a new format. No client data, not client-facing, and it targets a real capacity gap. Module 5 covers this in full — including how to keep it from reading as machine-written." },
+  { answer: "ask",
+    stem: "Turn on a new AI feature inside your case-management system to improve referral tracking.",
+    why: "The idea is sound, but in North Carolina community service data-entry systems need OEO approval. At least one agency had to abandon exactly this. Ask about permission before you evaluate the product." },
+  { answer: "ask",
+    stem: "Use a free AI tool you found online to clean up a spreadsheet of aggregate service counts.",
+    why: "The data is fine — it's aggregate. The tool is the question. Free consumer tools often train on what you type and may have no agreement with your agency at all. Check what account you're supposed to be using." }
+];
+</script>
+<script src="assets/course.js" defer></script>
+<script src="assets/feedback.js" defer></script>
+</body>
+</html>

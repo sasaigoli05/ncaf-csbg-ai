@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 4 &middot; CSBG Reporting</title>
+<meta name="description" content="Where AI genuinely helps with the CSBG Annual Report, where it cannot, and how to check the output before you submit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="sticky-head">
+  <div class="topbar" data-topbar></div>
+  <div class="progress-track" aria-hidden="true"><div class="progress-fill"></div></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Module 4 &middot; AI for CSBG Reporting and Compliance</p>
+    <h1>Where the hours actually are</h1>
+    <p class="lede">
+      CSBG reporting consumes close to a full-time-equivalent staff year at agencies where it is
+      often the smallest grant they administer. This module is about getting some of that back
+      &mdash; and about the checking step that makes it safe to.
+    </p>
+    <div class="meta-row">
+      <span><strong>Module 4</strong> of six</span>
+      <span>About <strong>45 minutes</strong></span>
+      <span>Self-paced. <strong>Progress saved</strong> on this device.</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="objectives">
+    <h2>What you will be able to do</h2>
+    <ul>
+      <li>Name the CSBG Annual Report modules where AI assistance is appropriate, and where it is not.</li>
+      <li>Use AI to categorize a general-ledger export against the nine Module 2A service domains.</li>
+      <li>Use AI to reconcile leveraged funds across sources for Module 2C.</li>
+      <li>Check an AI-produced figure against source data before it goes into a submission.</li>
+      <li>Describe a verification routine you will run on every AI-assisted submission.</li>
+    </ul>
+  </div>
+
+  <section class="lesson" id="s1">
+    <span class="section-num">Part 1</span>
+    <h2>The landscape, on one page</h2>
+    <p>
+      The CSBG Annual Report goes to the Office of Community Services through OLDC via
+      GrantSolutions. It has four modules, and your agency touches three of them.
+    </p>
+
+    <div class="table-scroll">
+      <table class="data">
+        <thead><tr><th>Module</th><th>What it covers</th><th>Who fills it</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td>State administration, statewide goals, Organizational Standards compliance, use of funds, monitoring, ROMA</td><td>Mostly the state &mdash; but Section 1B highlights come from you</td></tr>
+          <tr><td><strong>2</strong></td><td><strong>A</strong> expenditures across nine service domains &middot; <strong>B</strong> staff, certifications, board, volunteer hours &middot; <strong>C</strong> all non-CSBG funds you leveraged</td><td>You</td></tr>
+          <tr><td><strong>3</strong></td><td>Community-level initiatives classified Phase 1&ndash;4</td><td>You</td></tr>
+          <tr><td><strong>4</strong></td><td><strong>A</strong> FNPIs, target vs. actual &middot; <strong>B</strong> services delivered &middot; <strong>C</strong> All Characteristics, unduplicated</td><td>You</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Plus Organizational Standards, SmartForms, and monthly and quarterly cycles on top of the
+      annual one. Agencies consistently describe the burden as having accumulated &mdash; each
+      requirement reasonable on its own, the total out of proportion to the award.
+    </p>
+
+    <div class="horizon">
+      <h3>The nine service domains</h3>
+      <p style="margin-bottom:0;">
+        Employment &middot; Education and Cognitive Development &middot; Income, Infrastructure and
+        Asset Building &middot; Housing &middot; Health and Social/Behavioral Development &middot;
+        Civic Engagement and Community Involvement &middot; Services Supporting Multiple Domains
+        &middot; Linkages and Partnerships &middot; Agency Capacity Building.
+      </p>
+    </div>
+
+    <p class="source-note">
+      One timing fact worth carrying: collection starts around October, state reports are due 31
+      March after the federal fiscal year, review runs about six months, and the report to Congress
+      concludes by end of September. Annual report data is roughly eighteen months old by the time
+      anyone can use it. Never present it as current.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s1">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s2">
+    <span class="section-num">Part 2</span>
+    <h2>Five places it genuinely helps</h2>
+    <p>
+      All five work on aggregate data only &mdash; totals you already rolled up, or documents your
+      agency already wrote. None of them requires a client record.
+    </p>
+
+    <h3>2A &mdash; sorting the ledger into domains</h3>
+    <p>
+      The job: take your general ledger export and assign each line to one of the nine domains. The
+      value is not that AI sorts faster than you. It is that it flags the lines that <em>don't</em>
+      fit cleanly, which is where the real time goes.
+    </p>
+    <div class="prompt-box">
+      <span class="label">Copy this</span>
+      <span class="copy-target">I'm preparing Module 2A of the CSBG Annual Report. Below is our general ledger export with expense descriptions and amounts. Assign each line to one of these nine CSBG service domains: Employment; Education and Cognitive Development; Income, Infrastructure and Asset Building; Housing; Health and Social/Behavioral Development; Civic Engagement and Community Involvement; Services Supporting Multiple Domains; Linkages and Partnerships; Agency Capacity Building.
+
+Return a table with the original description, the amount, the domain, and a confidence note. Put every line you are unsure about in a separate list at the end with a short explanation of why it's ambiguous — I want to review those myself. Do not guess silently.
+
+[paste your ledger export here]</span>
+      <button class="copy-btn" aria-label="Copy this prompt" type="button">Copy</button>
+    </div>
+    <p class="source-note">
+      The last two sentences are the important ones. Without them it will confidently assign
+      everything and you will never learn which calls were close.
+    </p>
+
+    <h3>2C &mdash; reconciling leveraged funds</h3>
+    <p>
+      Non-CSBG resources live in separate spreadsheets: LIHEAP here, Head Start there, county money
+      in someone's email. Reconciling them catches double-counting and missing sources.
+    </p>
+    <div class="prompt-box">
+      <span class="label">Copy this</span>
+      <span class="copy-target">I'm completing Module 2C of the CSBG Annual Report — Allocated Resources Portfolio. Below are funding totals from several separate spreadsheets. Consolidate them into one table grouped by source category: Federal (non-CSBG), State, Local government, Private/philanthropic.
+
+Then tell me three things: (1) any amount that appears to be counted twice under different labels, (2) any source category that is empty and probably shouldn't be for an agency running these programs, (3) the total for each category and the grand total. Show your arithmetic so I can check it.
+
+[paste your funding figures here]</span>
+      <button class="copy-btn" aria-label="Copy this prompt" type="button">Copy</button>
+    </div>
+
+    <h3>3 &mdash; classifying initiatives into phases</h3>
+    <p>
+      Phase 1 is formative work like needs assessments and focus groups. Phase 2 is formal planning
+      with partner commitments. Phase 3 is active implementation with designated roles &mdash; this
+      is where federal reporting becomes mandatory. Phase 4 is maturity, with metrics achieved and
+      sustainability established. Paste your own narrative descriptions and ask which phase each
+      describes, and what would have to be true to move up one.
+    </p>
+
+    <h3>4A &mdash; validating FNPIs before you submit</h3>
+    <p>
+      Not producing the numbers &mdash; checking them. See Part 4, which is the heart of this module.
+    </p>
+
+    <h3>1B &mdash; drafting an Innovative Solutions Highlight</h3>
+    <p>
+      The state needs at least three of these. They are written from your CNA summary tables and
+      service counts &mdash; aggregate material, already in your possession, and a genuinely
+      annoying thing to write from scratch thirty-one separate times.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s2">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s3">
+    <span class="section-num">Part 3</span>
+    <h2>Three places it cannot</h2>
+    <p>
+      These look like they should work and do not. Knowing why keeps you from being sold one.
+    </p>
+
+    <div class="risk">
+      <h3>Not these</h3>
+      <ul class="plain">
+        <li>
+          <strong>4C unduplicated headcount.</strong> It works by matching name, date-of-birth and
+          address variants across programs. There is no de-identified version, because the
+          identifiers are the thing being operated on.
+        </li>
+        <li>
+          <strong>Case-level outcome tracking.</strong> Knowing whether a specific participant got
+          the job means reading that participant's record. A workaround where staff pre-aggregate
+          the outcomes first just moves the labour back onto staff &mdash; which is the problem you
+          were trying to solve.
+        </li>
+        <li>
+          <strong>Standardizing self-sufficiency definitions.</strong> Agencies define it as two
+          years in some places, three in others, adjusted to staff capacity. Enforcing one definition
+          means re-evaluating individual case timelines. That is a policy decision wearing a
+          technical costume, and it is not yours to automate.
+        </li>
+      </ul>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s3">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s4">
+    <span class="section-num">Part 4</span>
+    <h2>Checking the output</h2>
+    <p>
+      This is the longest part of the module and the point of it. Everything above saves you time
+      only if you keep the error rate at or below what you would have achieved by hand. That takes a
+      routine, not vigilance.
+    </p>
+
+    <div class="model-card">
+      <p>The four-step check, on every AI-assisted submission</p>
+      <ol class="plain" style="margin-bottom:0;">
+        <li><strong>Recompute one figure by hand.</strong> Pick one at random. If it is right, the method probably held. If it is wrong, stop and check all of them.</li>
+        <li><strong>Check every total against its parts.</strong> Do the domain subtotals sum to the grand total? Do the category figures sum to what you reported last quarter plus the change?</li>
+        <li><strong>Confirm every field that should be non-zero is non-zero.</strong> A blank where you know you delivered services is the most common silent error in this whole process.</li>
+        <li><strong>Read the narrative for any fact you cannot source.</strong> If a sentence contains a number, a date or a citation you cannot trace to a document you hold, delete it or verify it. There is no third option.</li>
+      </ol>
+    </div>
+
+    <p>
+      That takes about fifteen minutes. If the AI-assisted approach saved you six hours and costs
+      fifteen minutes of checking, it was worth it. If you will not do the fifteen minutes, do not
+      use the six-hour shortcut.
+    </p>
+
+    <div class="horizon">
+      <h3>Why a check catches things a careful person does not</h3>
+      <p style="margin-bottom:0;">
+        Not because staff are careless &mdash; because a systematic check asks the same question of
+        every row, and a human reading a long spreadsheet gets tired around row 40. The point of
+        step 3 above is that nobody notices an absence. You have to go looking for it on purpose.
+      </p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s4">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson practice" id="s5">
+    <span class="section-num">Part 5</span>
+    <h2>A real one, from real files</h2>
+    <p>
+      This is not a made-up example. In August 2026 this project reviewed twenty-four FNPI Module 4A
+      exports from North Carolina agencies. A five-minute systematic check found two defects that had
+      passed through the normal process.
+    </p>
+
+    <div class="ex weak" style="margin:1.1rem 0;">
+      <span class="tag">Defect one</span>
+      <span class="quote">
+        Every file's percentage column is <strong>labelled</strong> Actual &divide; Served, but the
+        values displayed are <strong>Actual &divide; Target</strong>. Two different denominators.
+        Anyone reading the column heading is reading the wrong metric.
+      </span>
+    </div>
+    <div class="ex weak" style="margin:1.1rem 0;">
+      <span class="tag">Defect two</span>
+      <span class="quote">
+        The file named <em>&ldquo;FNPI Report All Agencies 2023 2024&rdquo;</em> is not a network
+        rollup at all. It is a single agency's snapshot, filed under a name that says otherwise.
+        Anyone using it as a statewide total would be off by a factor of thirty.
+      </span>
+    </div>
+
+    <p>
+      Neither is anyone's fault in particular, and that is the point. Both are exactly the kind of
+      thing that survives a careful manual process and does not survive a check that asks the same
+      question of every file.
+    </p>
+
+    <button class="reveal-btn" data-reveal="fnpi" type="button">What the check actually looked for</button>
+    <div class="answer" id="fnpi">
+      <ul class="plain">
+        <li><strong>Does the displayed percentage match the column's own stated formula?</strong> Recompute it from the raw columns and compare. This caught defect one.</li>
+        <li><strong>Does a file named as an aggregate actually aggregate?</strong> Sum the component files and compare to the rollup. This caught defect two.</li>
+        <li><strong>Is any domain blank while the served count is non-zero?</strong> Flagged Four Square's Employment and Income domains as almost entirely empty.</li>
+        <li><strong>Is any target zero while people were served?</strong> Flagged Catawba: domains reporting zero targets against 220 served.</li>
+        <li><strong>Is any indicator carrying a target with zero actual?</strong> Flagged Economic Improvement Council: twenty such indicators.</li>
+      </ul>
+      <p>
+        Every one of those questions runs on aggregate counts. No client record was involved at any
+        point. That is what a safe reporting tool looks like: boring, checkable, and useful.
+      </p>
+    </div>
+
+    <p class="source-note" style="margin-top:1.2rem;">
+      The flagged agency anomalies are questions, not findings &mdash; a blank domain might be a
+      data-entry gap or might be an accurate reflection of a year with no activity. The check tells
+      you where to look. A person tells you what it means.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s5">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s6">
+    <span class="section-num">Part 6</span>
+    <h2>Quick self-check</h2>
+
+    <div class="quiz-q" data-answer="b">
+      <p class="q">1. An AI tool categorizes 340 ledger lines into service domains in four seconds. What do you do next?</p>
+      <button class="option" data-opt="a">Submit it &mdash; the categories are objective, there's nothing to get wrong</button>
+      <button class="option" data-opt="b">Recompute a sample by hand, check subtotals against the grand total, and review everything it flagged as uncertain</button>
+      <button class="option" data-opt="c">Ask it to double-check its own work</button>
+      <p class="feedback">Asking it to check itself is the trap &mdash; it has no separate verification step, so it will confidently confirm its own error. Check against the source, not against the tool.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="c">
+      <p class="q">2. Which of these is the most common silent error in a submission?</p>
+      <button class="option" data-opt="a">A number that's slightly too high</button>
+      <button class="option" data-opt="b">A misspelled program name</button>
+      <button class="option" data-opt="c">A field left blank that should have had a number in it</button>
+      <p class="feedback">Nobody notices an absence. A wrong number looks wrong; an empty cell looks like nothing at all. That's why checking for blanks against a non-zero served count is its own step.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="a">
+      <p class="q">3. Your fiscal officer wants to use AI on Module 4C to clean up duplicate client records. Your answer?</p>
+      <button class="option" data-opt="a">Not with an outside tool &mdash; 4C works by matching personal identifiers, so it stays in our own system</button>
+      <button class="option" data-opt="b">Fine, as long as we use the paid account</button>
+      <button class="option" data-opt="c">Fine, if we replace names with initials first</button>
+      <p class="feedback">Initials plus date of birth plus address is still personal information, and the matching stops working without them. This is the clearest example of a task that cannot be made safe by being careful.</p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s6">Mark this part done</button></div>
+  </section>
+
+  <div class="takeaways">
+    <h2>The five things that stick</h2>
+    <ol>
+      <li><strong>Five parts of the Annual Report are fair game</strong> &mdash; 2A, 2C, 3, 4A and 1B. All run on aggregate data you already hold.</li>
+      <li><strong>Three are not</strong> &mdash; 4C unduplicated counts, case-level outcomes, and standardizing self-sufficiency definitions. These need personal identifiers by construction.</li>
+      <li><strong>Always ask it to flag what it was unsure about.</strong> Without that instruction it assigns everything confidently and you learn nothing.</li>
+      <li><strong>Run the four-step check every time.</strong> Recompute one figure, check totals against parts, hunt for blanks that should be numbers, and delete any fact you cannot source.</li>
+      <li><strong>Never ask the tool to check its own work.</strong> It has no separate verification step. Check against the source document instead.</li>
+    </ol>
+  </div>
+
+  <div class="next" data-next-module></div>
+
+</main>
+
+<footer class="attrib">
+  <div class="wrap">
+    <h4>Attribution</h4>
+    <p>
+      Compiled from open-source educational material and built with volunteer contributions from
+      members of the NCAF AI Task Force, a student project at the University of North Carolina at
+      Chapel Hill. Provided free to the Community Action network.
+    </p>
+    <p>
+      Reporting structure follows the CSBG Annual Report as administered by NASCSP and the Office of
+      Community Services. The FNPI example in Part 5 comes from this project's own review of
+      twenty-four North Carolina Module 4A exports, August 2026.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/course.js" defer></script>
+<script src="assets/feedback.js" defer></script>
+</body>
+</html>

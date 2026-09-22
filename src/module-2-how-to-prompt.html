@@ -1,0 +1,1194 @@
+<!--
+  Module 2 is Meryem S. Golbasi's work, included here verbatim.
+  The ONLY changes made for the site build are:
+    1. this comment,
+    2. the shared top navigation bar injected after the body tag
+<div style="position:sticky;top:0;z-index:40;background:#FAF8F3;border-bottom:1px solid #CBD7C6">
+  <div style="max-width:62rem;margin:0 auto;padding:.7rem 1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+    <a href="index.html" style="font-family:'Zilla Slab',Georgia,serif;font-weight:600;font-size:1rem;color:#14302A;text-decoration:none;white-space:nowrap">AI Literacy for Community Action</a>
+    <nav style="display:flex;gap:.3rem;margin-left:auto;flex-wrap:wrap" aria-label="Modules">
+      <a href="module-1-foundations.html"   style="width:1.7rem;height:1.7rem;border-radius:999px;display:grid;place-items:center;text-decoration:none;font-size:.82rem;font-weight:600;font-family:'Public Sans',sans-serif;background:#F1EEE5;color:#6E837A;border:1px solid #CBD7C6">1</a>
+      <a href="module-2-how-to-prompt.html" style="width:1.7rem;height:1.7rem;border-radius:999px;display:grid;place-items:center;text-decoration:none;font-size:.82rem;font-weight:600;font-family:'Public Sans',sans-serif;background:#2E5D4E;color:#fff;border:1px solid #2E5D4E">2</a>
+      <a href="module-3-data-privacy.html"  style="width:1.7rem;height:1.7rem;border-radius:999px;display:grid;place-items:center;text-decoration:none;font-size:.82rem;font-weight:600;font-family:'Public Sans',sans-serif;background:#F1EEE5;color:#6E837A;border:1px solid #CBD7C6">3</a>
+      <a href="module-4-reporting.html"     style="width:1.7rem;height:1.7rem;border-radius:999px;display:grid;place-items:center;text-decoration:none;font-size:.82rem;font-weight:600;font-family:'Public Sans',sans-serif;background:#F1EEE5;color:#6E837A;border:1px solid #CBD7C6">4</a>
+      <a href="module-5-grant-writing.html" style="width:1.7rem;height:1.7rem;border-radius:999px;display:grid;place-items:center;text-decoration:none;font-size:.82rem;font-weight:600;font-family:'Public Sans',sans-serif;background:#F1EEE5;color:#6E837A;border:1px solid #CBD7C6">5</a>
+      <a href="module-6-ethics-bias.html"   style="width:1.7rem;height:1.7rem;border-radius:999px;display:grid;place-items:center;text-decoration:none;font-size:.82rem;font-weight:600;font-family:'Public Sans',sans-serif;background:#F1EEE5;color:#6E837A;border:1px solid #CBD7C6">6</a>
+    </nav>
+  </div>
+</div>
+,
+    3. the config + feedback script tags injected before </body>.
+  No content, styles or behaviour were edited. If Module 2 needs changes,
+  they should come from her, not from this file.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2: How to Prompt | NCAF AI Task Force</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAF8F3;
+    --paper-2: #F1EEE5;
+    --ink: #14302A;
+    --ink-soft: #3B534A;
+    --green: #2E5D4E;
+    --sage: #E5ECE2;
+    --sage-line: #CBD7C6;
+    --marigold: #B0740F;
+    --marigold-soft: #F6E9CB;
+    --rust: #A2412A;
+    --rust-soft: #F4E1D9;
+    --white: #FFFFFF;
+    --shadow: 0 1px 2px rgba(20, 48, 42, 0.06);
+    --radius: 6px;
+    --maxw: 46rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; animation: none !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Zilla Slab", Georgia, serif;
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  p { margin: 0 0 1rem; }
+  p:last-child { margin-bottom: 0; }
+
+  a { color: var(--green); }
+
+  .progress-track {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: 5px;
+    background: var(--paper-2);
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--marigold);
+    transition: width 0.35s ease;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  .hero {
+    padding: 3.5rem 0 2.5rem;
+    border-bottom: 1px solid var(--sage-line);
+  }
+  .hero .kicker {
+    font-family: "Public Sans", sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--green);
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 {
+    font-size: 2.6rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .hero .lede {
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    max-width: 34rem;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .meta-row span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .meta-row strong { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 560px) {
+    .hero h1 { font-size: 2rem; }
+    .hero .lede { font-size: 1.1rem; }
+  }
+
+  .objectives {
+    margin: 2.5rem 0;
+    background: var(--sage);
+    border: 1px solid var(--sage-line);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.6rem;
+  }
+  .objectives h2 { font-size: 1.25rem; margin-bottom: 0.9rem; }
+  .objectives ul { margin: 0; padding-left: 1.2rem; }
+  .objectives li { margin-bottom: 0.55rem; }
+  .objectives li:last-child { margin-bottom: 0; }
+
+  section.lesson {
+    padding: 2.75rem 0;
+    border-bottom: 1px solid var(--sage-line);
+    scroll-margin-top: 1.5rem;
+  }
+  section.lesson h2 { font-size: 1.7rem; font-weight: 600; margin-bottom: 1rem; }
+  section.lesson h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 1.75rem 0 0.6rem;
+    color: var(--green);
+  }
+  .section-num {
+    display: inline-block;
+    font-family: "Zilla Slab", serif;
+    font-weight: 600;
+    color: var(--marigold);
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+
+  ul.plain { padding-left: 1.2rem; margin: 0.5rem 0 1rem; }
+  ul.plain li { margin-bottom: 0.5rem; }
+
+  .model-card {
+    background: var(--white);
+    border: 1px solid var(--sage-line);
+    border-left: 4px solid var(--marigold);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.5rem;
+    margin: 1.25rem 0;
+    box-shadow: var(--shadow);
+  }
+  .model-card p:first-child { font-weight: 600; }
+
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0 0.5rem;
+  }
+  @media (max-width: 620px) { .compare { grid-template-columns: 1fr; } }
+
+  .ex {
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    font-size: 0.98rem;
+  }
+  .ex .tag {
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .ex.weak { background: var(--rust-soft); border: 1px solid #E4C4B9; }
+  .ex.weak .tag { color: var(--rust); }
+  .ex.strong { background: var(--sage); border: 1px solid var(--sage-line); }
+  .ex.strong .tag { color: var(--green); }
+  .ex .quote { font-style: italic; }
+
+  .prompt-box {
+    position: relative;
+    background: var(--ink);
+    color: #EAF1EC;
+    border-radius: var(--radius);
+    padding: 1.2rem 1.3rem;
+    margin: 1rem 0;
+    font-size: 0.97rem;
+    line-height: 1.6;
+  }
+  .prompt-box .label {
+    display: block;
+    color: var(--marigold-soft);
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+  }
+  .prompt-box .copy-target { display: block; padding-right: 3.5rem; }
+  .copy-btn {
+    position: absolute;
+    top: 0.85rem;
+    right: 0.85rem;
+    background: rgba(255,255,255,0.12);
+    color: #EAF1EC;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 4px;
+    padding: 0.3rem 0.7rem;
+    font-family: "Public Sans", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.22); }
+  .copy-btn.copied { background: var(--marigold); border-color: var(--marigold); color: #fff; }
+
+  .types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+    margin: 1.25rem 0;
+  }
+  @media (max-width: 620px) { .types { grid-template-columns: 1fr; } }
+  .type-item {
+    background: var(--white);
+    border: 1px solid var(--sage-line);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+  }
+  .type-item strong { color: var(--green); display: block; margin-bottom: 0.25rem; }
+  .type-item span { font-size: 0.96rem; color: var(--ink-soft); }
+
+  /* MIT prompt-type list */
+  .phrasing { margin: 1.25rem 0; }
+  .phrasing .row {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--paper-2);
+  }
+  .phrasing .row:last-child { border-bottom: none; }
+  .phrasing .name { font-weight: 700; color: var(--ink); }
+  .phrasing .desc { color: var(--ink-soft); }
+  .phrasing .eg {
+    display: block;
+    margin-top: 0.3rem;
+    padding-left: 0.9rem;
+    border-left: 3px solid var(--sage-line);
+    font-style: italic;
+    color: var(--ink);
+  }
+  .source-note { font-size: 0.9rem; color: var(--ink-soft); margin-top: 0.75rem; }
+
+  .risk {
+    background: var(--rust-soft);
+    border: 1px solid #E4C4B9;
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+    margin: 1.25rem 0;
+  }
+  .risk h3 { color: var(--rust); margin-top: 0; }
+  .risk ul { margin-bottom: 0; }
+
+  .horizon {
+    background: var(--white);
+    border: 1px solid var(--sage-line);
+    border-left: 4px solid var(--green);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+    margin: 1.25rem 0;
+  }
+  .horizon h3 { margin-top: 0; }
+
+  .practice { background: var(--paper-2); }
+  .reveal-btn {
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.6rem 1.1rem;
+    font-family: "Public Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .reveal-btn:hover { background: #244b3f; }
+  .answer { display: none; margin-top: 1rem; }
+  .answer.show { display: block; }
+
+  .quiz-q { margin-bottom: 1.75rem; }
+  .quiz-q p.q { font-weight: 600; margin-bottom: 0.75rem; }
+  .option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--white);
+    border: 1px solid var(--sage-line);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 0.5rem;
+    font-family: "Public Sans", sans-serif;
+    font-size: 0.98rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .option:hover { border-color: var(--green); }
+  .option:disabled { cursor: default; }
+  .option.correct { background: var(--sage); border-color: var(--green); font-weight: 600; }
+  .option.wrong { background: var(--rust-soft); border-color: var(--rust); }
+  .feedback {
+    display: none;
+    margin-top: 0.35rem;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    padding-left: 0.2rem;
+  }
+  .feedback.show { display: block; }
+
+  /* Live practice sandbox */
+  .sandbox {
+    background: var(--white);
+    border: 1px solid var(--sage-line);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.5rem;
+    margin: 1.25rem 0;
+    box-shadow: var(--shadow);
+  }
+  .sample-doc {
+    background: var(--paper-2);
+    border: 1px dashed var(--sage-line);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    font-size: 0.95rem;
+    white-space: pre-line;
+    margin-bottom: 1.2rem;
+    line-height: 1.55;
+  }
+  .sample-doc strong { color: var(--green); }
+  label.field-label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+  textarea.prompt-input {
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+    font-family: "Public Sans", sans-serif;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--sage-line);
+    border-radius: var(--radius);
+    padding: 0.8rem 0.9rem;
+  }
+  textarea.prompt-input:focus { border-color: var(--green); }
+  .run-btn {
+    margin-top: 0.9rem;
+    background: var(--marigold);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.7rem 1.3rem;
+    font-family: "Public Sans", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .run-btn:hover { background: #946012; }
+  .run-btn:disabled { opacity: 0.6; cursor: default; }
+  .privacy-note { font-size: 0.88rem; color: var(--rust); margin-top: 0.75rem; }
+
+  .loading { display: none; margin-top: 1rem; color: var(--ink-soft); font-size: 0.95rem; }
+  .loading.show { display: block; }
+  .err {
+    display: none;
+    margin-top: 1rem;
+    color: var(--rust);
+    background: var(--rust-soft);
+    border: 1px solid #E4C4B9;
+    border-radius: var(--radius);
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+  .err.show { display: block; }
+
+  .result { display: none; margin-top: 1.5rem; }
+  .result.show { display: block; }
+  .result h4 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+  .ai-output {
+    background: var(--sage);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem;
+    white-space: pre-wrap;
+    font-size: 0.98rem;
+  }
+  .rubric { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .rubric li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--paper-2);
+  }
+  .rubric li:last-child { border-bottom: none; }
+  .mark {
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 0.1rem;
+  }
+  .mark.yes { background: var(--green); }
+  .mark.no { background: #B9C2B4; }
+  .r-label { font-weight: 600; }
+  .r-note { color: var(--ink-soft); font-size: 0.95rem; }
+
+  .done-row { display: flex; align-items: center; gap: 0.7rem; margin-top: 2rem; }
+  .done-btn {
+    background: var(--white);
+    border: 1.5px solid var(--green);
+    color: var(--green);
+    border-radius: 999px;
+    padding: 0.45rem 1.1rem;
+    font-family: "Public Sans", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .done-btn.done { background: var(--green); color: #fff; }
+  .done-btn.done::before { content: "\2713  "; }
+
+  .takeaways {
+    background: var(--green);
+    color: #EAF1EC;
+    border-radius: var(--radius);
+    padding: 2rem 1.9rem;
+    margin: 2.75rem 0;
+  }
+  .takeaways h2 { color: #fff; font-size: 1.6rem; margin-bottom: 1.1rem; }
+  .takeaways ol { margin: 0; padding-left: 1.3rem; }
+  .takeaways li { margin-bottom: 0.7rem; }
+  .takeaways li:last-child { margin-bottom: 0; }
+  .takeaways strong { color: var(--marigold-soft); }
+
+  .attribution { font-size: 0.92rem; color: var(--ink-soft); padding: 2.5rem 0 1rem; }
+  .attribution h2 { font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--ink); }
+  footer { padding: 1.5rem 0 3rem; font-size: 0.85rem; color: var(--ink-soft); }
+
+  .celebrate {
+    display: none;
+    background: var(--marigold-soft);
+    border: 1px solid #E4CE97;
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-top: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .celebrate.show { display: block; }
+
+  :focus-visible { outline: 3px solid var(--marigold); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<div class="progress-track" aria-hidden="true">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">NCAF AI Task Force &middot; AI Literacy for Community Action Agencies</p>
+    <h1>Prompting is briefing a new coworker</h1>
+    <p class="lede">
+      The AI is fast and knows a lot in general. It knows nothing about your agency,
+      your clients, or how you like things done. This module shows you how to brief it
+      so it gives you work you can actually use.
+    </p>
+    <div class="meta-row">
+      <span><strong>Module 2</strong> of the series</span>
+      <span>About <strong>40 minutes</strong></span>
+      <span>Self-paced. <strong>Your progress is saved</strong> on this device.</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="objectives">
+    <h2>What you will be able to do</h2>
+    <ul>
+      <li>Write a request that includes your role, your task, and the result you need.</li>
+      <li>Set standing instructions so the tool follows your preferences every time.</li>
+      <li>Choose the right way to phrase a prompt for the job in front of you.</li>
+      <li>Improve a weak result by correcting it and asking it to show its work.</li>
+      <li>Name three agency tasks where prompting saves time, and three where it should not be used.</li>
+      <li>Identify what client information must never go into a public AI tool.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 1 -->
+  <section class="lesson" id="s1">
+    <span class="section-num">Part 1</span>
+    <h2>The one idea to remember</h2>
+    <p>
+      Think about the last time a capable new hire started at your agency. They were
+      smart and willing, but on day one they did not know what CSBG stands for, who your
+      clients are, or that your board likes reports kept to one page. You had to tell them.
+      The quality of their work depended on how well you explained the job.
+    </p>
+    <div class="model-card">
+      <p>An AI tool is that new coworker, every single time.</p>
+      <p>
+        It will not ask you for the background it is missing. It will just fill the gaps
+        with guesses. Your job is to give it the briefing a new coworker would need. Everything
+        else in this module is a way to do that better.
+      </p>
+    </div>
+    <div class="done-row">
+      <button class="done-btn" data-done="s1">Mark this part done</button>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section class="lesson" id="s2">
+    <span class="section-num">Part 2</span>
+    <h2>Three habits of a good briefing</h2>
+
+    <h3>1. Give context</h3>
+    <p>
+      Tell it who you are, what your agency does, what you are working on, and who the
+      result is for. The same task changes completely depending on the audience.
+    </p>
+    <div class="compare">
+      <div class="ex weak">
+        <span class="tag">Weak</span>
+        <span class="quote">"Write a summary of this report."</span>
+      </div>
+      <div class="ex strong">
+        <span class="tag">Stronger</span>
+        <span class="quote">"I'm the director of a Community Action Agency in North Carolina.
+        Summarize this CSBG quarterly report for our board, who are community volunteers with
+        no background in the program. One page, plain language, most important points first."</span>
+      </div>
+    </div>
+    <p>The second version tells it the audience, the length, and the tone. That is what makes the result usable.</p>
+
+    <h3>2. Be specific, and set standing instructions</h3>
+    <p>
+      Say exactly what you want: length, format, reading level, tone. Then use a feature
+      most tools now have. You can save instructions the tool applies to every response,
+      so you stop repeating yourself. In Claude these are called Projects or custom
+      instructions. In ChatGPT they are called custom instructions. You set them once.
+    </p>
+    <div class="prompt-box">
+      <span class="label">Example standing instruction to save once</span>
+      <span class="copy-target">For every response: write at about an 8th-grade reading level, never include client names or personal details, use short section headers, and keep paragraphs to four sentences or fewer.</span>
+      <button class="copy-btn" aria-label="Copy this prompt">Copy</button>
+    </div>
+
+    <h3>3. Build on the conversation</h3>
+    <p>
+      Treat the first answer as a draft, not the final version. Tell it what to change.
+      You can also ask it to explain how it reached an answer, which lets you check the
+      reasoning instead of trusting it.
+    </p>
+    <div class="prompt-box">
+      <span class="label">Example follow-up</span>
+      <span class="copy-target">This draft is too formal for a client letter. Rewrite it in a warmer, simpler tone. Then list which facts you took from the notes I gave you, so I can check them.</span>
+      <button class="copy-btn" aria-label="Copy this prompt">Copy</button>
+    </div>
+
+    <div class="done-row">
+      <button class="done-btn" data-done="s2">Mark this part done</button>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section class="lesson" id="s3">
+    <span class="section-num">Part 3</span>
+    <h2>The kinds of tasks it is good for</h2>
+    <p>Most useful agency prompts fall into one of these six jobs. Each one shows up in daily work.</p>
+    <div class="types">
+      <div class="type-item"><strong>Extract and summarize</strong><span>Pull the key numbers from a long report. Summarize a 40-page funding notice into a page.</span></div>
+      <div class="type-item"><strong>Draft</strong><span>A first draft of a grant narrative, a client letter, or a board memo.</span></div>
+      <div class="type-item"><strong>Rewrite and simplify</strong><span>Turn dense policy or an eligibility paragraph into plain language at a lower reading level.</span></div>
+      <div class="type-item"><strong>Reorganize and format</strong><span>Turn messy meeting notes into a clean table. Reformat data for a report.</span></div>
+      <div class="type-item"><strong>Brainstorm</strong><span>List supplemental grants worth pursuing. Outline questions for a Community Needs Assessment.</span></div>
+      <div class="type-item"><strong>Check and critique</strong><span>"What questions might a reviewer ask about this application?" "What is missing here?"</span></div>
+    </div>
+    <p>Here is a real one you can adapt for grant work.</p>
+    <div class="prompt-box">
+      <span class="label">Ready-to-use grant prompt</span>
+      <span class="copy-target">I'm applying for a supplemental grant to expand our weatherization program. Here is the funder's priorities section: [paste it]. Write three sentences connecting our program to each priority. Do not invent any numbers. Leave a blank where I need to add our own data.</span>
+      <button class="copy-btn" aria-label="Copy this prompt">Copy</button>
+    </div>
+
+    <h3>Six ways to phrase a prompt</h3>
+    <p>
+      Those are the jobs. There is also a set of ways to phrase the request itself. MIT Sloan's
+      guide to effective prompts groups them into a few common patterns. Here they are in plain
+      terms, each with an agency example.
+    </p>
+    <div class="phrasing">
+      <div class="row">
+        <span class="name">Just ask (zero-shot).</span>
+        <span class="desc"> Give clear instructions with no examples. Best for quick, general requests.</span>
+        <span class="eg">"Summarize this intake policy in five bullet points."</span>
+      </div>
+      <div class="row">
+        <span class="name">Show examples first (few-shot).</span>
+        <span class="desc"> Paste one or two samples so it matches your format or tone.</span>
+        <span class="eg">"Here are two past board summaries we liked. Write the next one in the same style."</span>
+      </div>
+      <div class="row">
+        <span class="name">Start with a verb (instructional).</span>
+        <span class="desc"> Lead with a direct command like write, explain, compare, or list.</span>
+        <span class="eg">"Write a 100-word executive summary of this memo."</span>
+      </div>
+      <div class="row">
+        <span class="name">Give it a role (role-based).</span>
+        <span class="desc"> Ask it to take on a viewpoint. Useful for review and specialized work.</span>
+        <span class="eg">"Act as a grant reviewer. Point out the weakest part of this narrative."</span>
+      </div>
+      <div class="row">
+        <span class="name">Set the scene (contextual).</span>
+        <span class="desc"> Add background and audience before the ask.</span>
+        <span class="eg">"This is for clients reading at a 6th-grade level. Rewrite this eligibility section in simpler words."</span>
+      </div>
+      <div class="row">
+        <span class="name">Behind-the-scenes rules (meta or system prompt).</span>
+        <span class="desc"> Instructions that set how the AI behaves before you type anything. You do not usually write these directly, but the standing instructions from Part 2 are the version you control.</span>
+        <span class="eg">"Always respond in plain language and never guess at a fact."</span>
+      </div>
+    </div>
+    <p class="source-note">
+      Adapted from MIT Sloan Teaching &amp; Learning Technologies,
+      <a href="https://mitsloanedtech.mit.edu/ai/basics/effective-prompts/" target="_blank" rel="noopener">Effective Prompts for AI: The Essentials</a>.
+    </p>
+
+    <div class="done-row">
+      <button class="done-btn" data-done="s3">Mark this part done</button>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section class="lesson" id="s4">
+    <span class="section-num">Part 4</span>
+    <h2>What it does not do well</h2>
+    <p>Knowing the limits is part of using it responsibly. A good briefing cannot fix these.</p>
+    <ul class="plain">
+      <li><strong>It does not know your data.</strong> It has no access to your case management system, your latest CSBG numbers, or last week's board meeting unless you give it.</li>
+      <li><strong>It is not current.</strong> It may not know a recent legislative change, such as a CSBG reauthorization update, unless you paste it in.</li>
+      <li><strong>It cannot check its own facts.</strong> It can sound completely confident and still be wrong.</li>
+      <li><strong>It does not know your community.</strong> It is a drafting aid, not a decision-maker.</li>
+    </ul>
+
+    <div class="risk">
+      <h3>Flaws and risks to watch</h3>
+      <ul class="plain">
+        <li><strong>It makes things up.</strong> It can invent a statistic, a citation, or a program rule. Verify any number, quote, or fact before you report or submit it.</li>
+        <li><strong>Client privacy.</strong> Never enter names, addresses, Social Security numbers, income details, or case notes into a public AI tool. Remove or replace personal details first, or use only a tool your agency has approved and secured.</li>
+        <li><strong>Bias.</strong> AI can reflect bias from its training data. One widely cited case involved an image tool lightening a person's skin and changing their features when asked for a professional headshot. This matters most for work that touches who your community is or who gets served, such as a Community Needs Assessment. Keep a person reviewing that work.</li>
+        <li><strong>Over-reliance.</strong> If you cannot check whether an answer is right, you are not ready to use the tool for that task.</li>
+      </ul>
+    </div>
+
+    <div class="horizon">
+      <h3>Focus on the problem, not just the prompt</h3>
+      <p>
+        Tools are getting better at fixing rough prompts on their own. That means the lasting
+        skill is not memorizing prompt tricks. It is defining the problem clearly: what you
+        need, who it is for, and what a good result looks like. If you can state the problem
+        well, the wording takes care of itself.
+      </p>
+      <p class="source-note">This point draws on MIT Sloan's summary of work by Oguz Acar.</p>
+    </div>
+
+    <div class="done-row">
+      <button class="done-btn" data-done="s4">Mark this part done</button>
+    </div>
+  </section>
+
+  <!-- SECTION 5: PRACTICE (fix a weak prompt) -->
+  <section class="lesson practice" id="s5">
+    <span class="section-num">Part 5</span>
+    <h2>Warm-up: fix a weak prompt</h2>
+    <p>Here is a request a coworker might type. Read it, then think about what a new coworker would still need to know before they could do the job.</p>
+    <div class="ex weak" style="margin:1rem 0;">
+      <span class="tag">The prompt</span>
+      <span class="quote">"Write a grant summary."</span>
+    </div>
+    <p>What is missing? Think about the three habits: context, specifics, and audience. When you have an answer in your head, reveal a stronger version.</p>
+    <button class="reveal-btn" id="revealBtn">Show a stronger version</button>
+    <div class="answer" id="answerBox">
+      <div class="ex strong" style="margin-top:1rem;">
+        <span class="tag">Stronger</span>
+        <span class="quote">"I'm the grants manager at a Community Action Agency. I need a summary of our
+        completed weatherization grant for our annual report. The readers are county
+        commissioners. Keep it to 150 words, plain language, and lead with the number of
+        households served. Here is the full report: [paste it]. Do not add numbers that are
+        not in the report."</span>
+      </div>
+      <p style="margin-top:1rem;">It names the role, the purpose, the audience, the length, the lead point, and a rule against inventing data. That is a briefing a new coworker could actually run with.</p>
+    </div>
+    <div class="done-row">
+      <button class="done-btn" data-done="s5">Mark this part done</button>
+    </div>
+  </section>
+
+  <!-- SECTION 6: SELF CHECK -->
+  <section class="lesson" id="s6">
+    <span class="section-num">Part 6</span>
+    <h2>Quick self-check</h2>
+    <p>Three questions. Pick an answer to see whether it holds up.</p>
+
+    <div class="quiz-q" data-answer="b">
+      <p class="q">1. You need the AI to summarize a report for your board. What is the single most useful thing to add to your request?</p>
+      <button class="option" data-opt="a">The word "please"</button>
+      <button class="option" data-opt="b">Who the summary is for and how long it should be</button>
+      <button class="option" data-opt="c">A request to use advanced vocabulary</button>
+      <p class="feedback">The tool writes very differently for a volunteer board than for a program officer. Telling it the audience and length is what makes the summary usable.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="b">
+      <p class="q">2. The AI gives you a poverty statistic for your county to use in a grant application. What should you do?</p>
+      <button class="option" data-opt="a">Paste it straight into the application</button>
+      <button class="option" data-opt="b">Verify it against a real source before using it</button>
+      <button class="option" data-opt="c">Trust it because it sounds specific</button>
+      <p class="feedback">AI can state made-up numbers with full confidence. Anything you submit or report has to be checked against a real source.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="b">
+      <p class="q">3. A caseworker wants to use a public AI tool to draft a follow-up letter to a client. What has to happen first?</p>
+      <button class="option" data-opt="a">Nothing, paste the full case notes in</button>
+      <button class="option" data-opt="b">Remove the client's name and personal details first</button>
+      <button class="option" data-opt="c">Add the client's Social Security number so the letter is accurate</button>
+      <p class="feedback">Client personal information should never go into a public AI tool. Strip identifying details first, or use only an approved, secured tool.</p>
+    </div>
+
+    <div class="done-row">
+      <button class="done-btn" data-done="s6">Mark this part done</button>
+    </div>
+  </section>
+
+  <!-- SECTION 7: LIVE PRACTICE -->
+  <section class="lesson" id="s7">
+    <span class="section-num">Part 7</span>
+    <h2>Practice with a live AI</h2>
+    <p>
+      You have the ideas. Now try them on a real AI. Below is a short program snapshot from a
+      made-up agency. Write a prompt that does something useful with it, such as summarizing it
+      for a board or pulling out the key numbers. Run it to see what the AI produces, then read
+      the coaching on your prompt.
+    </p>
+
+    <div class="sandbox">
+      <div class="sample-doc"><strong>SAMPLE: Q3 Weatherization Snapshot, Cardinal Community Action, Inc.</strong>
+Households served this quarter: 142, up from 118 in Q2.
+Average energy cost reduction per household: 21 percent.
+Waitlist: 89 households, average wait 47 days.
+Funding: 310,000 dollars CSBG plus 75,000 dollars state supplement.
+Staff: 3 full-time, 1 part-time intake coordinator.
+Top barrier reported by clients: trouble gathering required income documents.
+Note: 12 homes needed major repairs before weatherization could begin, which was not budgeted.</div>
+
+      <label class="field-label" for="promptInput">Your prompt</label>
+      <textarea id="promptInput" class="prompt-input" placeholder="Example: I'm the director of Cardinal Community Action. Summarize this snapshot for our volunteer board in under 120 words, plain language, most important number first."></textarea>
+
+      <button class="run-btn" id="runBtn">Run and coach my prompt</button>
+
+      <p class="privacy-note">This is sample data. In real work, never paste client personal information into a public AI tool.</p>
+
+      <div class="loading" id="loading">Working on it. This takes a few seconds.</div>
+      <div class="err" id="errBox"></div>
+
+      <div class="result" id="resultBox">
+        <h4>What the AI produced</h4>
+        <div class="ai-output" id="aiOutput"></div>
+
+        <h4>How your prompt did</h4>
+        <ul class="rubric" id="rubric"></ul>
+
+        <h4>Suggestions</h4>
+        <ul class="plain" id="suggestions"></ul>
+
+        <div id="improvedWrap"></div>
+      </div>
+    </div>
+
+    <div class="done-row">
+      <button class="done-btn" data-done="s7">Mark this part done</button>
+    </div>
+  </section>
+
+  <!-- TAKEAWAYS -->
+  <div class="takeaways">
+    <h2>The five things that stick</h2>
+    <ol>
+      <li><strong>Brief it like a new coworker.</strong> Give context, be specific, and expect to revise.</li>
+      <li><strong>Set standing instructions once</strong> so you stop repeating your preferences every time.</li>
+      <li><strong>Treat the first answer as a draft.</strong> Correct it, and ask it to show its work.</li>
+      <li><strong>Verify anything you will report or submit.</strong> It can be confidently wrong.</li>
+      <li><strong>Never put client personal information into a public AI tool.</strong></li>
+    </ol>
+  </div>
+
+  <div class="celebrate" id="celebrate">
+    You have completed Module 2. You are ready for the next module.
+  </div>
+
+  <!-- ATTRIBUTION -->
+  <div class="attribution">
+    <h2>How this was made</h2>
+    <p>
+      This module was developed by the National Community Action Foundation AI Task Force,
+      a University of North Carolina at Chapel Hill student-led project. The content draws on
+      interviews with 12 North Carolina Community Action Agencies, guidance from leaders at the
+      National Community Action Foundation and the National Association for State and Community
+      Service Programs, and a literature review covering CSBG structure, AI in social services,
+      data governance, and implementation. It was compiled from open-source educational
+      materials and built with volunteer contributions from Task Force members.
+    </p>
+    <p>
+      The prompt-type patterns in Part 3 and the point about focusing on the problem in Part 4
+      are adapted from MIT Sloan Teaching &amp; Learning Technologies,
+      <a href="https://mitsloanedtech.mit.edu/ai/basics/effective-prompts/" target="_blank" rel="noopener">Effective Prompts for AI: The Essentials</a>.
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    NCAF AI Task Force &middot; Utilizing Responsible AI Tools to Reduce Administrative Burden for Community Action Agencies
+  </div>
+</footer>
+
+<script>
+  // ---- Progress tracking (saved per device) ----
+  const STORAGE_KEY = "ncaf_module2_progress";
+  const sectionIds = ["s1", "s2", "s3", "s4", "s5", "s6", "s7"];
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveProgress(list) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    } catch (e) {
+      // storage unavailable, progress just will not persist
+    }
+  }
+
+  let completed = loadProgress();
+
+  function updateBar() {
+    const pct = Math.round((completed.length / sectionIds.length) * 100);
+    document.getElementById("progressFill").style.width = pct + "%";
+    document.getElementById("celebrate").classList.toggle("show", pct === 100);
+  }
+
+  function refreshButtons() {
+    document.querySelectorAll(".done-btn").forEach(function (btn) {
+      const id = btn.getAttribute("data-done");
+      const isDone = completed.indexOf(id) !== -1;
+      btn.classList.toggle("done", isDone);
+      btn.textContent = isDone ? "Done" : "Mark this part done";
+    });
+  }
+
+  document.querySelectorAll(".done-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const id = btn.getAttribute("data-done");
+      const at = completed.indexOf(id);
+      if (at === -1) {
+        completed.push(id);
+      } else {
+        completed.splice(at, 1);
+      }
+      saveProgress(completed);
+      refreshButtons();
+      updateBar();
+    });
+  });
+
+  refreshButtons();
+  updateBar();
+
+  // ---- Copy buttons (static prompts) ----
+  function wireCopyButton(btn) {
+    btn.addEventListener("click", function () {
+      const box = btn.closest(".prompt-box");
+      const text = box.querySelector(".copy-target").textContent.trim();
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = "Copied";
+        btn.classList.add("copied");
+        setTimeout(function () {
+          btn.textContent = "Copy";
+          btn.classList.remove("copied");
+        }, 1600);
+      });
+    });
+  }
+
+  document.querySelectorAll(".copy-btn").forEach(wireCopyButton);
+
+  // ---- Reveal exercise ----
+  document.getElementById("revealBtn").addEventListener("click", function () {
+    document.getElementById("answerBox").classList.add("show");
+    this.style.display = "none";
+  });
+
+  // ---- Self-check quiz ----
+  document.querySelectorAll(".quiz-q").forEach(function (q) {
+    const correct = q.getAttribute("data-answer");
+    const options = q.querySelectorAll(".option");
+    const feedback = q.querySelector(".feedback");
+    options.forEach(function (opt) {
+      opt.addEventListener("click", function () {
+        const choice = opt.getAttribute("data-opt");
+        options.forEach(function (o) {
+          o.disabled = true;
+          if (o.getAttribute("data-opt") === correct) {
+            o.classList.add("correct");
+          }
+        });
+        if (choice !== correct) {
+          opt.classList.add("wrong");
+        }
+        feedback.classList.add("show");
+      });
+    });
+  });
+
+  // ---- Live practice: send the learner's prompt to Claude ----
+  // The endpoint below works when this page is previewed inside Claude.ai.
+  // To host this on your own website, point API_ENDPOINT at a small backend
+  // that holds your API key and forwards the request. Never put a key in this file.
+  const API_ENDPOINT = "https://api.anthropic.com/v1/messages";
+  const MODEL = "claude-sonnet-4-6";
+
+  const SAMPLE_DOC = [
+    "Q3 Weatherization Snapshot, Cardinal Community Action, Inc.",
+    "Households served this quarter: 142, up from 118 in Q2.",
+    "Average energy cost reduction per household: 21 percent.",
+    "Waitlist: 89 households, average wait 47 days.",
+    "Funding: 310,000 dollars CSBG plus 75,000 dollars state supplement.",
+    "Staff: 3 full-time, 1 part-time intake coordinator.",
+    "Top barrier reported by clients: trouble gathering required income documents.",
+    "Note: 12 homes needed major repairs before weatherization could begin, which was not budgeted."
+  ].join("\n");
+
+  const runBtn = document.getElementById("runBtn");
+  const loading = document.getElementById("loading");
+  const errBox = document.getElementById("errBox");
+  const resultBox = document.getElementById("resultBox");
+
+  function buildInstruction(userPrompt) {
+    return [
+      "You are the coaching engine inside an AI literacy training module for",
+      "Community Action Agency staff. You are given a SAMPLE DOCUMENT and a",
+      "LEARNER PROMPT. Return ONLY valid JSON, no markdown and no backticks,",
+      "in exactly this shape:",
+      '{',
+      '  "response": "carry out the learner prompt using the sample document, as a helpful assistant would. Keep it under 120 words.",',
+      '  "evaluation": {',
+      '    "context": {"met": true or false, "note": "one short sentence"},',
+      '    "specifics": {"met": true or false, "note": "one short sentence"},',
+      '    "guardrails": {"met": true or false, "note": "one short sentence"}',
+      '  },',
+      '  "suggestions": ["two or three short, concrete tips"],',
+      '  "improved_prompt": "one stronger rewrite of the learner prompt"',
+      '}',
+      "",
+      "Judge context as met if the learner stated a role, agency, purpose, or audience.",
+      "Judge specifics as met if the learner set a length, format, reading level, or audience.",
+      "Judge guardrails as met if the learner set any limit, such as do not invent numbers.",
+      "",
+      "SAMPLE DOCUMENT:",
+      SAMPLE_DOC,
+      "",
+      "LEARNER PROMPT:",
+      userPrompt
+    ].join("\n");
+  }
+
+  function showError(message) {
+    errBox.textContent = message;
+    errBox.classList.add("show");
+  }
+
+  function renderRubric(evaluation) {
+    const rubric = document.getElementById("rubric");
+    rubric.innerHTML = "";
+    const labels = {
+      context: "Context",
+      specifics: "Specifics",
+      guardrails: "Guardrails"
+    };
+    Object.keys(labels).forEach(function (key) {
+      const item = evaluation[key] || { met: false, note: "" };
+      const li = document.createElement("li");
+      const mark = document.createElement("span");
+      mark.className = "mark " + (item.met ? "yes" : "no");
+      mark.textContent = item.met ? "\u2713" : "\u2013";
+      const text = document.createElement("div");
+      text.innerHTML = '<span class="r-label">' + labels[key] + '.</span> ' +
+        '<span class="r-note">' + (item.note || "") + '</span>';
+      li.appendChild(mark);
+      li.appendChild(text);
+      rubric.appendChild(li);
+    });
+  }
+
+  function renderSuggestions(list) {
+    const box = document.getElementById("suggestions");
+    box.innerHTML = "";
+    (list || []).forEach(function (tip) {
+      const li = document.createElement("li");
+      li.textContent = tip;
+      box.appendChild(li);
+    });
+  }
+
+  function renderImproved(text) {
+    const wrap = document.getElementById("improvedWrap");
+    wrap.innerHTML = "";
+    if (!text) { return; }
+    const heading = document.createElement("h4");
+    heading.textContent = "A stronger version of your prompt";
+    const box = document.createElement("div");
+    box.className = "prompt-box";
+    box.innerHTML =
+      '<span class="label">Copy and try this</span>' +
+      '<span class="copy-target">' + text + '</span>' +
+      '<button class="copy-btn" aria-label="Copy this prompt">Copy</button>';
+    wrap.appendChild(heading);
+    wrap.appendChild(box);
+    wireCopyButton(box.querySelector(".copy-btn"));
+  }
+
+  function renderResult(parsed) {
+    document.getElementById("aiOutput").textContent = parsed.response || "No response returned.";
+    renderRubric(parsed.evaluation || {});
+    renderSuggestions(parsed.suggestions);
+    renderImproved(parsed.improved_prompt);
+    resultBox.classList.add("show");
+  }
+
+  async function runPractice() {
+    const userPrompt = document.getElementById("promptInput").value.trim();
+    errBox.classList.remove("show");
+    resultBox.classList.remove("show");
+
+    if (!userPrompt) {
+      showError("Write a prompt in the box first, then run it.");
+      return;
+    }
+
+    runBtn.disabled = true;
+    loading.classList.add("show");
+
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: MODEL,
+          max_tokens: 1000,
+          messages: [
+            { role: "user", content: buildInstruction(userPrompt) }
+          ]
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("The AI service returned an error.");
+      }
+
+      const data = await response.json();
+
+      const text = data.content
+        .filter(function (block) { return block.type === "text"; })
+        .map(function (block) { return block.text; })
+        .join("\n");
+
+      const clean = text.replace(/```json/g, "").replace(/```/g, "").trim();
+
+      let parsed;
+      try {
+        parsed = JSON.parse(clean);
+      } catch (parseError) {
+        document.getElementById("aiOutput").textContent = clean;
+        document.getElementById("rubric").innerHTML = "";
+        document.getElementById("suggestions").innerHTML = "";
+        document.getElementById("improvedWrap").innerHTML = "";
+        resultBox.classList.add("show");
+        return;
+      }
+
+      renderResult(parsed);
+    } catch (err) {
+      showError("The practice AI could not be reached right now. You can still write your prompt and check it against the three habits above: context, specifics, and guardrails.");
+    } finally {
+      runBtn.disabled = false;
+      loading.classList.remove("show");
+    }
+  }
+
+  runBtn.addEventListener("click", runPractice);
+</script>
+
+
+
+<script>
+/* Bridges Module 2's own progress store into the shared course progress used by
+   index.html and the nav. Reads Meryem's key, never writes to it. */
+(function () {
+  "use strict";
+  var HERS = "ncaf_module2_progress";
+  var OURS = "ncaf-course-progress";
+  var TOTAL = document.querySelectorAll(".done-btn").length || 7;
+
+  function mirror() {
+    var done;
+    try { done = JSON.parse(localStorage.getItem(HERS) || "[]") || []; }
+    catch (e) { return; }
+    if (!Array.isArray(done)) return;
+    var all;
+    try { all = JSON.parse(localStorage.getItem(OURS) || "{}") || {}; }
+    catch (e) { all = {}; }
+    var parts = {};
+    done.forEach(function (id) { parts[id] = true; });
+    all.m2 = { parts: parts, complete: done.length >= TOTAL };
+    try { localStorage.setItem(OURS, JSON.stringify(all)); } catch (e) {}
+  }
+
+  mirror();
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains("done-btn")) {
+      setTimeout(mirror, 0);
+    }
+  });
+})();
+</script>
+<script src="assets/config.js"></script>
+<script src="assets/feedback.js" defer></script>
+</body>
+</html>

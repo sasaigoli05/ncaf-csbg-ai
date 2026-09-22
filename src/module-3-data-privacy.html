@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 3 &middot; Data Privacy</title>
+<meta name="description" content="What client information must never enter an AI tool, why social-services data is different, and how to de-identify well enough to work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="sticky-head">
+  <div class="topbar" data-topbar></div>
+  <div class="progress-track" aria-hidden="true"><div class="progress-fill"></div></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Module 3 &middot; Data Privacy and Client Protection</p>
+    <h1>You cannot take it back.</h1>
+    <p class="lede">
+      Most mistakes with an AI tool cost you a bad draft. This one is different. Client information
+      pasted into an outside company's system is gone &mdash; there is no recall, no undo, and no
+      way to know where it went. This is the module that matters most.
+    </p>
+    <div class="meta-row">
+      <span><strong>Module 3</strong> of six</span>
+      <span>About <strong>35 minutes</strong></span>
+      <span>Self-paced. <strong>Progress saved</strong> on this device.</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="objectives">
+    <h2>What you will be able to do</h2>
+    <ul>
+      <li>List the categories of client information that must never be entered into a general-purpose AI tool.</li>
+      <li>Explain why social-services client data is more sensitive than ordinary business data.</li>
+      <li>De-identify a record well enough to use it &mdash; and recognize when de-identification has failed.</li>
+      <li>Explain the difference between a consumer AI account and an organizational one, and say which your agency has.</li>
+      <li>Apply the aggregate-data-only standard to a task you actually perform.</li>
+    </ul>
+  </div>
+
+  <section class="lesson" id="s1">
+    <span class="section-num">Part 1</span>
+    <h2>The never list</h2>
+    <p>
+      Start with the simple version. None of the following goes into ChatGPT, Claude, Copilot,
+      Gemini, a free tool you found online, or an AI feature inside a product your agency has not
+      vetted &mdash; regardless of how careful you plan to be with the output.
+    </p>
+
+    <div class="risk">
+      <h3>Never</h3>
+      <ul class="plain">
+        <li><strong>Names.</strong> Clients, household members, children, emergency contacts.</li>
+        <li><strong>Addresses.</strong> Street address, and in a small county sometimes the road alone.</li>
+        <li><strong>Social Security numbers.</strong> Ever, in any form, on any account.</li>
+        <li><strong>Dates of birth.</strong> A date of birth plus a county is close to a unique identifier.</li>
+        <li><strong>Phone numbers and email addresses.</strong></li>
+        <li><strong>Case, client, file or participant numbers.</strong> They link straight back to a person in your system.</li>
+        <li><strong>Income detail tied to a household.</strong> Aggregate totals are fine; &ldquo;this family earns $1,840 a month&rdquo; is not.</li>
+        <li><strong>Health, disability and behavioral health status.</strong></li>
+        <li><strong>Immigration-adjacent information.</strong> Status, country of origin, documentation questions.</li>
+        <li><strong>Case narratives and intake notes.</strong> The richest and most dangerous record you hold.</li>
+        <li><strong>Anything out of a Module 4C file.</strong> The All Characteristics Report is personal information by construction.</li>
+      </ul>
+    </div>
+
+    <p>
+      The list is long, but the test underneath it is short: <strong>could a reader work out which
+      household this is?</strong> If the honest answer is &ldquo;maybe, if they knew the area,&rdquo;
+      treat it as a yes.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s1">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s2">
+    <span class="section-num">Part 2</span>
+    <h2>Why this data is different</h2>
+    <p>
+      Every organization says its data is sensitive. In a Community Action Agency the claim is
+      literally true in a way it is not for a retailer, and it is worth being precise about why,
+      because the reason shapes the rule.
+    </p>
+
+    <div class="evidence">
+      <div class="row caution">
+        <div class="who">The exposure is not embarrassment</div>
+        <div class="what">
+          A leaked marketing list produces spam. A leaked client file produces eligibility fraud
+          committed in someone's name, identity theft against a household with no financial cushion
+          to absorb it, and &mdash; where immigration-adjacent detail is involved &mdash; enforcement
+          risk. These are not reputational harms. They are material ones, landing on people with the
+          least capacity to recover.
+        </div>
+      </div>
+      <div class="row caution">
+        <div class="who">Your clients cannot leave</div>
+        <div class="what">
+          A customer who dislikes a company's data practices switches products. A household that
+          needs weatherization assistance in a county with one Community Action Agency has no second
+          option. The relationship is not voluntary in the same way, which raises what the agency
+          owes them &mdash; not lowers it.
+        </div>
+      </div>
+      <div class="row caution">
+        <div class="who">You are holding it on trust, not by right</div>
+        <div class="what">
+          Clients disclosed income, household composition and health status because it was required
+          to receive help, not because they chose to share it with you. That distinction is the whole
+          ethical basis of the never list.
+        </div>
+      </div>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s2">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s3">
+    <span class="section-num">Part 3</span>
+    <h2>The standard: aggregate data only</h2>
+    <p>
+      Here is the rule the whole course runs on, stated once, plainly.
+    </p>
+
+    <div class="model-card">
+      <p>Aggregate data and your own words are fine. Anything that identifies a person is not.</p>
+      <p>
+        <strong>Aggregate data</strong> means counts and totals you have already rolled up &mdash;
+        142 households served, $38,400 spent in the Housing domain, 22 clients enrolled in
+        employment programs. <strong>Your own words</strong> means documents your agency wrote: a
+        needs assessment summary, a past grant narrative, a program description, a policy paragraph.
+      </p>
+    </div>
+
+    <p>
+      This is not a cautious compromise. It is where almost all of the available value actually
+      sits. Run the CSBG Annual Report against the standard and the picture is clear:
+    </p>
+
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr><th>Report module</th><th>What the AI would see</th><th>Verdict</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>2A</strong> Expenditures by domain</td><td>Your own general ledger export</td><td>Aggregate &mdash; fine</td></tr>
+          <tr><td><strong>2C</strong> Leveraged resources</td><td>Funding totals by source</td><td>Aggregate &mdash; fine</td></tr>
+          <tr><td><strong>3</strong> Community-level indicators</td><td>Narrative descriptions of initiatives</td><td>Agency text &mdash; fine</td></tr>
+          <tr><td><strong>4A</strong> FNPIs</td><td>Served / Target / Actual counts</td><td>Aggregate &mdash; fine</td></tr>
+          <tr><td><strong>1B</strong> Innovative Solutions Highlights</td><td>Your CNA summary tables and service counts</td><td>Aggregate &mdash; fine</td></tr>
+          <tr><td><strong>4C</strong> All Characteristics Report</td><td>Name, DOB and address matching across programs</td><td><strong>Never</strong></td></tr>
+          <tr><td>Case-level outcome tracking</td><td>Whether a named participant got the job</td><td><strong>Never</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Five of the seven pass. The two that fail cannot be made to pass by being careful &mdash; 4C
+      works <em>by</em> matching personal identifiers, so there is no version of it that avoids them.
+      Those stay inside the systems your agency already controls.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s3">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s4">
+    <span class="section-num">Part 4</span>
+    <h2>When removing the name is not enough</h2>
+    <p>
+      De-identification is the skill that makes the rule usable. Done badly it produces false
+      confidence, which is worse than no confidence at all.
+    </p>
+    <p>
+      The failure mode is <strong>re-identification</strong>: the text no longer contains a name,
+      but the combination of details still points at one household. This is an acute risk in this
+      network, because the counties are small. In a county of thirty thousand people there is
+      often exactly one of whatever you just described.
+    </p>
+
+    <div class="compare">
+      <div class="ex weak">
+        <span class="tag">Not de-identified</span>
+        <span class="quote">
+          &ldquo;A 34-year-old single mother of three in Bryson City, living in a camper on her
+          father's land after an eviction in March, whose youngest has a feeding tube.&rdquo;
+        </span>
+      </div>
+      <div class="ex strong">
+        <span class="tag">De-identified</span>
+        <span class="quote">
+          &ldquo;A single parent with young children, recently evicted, currently in unstable
+          housing, with a child who has significant medical needs.&rdquo;
+        </span>
+      </div>
+    </div>
+
+    <p>
+      The second version keeps everything you need to draft a letter or plan a service response, and
+      drops everything that points at a person. Notice what had to go: not just the name, but the
+      <em>specific</em> age, the town, the month, the housing arrangement, and the particular medical
+      detail. Any two of those together would have been enough.
+    </p>
+
+    <div class="horizon">
+      <h3>A working habit</h3>
+      <p style="margin-bottom:0;">
+        Before you paste, read it back and ask: <strong>if a neighbour read this, would they know
+        who it is?</strong> Not a stranger in another state &mdash; a neighbour. That is the right
+        test for a county where the caseworker, the client and the landlord all shop at the same
+        grocery store.
+      </p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s4">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s5">
+    <span class="section-num">Part 5</span>
+    <h2>Which account are you actually using?</h2>
+    <p>
+      Two people can type the same sentence into what looks like the same tool and get very different
+      outcomes, because the account underneath is different. Most staff have no idea which they are on.
+    </p>
+
+    <div class="table-scroll">
+      <table class="data">
+        <thead><tr><th>Account</th><th>What typically happens to what you type</th><th>Use it for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Free consumer</strong></td><td>Often used to improve the vendor's models. No agreement exists between the vendor and your agency.</td><td>Nothing involving agency material you would not publish</td></tr>
+          <tr><td><strong>Paid individual</strong></td><td>Better, but the contract is with that staff member, not the agency. Leaves when they do.</td><td>Personal productivity, not agency records</td></tr>
+          <tr><td><strong>Organizational / business</strong></td><td>Can usually be configured so inputs are not used for training, with a written data-processing agreement.</td><td>Aggregate agency work, once configured</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      &ldquo;Not used for training&rdquo; is the specific thing to ask for &mdash; often called a
+      zero-retention or no-training setting. It is not automatic, and on most products it is off by
+      default.
+    </p>
+
+    <div class="checklist">
+      <h3>Find out this week</h3>
+      <label><input type="checkbox"> <span>Which AI tools are in use at your agency right now, including ones nobody approved.</span></label>
+      <label><input type="checkbox"> <span>Whether each is a free personal account, a paid personal account, or an agency account.</span></label>
+      <label><input type="checkbox"> <span>If there is an agency account: is the no-training setting actually turned on?</span></label>
+      <label><input type="checkbox"> <span>Whether your existing confidentiality policy already covers this. It very likely does &mdash; most say client information may not be disclosed to outside parties, and an AI vendor is an outside party.</span></label>
+      <label><input type="checkbox"> <span>Who signs off before a new tool is used with any agency material.</span></label>
+    </div>
+
+    <p class="source-note">
+      Two federal constraints worth knowing, because they come up: there is no unified per-person
+      identifier across US benefits programs, and rules generally prohibit sharing client data across
+      funding sources. Both mean the tidy cross-program matching an AI vendor may offer you is
+      usually not something you are permitted to do in the first place.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s5">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson practice" id="s6">
+    <span class="section-num">Part 6</span>
+    <h2>Practice: fix three of these</h2>
+    <p>
+      Each of these is something a staff member might reasonably type. Decide what is wrong before
+      you reveal the answer.
+    </p>
+
+    <h3>One</h3>
+    <div class="ex weak" style="margin:.8rem 0;">
+      <span class="tag">As typed</span>
+      <span class="quote">&ldquo;Write a referral letter for James Whitaker, 412 Maple Road, who needs help with his power bill. He's behind $340 and his disability check comes on the 3rd.&rdquo;</span>
+    </div>
+    <button class="reveal-btn" data-reveal="a1" type="button">Show what's wrong</button>
+    <div class="answer" id="a1">
+      <p>
+        Name, street address, exact amount, benefit type and payment date. Five identifiers in two
+        sentences. The fix is not to trim one &mdash; it is to describe the situation instead:
+        <em>&ldquo;Write a referral letter template for a client seeking utility assistance who
+        receives disability income and has a past-due balance. Leave blanks for name, address and
+        amount.&rdquo;</em> You get a reusable template, and nothing left your building.
+      </p>
+    </div>
+
+    <h3>Two</h3>
+    <div class="ex weak" style="margin:.8rem 0;">
+      <span class="tag">As typed</span>
+      <span class="quote">&ldquo;Here's our intake spreadsheet for last quarter. Which clients are most likely to drop out of the program?&rdquo;</span>
+    </div>
+    <button class="reveal-btn" data-reveal="a2" type="button">Show what's wrong</button>
+    <div class="answer" id="a2">
+      <p>
+        Two separate problems, and the second is the worse one. The spreadsheet is client-level data.
+        But even with perfect de-identification, the <em>question</em> asks the tool to make a
+        prediction about specific people that would change how they are treated. That is the decider
+        role from Module 1, in the setting where the evidence is weakest. Ask instead what the
+        research says about common drop-out factors in case management, and apply your own judgment
+        to your own caseload.
+      </p>
+    </div>
+
+    <h3>Three</h3>
+    <div class="ex weak" style="margin:.8rem 0;">
+      <span class="tag">As typed</span>
+      <span class="quote">&ldquo;Summarize these 40 client satisfaction survey responses into themes for our board report.&rdquo;</span>
+    </div>
+    <button class="reveal-btn" data-reveal="a3" type="button">Show what's wrong</button>
+    <div class="answer" id="a3">
+      <p>
+        This one is closer to fine than it looks, and the answer is &ldquo;it depends on the
+        responses.&rdquo; Anonymous ratings and general comments are aggregate feedback. But open-text
+        survey answers routinely contain names, staff names, and specific situations &mdash;
+        <em>&ldquo;Angela helped me after my husband passed&rdquo;</em> identifies two people. Read
+        them first, strip anything specific, then summarize. This is the most common near-miss in
+        agency practice, because the task itself is entirely legitimate.
+      </p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s6">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s7">
+    <span class="section-num">Part 7</span>
+    <h2>Quick self-check</h2>
+
+    <div class="quiz-q" data-answer="b">
+      <p class="q">1. You removed every name from a case note before pasting it. Is that enough?</p>
+      <button class="option" data-opt="a">Yes &mdash; the name is the identifying part</button>
+      <button class="option" data-opt="b">Not necessarily &mdash; a combination of details can still identify a household</button>
+      <button class="option" data-opt="c">Yes, as long as you also remove the address</button>
+      <p class="feedback">Age plus town plus household composition plus a distinctive circumstance can point at exactly one family in a small county. Removing the name is the first step, not the whole job.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="c">
+      <p class="q">2. Your agency wants AI help with Module 4C unduplicated counts. What should you say?</p>
+      <button class="option" data-opt="a">Fine, as long as you use the agency account</button>
+      <button class="option" data-opt="b">Fine, if you remove the names first</button>
+      <button class="option" data-opt="c">This one can't be done with an outside AI tool at all</button>
+      <p class="feedback">Unduplicated counting works by matching name, date of birth and address variants. Removing the identifiers removes the thing the task operates on. Keep it inside your own case-management system.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="a">
+      <p class="q">3. A colleague says &ldquo;it's fine, I use the free version, we're not paying them anything.&rdquo; What's the problem?</p>
+      <button class="option" data-opt="a">Free tiers commonly train on what you type, and there's no agreement with your agency</button>
+      <button class="option" data-opt="b">Free versions are less accurate</button>
+      <button class="option" data-opt="c">There's no problem if the data is aggregate</button>
+      <p class="feedback">Not paying is exactly the issue. With no contract there is no commitment about retention, training or deletion, and nobody at your agency has agreed to any terms on the agency's behalf.</p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s7">Mark this part done</button></div>
+  </section>
+
+  <div class="takeaways">
+    <h2>The five things that stick</h2>
+    <ol>
+      <li><strong>Aggregate data and your own words are fine. Anything that identifies a person is not.</strong> That one sentence covers almost every case you will meet.</li>
+      <li><strong>You cannot take it back.</strong> Unlike a bad draft, a paste is irreversible. Check before, not after.</li>
+      <li><strong>Removing the name is step one, not the whole job.</strong> Ask whether a neighbour would know who it is.</li>
+      <li><strong>Find out which account you are on.</strong> Free consumer tiers usually train on your input and carry no agreement with your agency.</li>
+      <li><strong>Some tasks cannot be made safe.</strong> Module 4C and case-level outcome tracking need personal identifiers by construction. They stay in your own systems.</li>
+    </ol>
+  </div>
+
+  <div class="next" data-next-module></div>
+
+</main>
+
+<footer class="attrib">
+  <div class="wrap">
+    <h4>Attribution</h4>
+    <p>
+      Compiled from open-source educational material and built with volunteer contributions from
+      members of the NCAF AI Task Force, a student project at the University of North Carolina at
+      Chapel Hill. Provided free to the Community Action network.
+    </p>
+    <p>
+      Grounded in the CSBG Annual Report structure, NC Community Action Agency interviews conducted
+      through the NC DHHS Office of Economic Opportunity, and practitioner data-protection guidance
+      for nonprofits without dedicated IT staff.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/course.js" defer></script>
+<script src="assets/feedback.js" defer></script>
+</body>
+</html>

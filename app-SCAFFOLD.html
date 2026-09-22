@@ -1,0 +1,1114 @@
+<title>Community Action AI Toolkit</title>
+<!--
+  ===========================================================================
+  NCAF AI TASK FORCE — PRODUCT SCAFFOLD
+  Intake → Dashboard → Tools
+
+  Three views in one file so it can be clicked through with no server.
+  PRODUCTION SPLIT: /setup, /dashboard, /tools/<slug>, modules as today.
+
+  THE ARCHITECTURAL BET
+  A course you finish and close is dead. Nava's caseworker pilot found tool
+  usage declined over time without deliberate engagement — early enthusiasm is
+  not self-sustaining. So the training is not the product; the toolkit is. The
+  modules teach a habit, and each one hands over a working tool the agency uses
+  on real work afterward. The dashboard is what they come back to.
+
+  FIVE OF THE SIX TOOLS RUN ENTIRELY IN THE BROWSER.
+  No API key, no backend, no per-agency cost. That matters enormously for a
+  free product handed to ~1,000 agencies with no IT budget: the toolkit is
+  useful even if the backend never gets funded. Only the Module 2 practice
+  sandbox and Tier-4 scenario generation need a server.
+
+  BUILT OUT HERE: full intake flow, dashboard, and the Redaction Check tool.
+  STUBBED: the other five tools (cards render, detail views are TODO).
+  ===========================================================================
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<style>
+  :root {
+    --paper: #FAF8F3;
+    --paper-2: #F1EEE5;
+    --ink: #14302A;
+    --ink-soft: #3B534A;
+    --ink-faint: #6E837A;
+    --green: #2E5D4E;
+    --green-deep: #24493D;
+    --sage: #E5ECE2;
+    --sage-line: #CBD7C6;
+    --marigold: #B0740F;
+    --marigold-soft: #F6E9CB;
+    --rust: #A2412A;
+    --rust-soft: #F4E1D9;
+    --white: #FFFFFF;
+    --shadow-sm: 0 1px 2px rgba(20,48,42,.06);
+    --shadow-md: 0 2px 10px rgba(20,48,42,.07);
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: "Zilla Slab", Georgia, serif; line-height: 1.12; margin: 0; text-wrap: balance; }
+  p { margin: 0 0 1rem; } p:last-child { margin-bottom: 0; }
+  button { font-family: inherit; }
+  :focus-visible { outline: 2px solid var(--marigold); outline-offset: 3px; }
+  [hidden] { display: none !important; }
+
+  /* ---------- scaffold-only bar ---------- */
+  .devbar {
+    background: var(--ink); color: #EAF1EC;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .76rem;
+    padding: .5rem 1rem; display: flex; flex-wrap: wrap; gap: .45rem .95rem; align-items: center;
+  }
+  .devbar b { color: var(--marigold-soft); }
+  .devbar button {
+    background: rgba(255,255,255,.12); color: #EAF1EC; border: 1px solid rgba(255,255,255,.26);
+    border-radius: 4px; padding: .18rem .55rem; font: inherit; cursor: pointer;
+  }
+  .devbar button:hover { background: rgba(255,255,255,.22); }
+
+  /* ---------- views ---------- */
+  .view { display: none; }
+  .view.is-active { display: block; }
+
+  /* =========================================================================
+     INTAKE — consumer onboarding pattern.
+     One question per screen, large tap targets, no dense form anywhere.
+     ========================================================================= */
+
+  .intake {
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .intake-top {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.1rem 1.25rem .9rem;
+    max-width: 40rem; margin: 0 auto; width: 100%;
+  }
+  .back-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--ink-faint); font-size: .95rem; font-weight: 600;
+    padding: .35rem .15rem; line-height: 1;
+  }
+  .back-btn:hover { color: var(--ink); }
+  .back-btn[disabled] { opacity: 0; pointer-events: none; }
+
+  .dots { display: flex; gap: .3rem; margin-left: auto; }
+  .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--sage-line); transition: background .3s ease, width .3s ease; }
+  .dot.done { background: var(--green); }
+  .dot.now { background: var(--marigold); width: 20px; }
+
+  .step {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 40rem; margin: 0 auto; width: 100%;
+    padding: 1.5rem 1.25rem 3rem;
+  }
+  .step.is-active { display: flex; animation: rise .32s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .step .eyebrow {
+    font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--marigold); margin-bottom: .85rem;
+  }
+  .step h2 { font-size: 2.05rem; font-weight: 600; letter-spacing: -.015em; margin-bottom: .7rem; }
+  .step .sub { color: var(--ink-soft); font-size: 1.05rem; margin-bottom: 1.9rem; max-width: 30rem; }
+  .step .whyask {
+    font-size: .89rem; color: var(--ink-faint); margin-top: 1.1rem;
+    padding-left: .8rem; border-left: 2px solid var(--sage-line);
+  }
+  @media (max-width: 560px) { .step h2 { font-size: 1.6rem; } }
+
+  /* choice cards */
+  .choices { display: grid; gap: .6rem; }
+  .choice {
+    display: flex; align-items: flex-start; gap: .85rem; text-align: left;
+    background: var(--white); border: 1.5px solid var(--sage-line); border-radius: var(--radius);
+    padding: 1rem 1.15rem; cursor: pointer; width: 100%;
+    transition: border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .choice:hover { border-color: var(--green); }
+  .choice:active { transform: scale(.995); }
+  .choice.on { border-color: var(--green); background: var(--sage); }
+  .choice .lbl { font-weight: 600; font-size: 1.02rem; display: block; }
+  .choice .hint { font-size: .93rem; color: var(--ink-soft); display: block; margin-top: .15rem; }
+  .choice .mark {
+    flex: none; width: 1.15rem; height: 1.15rem; border-radius: 999px;
+    border: 1.5px solid var(--sage-line); margin-top: .22rem;
+    display: grid; place-items: center;
+  }
+  .choice.on .mark { border-color: var(--green); background: var(--green); }
+  .choice.on .mark::after { content: ""; width: .42rem; height: .42rem; border-radius: 999px; background: #fff; }
+  .choices.multi .choice .mark { border-radius: 4px; }
+  .choices.multi .choice.on .mark::after { border-radius: 1px; }
+
+  /* chip grid for multi-select */
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .chip {
+    background: var(--white); border: 1.5px solid var(--sage-line); border-radius: 999px;
+    padding: .55rem 1.05rem; font-size: .98rem; font-weight: 600; color: var(--ink-soft);
+    cursor: pointer; transition: all .15s ease;
+  }
+  .chip:hover { border-color: var(--green); color: var(--ink); }
+  .chip.on { background: var(--green); border-color: var(--green); color: #fff; }
+
+  /* text inputs */
+  .field {
+    width: 100%; font-family: inherit; font-size: 1.25rem; color: var(--ink);
+    background: var(--white); border: 1.5px solid var(--sage-line); border-radius: var(--radius);
+    padding: .95rem 1.1rem;
+  }
+  .field::placeholder { color: var(--ink-faint); }
+  .field:focus { border-color: var(--green); outline: none; }
+  textarea.field { font-size: 1.05rem; min-height: 6.5rem; resize: vertical; line-height: 1.55; }
+
+  .step-actions { display: flex; align-items: center; gap: 1rem; margin-top: 1.9rem; }
+  .cta {
+    background: var(--green); color: #fff; border: none; border-radius: var(--radius);
+    padding: .82rem 1.7rem; font-size: 1.02rem; font-weight: 600; cursor: pointer;
+    transition: background .15s ease;
+  }
+  .cta:hover { background: var(--green-deep); }
+  .cta[disabled] { background: var(--sage-line); color: var(--ink-faint); cursor: not-allowed; }
+  .skip { background: none; border: none; color: var(--ink-faint); font-size: .95rem; cursor: pointer; font-weight: 500; }
+  .skip:hover { color: var(--ink); text-decoration: underline; }
+
+  /* privacy promise on the welcome screen */
+  .promise {
+    background: var(--sage); border: 1px solid var(--sage-line); border-radius: var(--radius);
+    padding: 1.1rem 1.25rem; margin-top: 1.6rem;
+  }
+  .promise strong { display: block; margin-bottom: .3rem; }
+  .promise p { font-size: .96rem; color: var(--ink-soft); margin: 0; }
+
+  /* building / reveal */
+  .building { text-align: center; padding-block: 3rem; }
+  .building .bar {
+    height: 5px; background: var(--paper-2); border-radius: 999px; overflow: hidden;
+    max-width: 18rem; margin: 1.75rem auto 0;
+  }
+  .building .bar i { display: block; height: 100%; width: 0%; background: var(--marigold); transition: width .5s ease; }
+  .building .log { margin-top: 1.1rem; color: var(--ink-faint); font-size: .95rem; min-height: 1.5rem; }
+
+  /* =========================================================================
+     DASHBOARD
+     ========================================================================= */
+
+  .shell { max-width: 62rem; margin: 0 auto; padding-inline: 1.25rem; }
+
+  .dash-head {
+    border-bottom: 1px solid var(--sage-line);
+    padding-block: 2.25rem 1.6rem;
+  }
+  .dash-head .kicker { font-size: .82rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: .6rem; }
+  .dash-head h1 { font-size: 2.1rem; font-weight: 600; letter-spacing: -.015em; }
+  .dash-head .where { color: var(--ink-soft); margin-top: .4rem; font-size: 1.02rem; }
+  .dash-head .editlink { font-size: .9rem; }
+  @media (max-width: 560px) { .dash-head h1 { font-size: 1.65rem; } }
+
+  /* next-up banner */
+  .nextup {
+    display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center;
+    background: var(--ink); color: #EAF1EC; border-radius: var(--radius-lg);
+    padding: 1.4rem 1.6rem; margin: 1.9rem 0;
+  }
+  .nextup .txt { flex: 1 1 20rem; }
+  .nextup .lbl { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--marigold-soft); margin-bottom: .4rem; }
+  .nextup h3 { color: #fff; font-size: 1.32rem; margin-bottom: .3rem; }
+  .nextup p { font-size: .97rem; color: #C3D3CA; margin: 0; }
+  .nextup .cta { background: var(--marigold); }
+  .nextup .cta:hover { background: #99650C; }
+
+  .sec-head {
+    display: flex; align-items: baseline; gap: .8rem;
+    margin: 2.4rem 0 1rem;
+  }
+  .sec-head h2 { font-size: 1.4rem; font-weight: 600; }
+  .sec-head .note { font-size: .92rem; color: var(--ink-faint); margin-left: auto; }
+
+  /* learning path */
+  .path { border: 1px solid var(--sage-line); border-radius: var(--radius-lg); overflow: hidden; background: var(--white); }
+  .path-row {
+    display: grid; grid-template-columns: 2.4rem 1fr auto; gap: .95rem; align-items: center;
+    padding: .95rem 1.2rem; border-bottom: 1px solid var(--paper-2);
+    width: 100%; background: none; border-left: none; border-right: none; border-top: none;
+    text-align: left; cursor: pointer;
+  }
+  .path-row:last-child { border-bottom: none; }
+  .path-row:hover { background: var(--paper); }
+  .path-row .num {
+    width: 2.1rem; height: 2.1rem; border-radius: 999px; display: grid; place-items: center;
+    font-family: "Zilla Slab", serif; font-weight: 600; font-size: .98rem;
+    background: var(--paper-2); color: var(--ink-faint); border: 1px solid var(--sage-line);
+  }
+  .path-row.done .num { background: var(--green); color: #fff; border-color: var(--green); }
+  .path-row.now .num { background: var(--marigold-soft); color: var(--marigold); border-color: var(--marigold); }
+  .path-row .nm { font-weight: 600; font-size: 1.01rem; }
+  .path-row .ds { font-size: .92rem; color: var(--ink-faint); }
+  .path-row .st { font-size: .84rem; font-weight: 600; color: var(--ink-faint); white-space: nowrap; }
+  .path-row.done .st { color: var(--green); }
+  .path-row.now .st { color: var(--marigold); }
+
+  /* toolkit */
+  .tools { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: .9rem; }
+  .tool {
+    display: flex; flex-direction: column; text-align: left;
+    background: var(--white); border: 1px solid var(--sage-line); border-radius: var(--radius-lg);
+    padding: 1.2rem 1.3rem; cursor: pointer; width: 100%;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease;
+  }
+  .tool:hover { border-color: var(--green); box-shadow: var(--shadow-md); }
+  .tool:active { transform: scale(.995); }
+  .tool .tag {
+    font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--green); margin-bottom: .5rem;
+  }
+  .tool.soon .tag { color: var(--ink-faint); }
+  .tool h3 { font-size: 1.14rem; margin-bottom: .35rem; }
+  .tool .what { font-size: .95rem; color: var(--ink-soft); flex: 1; }
+  .tool .foot {
+    display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+    margin-top: .95rem; padding-top: .8rem; border-top: 1px solid var(--paper-2);
+    font-size: .85rem; color: var(--ink-faint);
+  }
+  .pill {
+    background: var(--sage); color: var(--green); border-radius: 999px;
+    padding: .12rem .55rem; font-size: .76rem; font-weight: 700;
+  }
+  .pill.offline { background: var(--marigold-soft); color: var(--marigold); }
+  .pill.soon { background: var(--paper-2); color: var(--ink-faint); }
+
+  /* readiness */
+  .ready {
+    background: var(--sage); border: 1px solid var(--sage-line); border-radius: var(--radius-lg);
+    padding: 1.4rem 1.5rem; margin: 2.4rem 0 3.5rem;
+  }
+  .ready h3 { font-size: 1.18rem; margin-bottom: .45rem; }
+  .ready p { font-size: .96rem; color: var(--ink-soft); }
+  .ready .meter { height: 7px; background: var(--white); border-radius: 999px; overflow: hidden; margin: 1rem 0 .6rem; }
+  .ready .meter i { display: block; height: 100%; background: var(--green); width: 0%; transition: width .4s ease; }
+  .ready .cnt { font-size: .88rem; color: var(--ink-faint); }
+
+  /* =========================================================================
+     TOOL VIEW
+     ========================================================================= */
+
+  .tool-head { padding-block: 1.6rem 1.2rem; border-bottom: 1px solid var(--sage-line); }
+  .crumb { background: none; border: none; color: var(--green); font-size: .93rem; font-weight: 600; cursor: pointer; padding: 0; margin-bottom: .9rem; }
+  .crumb:hover { text-decoration: underline; }
+  .tool-head h1 { font-size: 1.85rem; font-weight: 600; margin-bottom: .5rem; }
+  .tool-head .lede { color: var(--ink-soft); max-width: 38rem; }
+
+  .assure {
+    display: flex; gap: .7rem; align-items: flex-start;
+    background: var(--sage); border: 1px solid var(--sage-line); border-radius: var(--radius);
+    padding: .95rem 1.1rem; margin: 1.5rem 0;
+    font-size: .95rem;
+  }
+  .assure strong { color: var(--green); }
+
+  .panel { background: var(--white); border: 1px solid var(--sage-line); border-radius: var(--radius-lg); padding: 1.4rem 1.5rem; margin-bottom: 1.5rem; }
+  .panel label.fl { display: block; font-weight: 600; margin-bottom: .55rem; }
+
+  .findings { display: grid; gap: .55rem; margin-top: 1.2rem; }
+  .finding {
+    display: grid; grid-template-columns: auto 1fr; gap: .8rem; align-items: start;
+    border: 1px solid var(--sage-line); border-radius: var(--radius);
+    padding: .8rem 1rem; background: var(--rust-soft); border-color: #E4C4B9;
+  }
+  .finding.warn { background: var(--marigold-soft); border-color: #E3CFA4; }
+  .finding .sev {
+    font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+    padding: .16rem .5rem; border-radius: 3px; background: var(--rust); color: #fff; white-space: nowrap;
+  }
+  .finding.warn .sev { background: var(--marigold); }
+  .finding .msg { font-size: .95rem; }
+  .finding .msg b { display: block; margin-bottom: .1rem; }
+  .finding .msg code { background: rgba(0,0,0,.06); padding: .05rem .3rem; border-radius: 3px; font-size: .92em; }
+  .clear-note {
+    background: var(--sage); border: 1px solid var(--sage-line); border-radius: var(--radius);
+    padding: 1rem 1.15rem; margin-top: 1.2rem; font-size: .96rem;
+  }
+  .clear-note strong { color: var(--green); }
+
+  .teachback {
+    border-left: 3px solid var(--marigold); background: var(--paper-2);
+    padding: 1.1rem 1.25rem; border-radius: 0 var(--radius) var(--radius) 0; margin-top: 1.5rem;
+  }
+  .teachback .lbl { font-size: .76rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--marigold); margin-bottom: .45rem; }
+  .teachback p { font-size: .96rem; margin: 0; }
+
+  .todo {
+    border: 1px dashed var(--sage-line); border-radius: var(--radius);
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(176,116,15,.045) 10px, rgba(176,116,15,.045) 20px);
+    padding: 1rem 1.15rem; margin: 1.2rem 0; font-size: .95rem; color: var(--ink-soft);
+  }
+  .todo b { color: var(--marigold); font-weight: 700; display: block; margin-bottom: .3rem; font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; }
+</style>
+
+<div class="devbar">
+  <span><b>SCAFFOLD</b> intake → dashboard → tools</span>
+  <button type="button" data-go="intake">Intake</button>
+  <button type="button" data-go="dash">Dashboard</button>
+  <button type="button" id="devSeed">Seed profile</button>
+  <button type="button" id="devClear">Clear</button>
+  <span id="devState">—</span>
+</div>
+
+<!-- ======================= INTAKE ======================= -->
+<div class="view" id="view-intake">
+  <div class="intake">
+    <div class="intake-top">
+      <button class="back-btn" id="backBtn" type="button" disabled>&larr; Back</button>
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <!-- 0 · welcome -->
+    <div class="step" data-step="0">
+      <p class="eyebrow">NCAF AI Task Force</p>
+      <h2>Let's set this up for your agency.</h2>
+      <p class="sub">
+        Nine quick questions, about a minute. Then every example in the training uses your
+        programs and your systems instead of generic ones — and you get a toolkit built around
+        the work you actually do.
+      </p>
+      <div class="promise">
+        <strong>We never ask about the people you serve.</strong>
+        <p>
+          Every question here is about your organization. There is no place in this course to
+          enter a client's name, and there never will be. Your answers stay on this device.
+        </p>
+      </div>
+      <div class="step-actions">
+        <button class="cta" data-next type="button">Get started</button>
+      </div>
+    </div>
+
+    <!-- 1 · name -->
+    <div class="step" data-step="1">
+      <p class="eyebrow">Question 1 of 9</p>
+      <h2>What should we call your agency?</h2>
+      <p class="sub">However you'd say it out loud is fine.</p>
+      <input class="field" id="qName" type="text" placeholder="Mountain Projects" autocomplete="organization">
+      <div class="step-actions">
+        <button class="cta" data-next type="button">Continue</button>
+      </div>
+    </div>
+
+    <!-- 2 · counties -->
+    <div class="step" data-step="2">
+      <p class="eyebrow">Question 2 of 9</p>
+      <h2>Which counties do you serve?</h2>
+      <p class="sub">Separate them with commas.</p>
+      <input class="field" id="qCounties" type="text" placeholder="Haywood, Jackson">
+      <p class="whyask">
+        Used to pull real local figures into examples — and to show you how convincingly an AI
+        tool will invent them.
+      </p>
+      <div class="step-actions">
+        <button class="cta" data-next type="button">Continue</button>
+        <button class="skip" data-next type="button">Skip</button>
+      </div>
+    </div>
+
+    <!-- 3 · size -->
+    <div class="step" data-step="3">
+      <p class="eyebrow">Question 3 of 9</p>
+      <h2>How many people work there?</h2>
+      <p class="sub">Roughly — across all programs.</p>
+      <div class="choices" data-single="org.staffBand">
+        <button class="choice" type="button" data-val="1-5"><span class="mark"></span><span><span class="lbl">1 to 5</span><span class="hint">Everyone wears several hats</span></span></button>
+        <button class="choice" type="button" data-val="6-15"><span class="mark"></span><span><span class="lbl">6 to 15</span><span class="hint">Some role separation</span></span></button>
+        <button class="choice" type="button" data-val="16-50"><span class="mark"></span><span><span class="lbl">16 to 50</span><span class="hint">Distinct program teams</span></span></button>
+        <button class="choice" type="button" data-val="50+"><span class="mark"></span><span><span class="lbl">More than 50</span><span class="hint">Multiple departments</span></span></button>
+      </div>
+    </div>
+
+    <!-- 4 · model -->
+    <div class="step" data-step="4">
+      <p class="eyebrow">Question 4 of 9</p>
+      <h2>How do people get help from you?</h2>
+      <div class="choices" data-single="org.model">
+        <button class="choice" type="button" data-val="direct"><span class="mark"></span><span><span class="lbl">We serve them directly</span><span class="hint">We deliver the assistance ourselves</span></span></button>
+        <button class="choice" type="button" data-val="referral"><span class="mark"></span><span><span class="lbl">We refer them out</span><span class="hint">Information and referral; partners deliver</span></span></button>
+        <button class="choice" type="button" data-val="mixed"><span class="mark"></span><span><span class="lbl">Some of both</span><span class="hint">Direct in some programs, referral in others</span></span></button>
+      </div>
+      <p class="whyask">
+        This changes a lot. Referral-only agencies face a different set of AI risks, so several
+        scenarios swap out entirely based on this answer.
+      </p>
+    </div>
+
+    <!-- 5 · programs -->
+    <div class="step" data-step="5">
+      <p class="eyebrow">Question 5 of 9</p>
+      <h2>Which programs do you run?</h2>
+      <p class="sub">Pick all that apply.</p>
+      <div class="chips" data-multi="org.programs">
+        <button class="chip" type="button" data-val="CSBG">CSBG</button>
+        <button class="chip" type="button" data-val="HeadStart">Head Start</button>
+        <button class="chip" type="button" data-val="WIOA">WIOA</button>
+        <button class="chip" type="button" data-val="LIHEAP/WAP">LIHEAP / Weatherization</button>
+        <button class="chip" type="button" data-val="HUD">Section 8 / HUD</button>
+        <button class="chip" type="button" data-val="Food">Food assistance</button>
+        <button class="chip" type="button" data-val="Transit">Transportation</button>
+        <button class="chip" type="button" data-val="Housing">Housing / homelessness</button>
+      </div>
+      <div class="step-actions">
+        <button class="cta" data-next type="button">Continue</button>
+      </div>
+    </div>
+
+    <!-- 6 · system -->
+    <div class="step" data-step="6">
+      <p class="eyebrow">Question 6 of 9</p>
+      <h2>What do you use to track clients?</h2>
+      <div class="choices" data-single="systems.caseManagement">
+        <button class="choice" type="button" data-val="CARDS"><span class="mark"></span><span><span class="lbl">CARDS</span><span class="hint">The state-built system</span></span></button>
+        <button class="choice" type="button" data-val="Cap60"><span class="mark"></span><span><span class="lbl">Cap60</span></span></button>
+        <button class="choice" type="button" data-val="other"><span class="mark"></span><span><span class="lbl">Something else</span></span></button>
+        <button class="choice" type="button" data-val="none"><span class="mark"></span><span><span class="lbl">Spreadsheets and paper</span></span></button>
+        <button class="choice" type="button" data-val="unsure"><span class="mark"></span><span><span class="lbl">Not sure</span><span class="hint">Perfectly common answer</span></span></button>
+      </div>
+    </div>
+
+    <!-- 7 · AI today -->
+    <div class="step" data-step="7">
+      <p class="eyebrow">Question 7 of 9</p>
+      <h2>Is anyone there using AI today?</h2>
+      <div class="choices" data-single="systems.aiAccount">
+        <button class="choice" type="button" data-val="none"><span class="mark"></span><span><span class="lbl">Not that I know of</span></span></button>
+        <button class="choice" type="button" data-val="free-personal"><span class="mark"></span><span><span class="lbl">A few people, on their own free accounts</span></span></button>
+        <button class="choice" type="button" data-val="paid-individual"><span class="mark"></span><span><span class="lbl">Some staff pay for their own</span></span></button>
+        <button class="choice" type="button" data-val="org-account"><span class="mark"></span><span><span class="lbl">The agency pays for accounts</span></span></button>
+        <button class="choice" type="button" data-val="unsure"><span class="mark"></span><span><span class="lbl">Honestly, not sure</span></span></button>
+      </div>
+      <p class="whyask">
+        No wrong answer, and nothing here gets reported anywhere. Most agencies land on one of the
+        middle two, which is exactly the situation Module 3 is written for.
+      </p>
+    </div>
+
+    <!-- 8 · pain point -->
+    <div class="step" data-step="8">
+      <p class="eyebrow">Question 8 of 9</p>
+      <h2>What eats the most time?</h2>
+      <p class="sub">The thing you'd hand off tomorrow if you could.</p>
+      <textarea class="field" id="qPain" placeholder="Pulling the annual report together — it takes weeks and it's our smallest grant."></textarea>
+      <div class="step-actions">
+        <button class="cta" data-next type="button">Continue</button>
+        <button class="skip" data-next type="button">Skip</button>
+      </div>
+    </div>
+
+    <!-- 9 · funders -->
+    <div class="step" data-step="9">
+      <p class="eyebrow">Question 9 of 9</p>
+      <h2>Who else funds you, besides CSBG?</h2>
+      <p class="sub">Comma-separated. Used in the grant-writing module.</p>
+      <input class="field" id="qFunders" type="text" placeholder="Dogwood Health Trust, United Way">
+      <div class="step-actions">
+        <button class="cta" data-next type="button">Build my toolkit</button>
+        <button class="skip" data-next type="button">Skip</button>
+      </div>
+    </div>
+
+    <!-- 10 · building -->
+    <div class="step" data-step="10">
+      <div class="building">
+        <h2 id="buildTitle">Setting things up…</h2>
+        <div class="bar"><i id="buildBar"></i></div>
+        <p class="log" id="buildLog"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= DASHBOARD ======================= -->
+<div class="view" id="view-dash">
+  <div class="shell">
+    <header class="dash-head">
+      <p class="kicker">Community Action AI Toolkit</p>
+      <h1 id="dashName">Your agency</h1>
+      <p class="where">
+        <span id="dashWhere"></span>
+        &nbsp;·&nbsp; <a href="#intake" class="editlink">edit setup</a>
+      </p>
+    </header>
+
+    <div class="nextup">
+      <div class="txt">
+        <p class="lbl" id="nextLbl">Start here</p>
+        <h3 id="nextTitle">Module 1 · Foundations</h3>
+        <p id="nextWhy">What the tool is actually doing, and where it belongs in your work.</p>
+      </div>
+      <button class="cta" id="nextBtn" type="button">Begin &rarr;</button>
+    </div>
+
+    <div class="sec-head">
+      <h2>Your training</h2>
+      <span class="note" id="pathNote">0 of 6 complete</span>
+    </div>
+    <div class="path" id="pathList"></div>
+
+    <div class="sec-head">
+      <h2>Your toolkit</h2>
+      <span class="note">Each tool pairs with the module that teaches it</span>
+    </div>
+    <div class="tools" id="toolList"></div>
+
+    <div class="ready">
+      <h3>Your AI Readiness Profile</h3>
+      <p>
+        As you work through the modules, this builds into a one-page summary you can take to your
+        board: what you do, what you'd use AI for, the guardrails you've set, and who owns it.
+      </p>
+      <div class="meter"><i id="readyBar"></i></div>
+      <p class="cnt" id="readyCnt"></p>
+      <div class="todo" style="margin-bottom:0;">
+        <b>TODO</b> Generate the printable one-pager from the accumulated profile. Capstone of
+        Module 6, and doubles as scoping item B-3 (the NIST-derived adoption checklist).
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= TOOL: REDACTION CHECK ======================= -->
+<div class="view" id="view-tool">
+  <div class="shell">
+    <div class="tool-head">
+      <button class="crumb" type="button" data-go="dash">&larr; Toolkit</button>
+      <h1>Redaction Check</h1>
+      <p class="lede">
+        Paste anything you're about to put into an AI tool. This finds what shouldn't go in.
+      </p>
+    </div>
+
+    <div class="assure">
+      <span>🔒</span>
+      <div>
+        <strong>This runs entirely in your browser.</strong>
+        Your text is never uploaded, never sent to us, and never sent to an AI. Close the tab and
+        it's gone. You can check this yourself — turn off your wi-fi and it still works.
+      </div>
+    </div>
+
+    <div class="panel">
+      <label class="fl" for="redactIn">Text to check</label>
+      <textarea class="field" id="redactIn" style="min-height:11rem;"></textarea>
+      <div class="step-actions" style="margin-top:1rem;">
+        <button class="cta" id="redactRun" type="button">Check it</button>
+        <button class="skip" id="redactSample" type="button">Load an example</button>
+      </div>
+      <div id="redactOut"></div>
+    </div>
+
+    <div class="teachback">
+      <p class="lbl">Why this tool exists</p>
+      <p id="toolTeach">
+        Module 3 draws one hard line: aggregate data and your own words are fine, anything that
+        identifies a person is not. This is that line, made checkable. It won't catch everything —
+        in a small county, a detailed description can identify someone with no name attached at
+        all — so treat a clean result as a good sign, not a guarantee.
+      </p>
+    </div>
+
+    <div class="todo">
+      <b>Remaining tools — stubbed</b>
+      Prompt Builder (M2) · Check This (M1) · FNPI Validator (M4) · AI-Tell Scanner (M5) ·
+      Readiness Profile (M6). Cards render on the dashboard; detail views not built. FNPI Validator
+      is the highest-value of these — it has a confirmed live defect in the 19 Aug batch to catch,
+      24 real agency files to test against, and touches nothing but aggregate counts.
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =====================================================================
+     PROFILE STORE
+     Same schema as _shared/profile-and-tailoring.js. Inlined here so the
+     scaffold opens from the filesystem with no module loading.
+     ===================================================================== */
+
+  var KEY = "ncaf-ai-profile";
+  var EMPTY = {
+    v: 1, createdAt: null,
+    org: { name: "", counties: [], staffBand: "", model: "", programs: [] },
+    systems: { caseManagement: "", reportsFiled: [], aiAccount: "" },
+    people: { learnerRole: "", askFirst: "" },
+    work: { processes: [], painPoint: "" },
+    funders: [],
+    progress: { modules: {}, toolsUsed: {} },
+    generated: {}
+  };
+
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return clone(EMPTY);
+      var p = JSON.parse(raw);
+      return (p && p.v === 1) ? Object.assign(clone(EMPTY), p) : clone(EMPTY);
+    } catch (e) { return clone(EMPTY); }
+  }
+  function persist() { try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (e) {} }
+  function setIn(path, val) {
+    var ks = path.split("."), o = P;
+    for (var i = 0; i < ks.length - 1; i++) o = o[ks[i]];
+    o[ks[ks.length - 1]] = val;
+    persist();
+  }
+  function isSetUp() { return !!P.org.name; }
+
+  var P = load();
+
+  /* =====================================================================
+     ROUTER
+     ===================================================================== */
+
+  function show(name) {
+    ["intake", "dash", "tool"].forEach(function (v) {
+      document.getElementById("view-" + v).classList.toggle("is-active", v === name);
+    });
+    if (name === "dash") renderDash();
+    window.scrollTo(0, 0);
+    document.getElementById("devState").textContent = isSetUp() ? P.org.name : "no profile";
+  }
+
+  function route() {
+    var h = (location.hash || "").replace("#", "");
+    if (h === "intake") return show("intake");
+    if (h === "tool") return show("tool");
+    return show(isSetUp() ? "dash" : "intake");
+  }
+  window.addEventListener("hashchange", route);
+
+  /* =====================================================================
+     INTAKE FLOW
+     ===================================================================== */
+
+  var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+  var LAST_Q = 9;                      // step 10 is the build animation
+  var cur = 0;
+
+  var dotsEl = document.getElementById("dots");
+  for (var i = 1; i <= LAST_Q; i++) {
+    var d = document.createElement("i");
+    d.className = "dot";
+    dotsEl.appendChild(d);
+  }
+
+  function paintStep() {
+    steps.forEach(function (s) {
+      s.classList.toggle("is-active", Number(s.getAttribute("data-step")) === cur);
+    });
+    Array.prototype.forEach.call(dotsEl.children, function (d, idx) {
+      var n = idx + 1;
+      d.className = "dot" + (n < cur ? " done" : n === cur ? " now" : "");
+    });
+    dotsEl.hidden = cur === 0 || cur > LAST_Q;
+    document.getElementById("backBtn").disabled = cur === 0 || cur > LAST_Q;
+
+    var active = steps[cur];
+    var f = active && active.querySelector(".field");
+    if (f) setTimeout(function () { f.focus(); }, 80);
+  }
+
+  function go(n) {
+    cur = n;
+    if (cur > LAST_Q) return runBuild();
+    paintStep();
+  }
+
+  document.getElementById("backBtn").addEventListener("click", function () { go(Math.max(0, cur - 1)); });
+
+  // explicit Continue / Skip buttons
+  Array.prototype.forEach.call(document.querySelectorAll("[data-next]"), function (btn) {
+    btn.addEventListener("click", function () { collect(); go(cur + 1); });
+  });
+
+  // Enter advances on text steps
+  Array.prototype.forEach.call(document.querySelectorAll("input.field"), function (inp) {
+    inp.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); collect(); go(cur + 1); }
+    });
+  });
+
+  // single-select cards auto-advance — the pattern that makes these flows feel fast
+  Array.prototype.forEach.call(document.querySelectorAll("[data-single]"), function (group) {
+    var path = group.getAttribute("data-single");
+    Array.prototype.forEach.call(group.querySelectorAll(".choice"), function (btn) {
+      btn.addEventListener("click", function () {
+        Array.prototype.forEach.call(group.querySelectorAll(".choice"), function (b) { b.classList.remove("on"); });
+        btn.classList.add("on");
+        setIn(path, btn.getAttribute("data-val"));
+        setTimeout(function () { go(cur + 1); }, 220);   // brief beat so the selection registers
+      });
+    });
+  });
+
+  // multi-select chips wait for Continue
+  Array.prototype.forEach.call(document.querySelectorAll("[data-multi]"), function (group) {
+    var path = group.getAttribute("data-multi");
+    Array.prototype.forEach.call(group.querySelectorAll(".chip"), function (btn) {
+      btn.addEventListener("click", function () {
+        btn.classList.toggle("on");
+        var vals = [];
+        Array.prototype.forEach.call(group.querySelectorAll(".chip.on"), function (b) {
+          vals.push(b.getAttribute("data-val"));
+        });
+        setIn(path, vals);
+      });
+    });
+  });
+
+  function splitList(s) {
+    return (s || "").split(",").map(function (x) { return x.trim(); }).filter(Boolean);
+  }
+
+  function collect() {
+    var name = document.getElementById("qName").value.trim();
+    if (name) setIn("org.name", name);
+    setIn("org.counties", splitList(document.getElementById("qCounties").value));
+    setIn("work.painPoint", document.getElementById("qPain").value.trim());
+    setIn("funders", splitList(document.getElementById("qFunders").value));
+    if (!P.createdAt) { P.createdAt = new Date().toISOString(); persist(); }
+  }
+
+  function prefillIntake() {
+    document.getElementById("qName").value = P.org.name || "";
+    document.getElementById("qCounties").value = (P.org.counties || []).join(", ");
+    document.getElementById("qPain").value = P.work.painPoint || "";
+    document.getElementById("qFunders").value = (P.funders || []).join(", ");
+    Array.prototype.forEach.call(document.querySelectorAll("[data-single]"), function (g) {
+      var path = g.getAttribute("data-single");
+      var v = path.split(".").reduce(function (o, k) { return o ? o[k] : null; }, P);
+      Array.prototype.forEach.call(g.querySelectorAll(".choice"), function (b) {
+        b.classList.toggle("on", b.getAttribute("data-val") === v);
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-multi]"), function (g) {
+      var path = g.getAttribute("data-multi");
+      var arr = path.split(".").reduce(function (o, k) { return o ? o[k] : null; }, P) || [];
+      Array.prototype.forEach.call(g.querySelectorAll(".chip"), function (b) {
+        b.classList.toggle("on", arr.indexOf(b.getAttribute("data-val")) !== -1);
+      });
+    });
+  }
+
+  /* The build beat. Theatre, but load-bearing theatre: it marks the moment the
+     product becomes theirs, and it names what was tailored so the value is
+     legible rather than invisible. Keep it under ~3s. */
+  function runBuild() {
+    collect();
+    steps.forEach(function (s) { s.classList.toggle("is-active", s.getAttribute("data-step") === "10"); });
+    dotsEl.hidden = true;
+    document.getElementById("backBtn").disabled = true;
+
+    var name = P.org.name || "your agency";
+    document.getElementById("buildTitle").textContent = "Building " + name + "'s toolkit…";
+
+    var lines = [
+      "Matching examples to your programs",
+      P.systems.caseManagement && P.systems.caseManagement !== "unsure"
+        ? "Noting your " + P.systems.caseManagement + " constraints"
+        : "Setting up your systems guidance",
+      P.org.model === "referral" ? "Swapping in referral-model scenarios" : "Selecting reporting scenarios",
+      "Assembling six tools"
+    ];
+
+    var bar = document.getElementById("buildBar");
+    var log = document.getElementById("buildLog");
+    var n = 0;
+    (function tick() {
+      if (n >= lines.length) {
+        bar.style.width = "100%";
+        log.textContent = "Ready.";
+        setTimeout(function () { location.hash = "dash"; }, 550);
+        return;
+      }
+      log.textContent = lines[n];
+      bar.style.width = Math.round(((n + 1) / lines.length) * 92) + "%";
+      n++;
+      setTimeout(tick, 620);
+    })();
+  }
+
+  /* =====================================================================
+     DASHBOARD
+     ===================================================================== */
+
+  var MODULES = [
+    { n: 1, name: "Foundations", ds: "What it is, and what it isn't", mins: 35 },
+    { n: 2, name: "How to Prompt", ds: "Briefing it like a new coworker", mins: 40 },
+    { n: 3, name: "Data Privacy", ds: "The line you don't cross", mins: 35 },
+    { n: 4, name: "CSBG Reporting", ds: "Where the hours actually are", mins: 45 },
+    { n: 5, name: "Grant Writing", ds: "Reusing what you've already written", mins: 40 },
+    { n: 6, name: "Ethics & Bias", ds: "Judging a tool before you adopt it", mins: 40 }
+  ];
+
+  /* Tools are never locked. A director in submission week needs the FNPI
+     validator whether or not they've finished Module 4 — gating it would be
+     both patronizing and the fastest way to lose them. Instead each tool
+     carries the module that explains it, and a line of context. */
+  var TOOLS = [
+    { id: "redact", mod: 3, name: "Redaction Check", offline: true, live: true,
+      what: function () { return "Paste anything before it goes into an AI tool. Finds names, addresses, dates of birth and case numbers you missed."; } },
+
+    { id: "fnpi", mod: 4, name: "FNPI Validator", offline: true, live: false,
+      what: function () { return "Checks your Module 4A export before you submit it — mislabeled percentages, domains left blank against a nonzero served count, rollups that don't match their parts."; } },
+
+    { id: "prompt", mod: 2, name: "Prompt Builder", offline: true, live: false,
+      what: function () {
+        return "Builds a complete prompt from your role, your task and your guardrails — already filled in with " + (P.org.name || "your agency") + "'s details.";
+      } },
+
+    { id: "check", mod: 1, name: "Check This", offline: true, live: false,
+      what: function () { return "Paste an AI answer. It flags every number, citation and rule that needs a source before you use it."; } },
+
+    { id: "tells", mod: 5, name: "AI-Tell Scanner", offline: true, live: false,
+      what: function () { return "Reads a grant draft and marks the phrasing that gives away machine writing, so a reviewer doesn't spot it first."; } },
+
+    { id: "profile", mod: 6, name: "Readiness Profile", offline: true, live: false,
+      what: function () { return "Prints your one-page AI policy summary for the board — what you use it for, your guardrails, and who owns it."; } }
+  ];
+
+  function renderDash() {
+    document.getElementById("dashName").textContent = P.org.name || "Your agency";
+
+    var bits = [];
+    if (P.org.counties.length) {
+      bits.push(P.org.counties.length === 1
+        ? P.org.counties[0] + " County"
+        : P.org.counties.join(", ") + " Counties");
+    }
+    if (P.org.programs.length) bits.push(P.org.programs.length + " programs");
+    if (P.org.staffBand) bits.push(P.org.staffBand + " staff");
+    document.getElementById("dashWhere").textContent = bits.join("  ·  ");
+
+    var done = P.progress.modules || {};
+    var doneCount = MODULES.filter(function (m) { return done[m.n]; }).length;
+    var next = MODULES.find(function (m) { return !done[m.n]; }) || MODULES[5];
+
+    document.getElementById("nextLbl").textContent = doneCount ? "Pick up where you left off" : "Start here";
+    document.getElementById("nextTitle").textContent = "Module " + next.n + " · " + next.name;
+    document.getElementById("nextWhy").textContent = next.ds + " · about " + next.mins + " minutes";
+
+    // path
+    var list = document.getElementById("pathList");
+    list.innerHTML = "";
+    MODULES.forEach(function (m) {
+      var row = document.createElement("button");
+      row.type = "button";
+      row.className = "path-row" + (done[m.n] ? " done" : m.n === next.n ? " now" : "");
+      row.innerHTML =
+        '<span class="num">' + (done[m.n] ? "✓" : m.n) + '</span>' +
+        '<span><span class="nm">' + m.name + '</span><br><span class="ds">' + m.ds + '</span></span>' +
+        '<span class="st">' + (done[m.n] ? "Complete" : m.n === next.n ? "Next up" : m.mins + " min") + '</span>';
+      row.addEventListener("click", function () {
+        // TODO: navigate to ../../01-curriculum/module-N/. Scaffold toggles state instead.
+        done[m.n] = !done[m.n];
+        P.progress.modules = done;
+        persist();
+        renderDash();
+      });
+      list.appendChild(row);
+    });
+    document.getElementById("pathNote").textContent = doneCount + " of 6 complete";
+
+    // toolkit
+    var tl = document.getElementById("toolList");
+    tl.innerHTML = "";
+    TOOLS.forEach(function (t) {
+      var card = document.createElement("button");
+      card.type = "button";
+      card.className = "tool" + (t.live ? "" : " soon");
+      card.innerHTML =
+        '<span class="tag">Module ' + t.mod + '</span>' +
+        '<h3>' + t.name + '</h3>' +
+        '<p class="what">' + t.what() + '</p>' +
+        '<span class="foot">' +
+          (t.offline ? '<span class="pill offline">Works offline</span>' : '') +
+          (t.live ? '<span class="pill">Ready</span>' : '<span class="pill soon">In build</span>') +
+        '</span>';
+      card.addEventListener("click", function () {
+        if (!t.live) return;
+        P.progress.toolsUsed[t.id] = true;
+        persist();
+        location.hash = "tool";
+      });
+      tl.appendChild(card);
+    });
+
+    // readiness
+    var toolsUsed = Object.keys(P.progress.toolsUsed || {}).length;
+    var pct = Math.round(((doneCount + toolsUsed) / (MODULES.length + TOOLS.length)) * 100);
+    document.getElementById("readyBar").style.width = pct + "%";
+    document.getElementById("readyCnt").textContent =
+      doneCount + " of 6 modules · " + toolsUsed + " of 6 tools used";
+  }
+
+  document.getElementById("nextBtn").addEventListener("click", function () {
+    var done = P.progress.modules || {};
+    var next = MODULES.find(function (m) { return !done[m.n]; }) || MODULES[0];
+    // TODO: real navigation to the module file
+    alert("Opens Module " + next.n + " — " + next.name + "\n\n(Scaffold: modules live in 01-curriculum/)");
+  });
+
+  /* =====================================================================
+     TOOL — REDACTION CHECK
+     Pure client-side. Deliberately so: a privacy tool that phones home would
+     undercut the lesson it exists to teach. Heuristic, not exhaustive — the
+     copy says so, because overclaiming here is worse than underclaiming.
+     ===================================================================== */
+
+  var PATTERNS = [
+    { sev: "stop", label: "SSN", re: /\b\d{3}-\d{2}-\d{4}\b/g,
+      note: "A Social Security number. Never goes into any AI tool, on any account type." },
+    { sev: "stop", label: "Date of birth", re: /\b(?:0?[1-9]|1[0-2])[\/\-](?:0?[1-9]|[12]\d|3[01])[\/\-](?:19|20)\d{2}\b/g,
+      note: "A full date — often a date of birth. Combined with a county this identifies people." },
+    { sev: "stop", label: "Phone", re: /\b(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/g,
+      note: "A phone number." },
+    { sev: "stop", label: "Email", re: /\b[\w.+-]+@[\w-]+\.[\w.]{2,}\b/g,
+      note: "An email address." },
+    { sev: "stop", label: "Street address", re: /\b\d{1,5}\s+[A-Z][A-Za-z]*(?:\s+[A-Z][A-Za-z]*)*\s+(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Court|Ct|Way|Circle|Cir|Boulevard|Blvd|Trail|Trl|Highway|Hwy)\b\.?/g,
+      note: "A street address." },
+    { sev: "stop", label: "Case or client number", re: /\b(?:case|client|file|participant|acct|account)\s*(?:no\.?|number|#|id)?\s*[:#]?\s*[A-Z]?\d{3,}\b/gi,
+      note: "An identifier that links back to a person in your system." },
+    { sev: "warn", label: "Possible name", re: /\b(?:Mr\.|Mrs\.|Ms\.|Dr\.)\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\b/g,
+      note: "Looks like a person's name with a title." },
+    { sev: "warn", label: "Household detail", re: /\b(?:single (?:mother|father|parent)|disabled veteran|undocumented|pregnant|HIV|diagnos(?:ed|is)|incarcerat(?:ed|ion)|domestic violence|eviction notice)\b/gi,
+      note: "Sensitive personal circumstance. Even without a name, this can identify someone in a small county." },
+    { sev: "warn", label: "Exact dollar amount", re: /\$\s?\d{1,3}(?:,\d{3})*(?:\.\d{2})\b/g,
+      note: "An exact amount to the cent usually comes from one household's record rather than an aggregate total." }
+  ];
+
+  var SAMPLE =
+    "Follow-up needed for Ms. Angela Rivers, case #44812, DOB 04/17/1988, currently at 214 Sycamore Street. " +
+    "She's a single mother of two and received $487.50 in emergency utility assistance last month. " +
+    "Reachable at (828) 555-0174 or arivers@example.com. She asked about the weatherization waitlist.\n\n" +
+    "Draft her a warm follow-up letter explaining next steps.";
+
+  document.getElementById("redactSample").addEventListener("click", function () {
+    document.getElementById("redactIn").value = SAMPLE;
+    runRedact();
+  });
+  document.getElementById("redactRun").addEventListener("click", runRedact);
+
+  function runRedact() {
+    var text = document.getElementById("redactIn").value;
+    var out = document.getElementById("redactOut");
+    out.innerHTML = "";
+
+    if (!text.trim()) {
+      out.innerHTML = '<p class="clear-note" style="margin-top:1.2rem;">Paste some text above, or load the example.</p>';
+      return;
+    }
+
+    var hits = [];
+    PATTERNS.forEach(function (p) {
+      var m = text.match(p.re);
+      if (m) {
+        hits.push({
+          sev: p.sev, label: p.label, note: p.note,
+          found: m.filter(function (v, i, a) { return a.indexOf(v) === i; }).slice(0, 4)
+        });
+      }
+    });
+
+    if (!hits.length) {
+      out.innerHTML =
+        '<div class="clear-note">' +
+        '<strong>Nothing obvious found.</strong> No names with titles, addresses, dates of birth, ' +
+        'phone numbers or case identifiers turned up. That is a good sign, not a guarantee — ' +
+        'a detailed enough description can still identify someone in a county of 30,000 with no ' +
+        'name attached. Read it once more yourself before you paste it anywhere.' +
+        '</div>';
+      return;
+    }
+
+    var stops = hits.filter(function (h) { return h.sev === "stop"; }).length;
+    var head = document.createElement("p");
+    head.className = "clear-note";
+    head.style.background = stops ? "var(--rust-soft)" : "var(--marigold-soft)";
+    head.style.borderColor = stops ? "#E4C4B9" : "#E3CFA4";
+    head.innerHTML = stops
+      ? "<strong>Do not paste this.</strong> " + hits.length + " item" + (hits.length > 1 ? "s" : "") +
+        " found, " + stops + " of which identif" + (stops > 1 ? "y" : "ies") + " a person directly. Remove them and check again."
+      : "<strong>Worth a second look.</strong> Nothing that names someone outright, but " + hits.length +
+        " item" + (hits.length > 1 ? "s" : "") + " below could identify a household in a small service area.";
+    out.appendChild(head);
+
+    var wrap = document.createElement("div");
+    wrap.className = "findings";
+    hits.forEach(function (h) {
+      var el = document.createElement("div");
+      el.className = "finding" + (h.sev === "warn" ? " warn" : "");
+      el.innerHTML =
+        '<span class="sev">' + (h.sev === "warn" ? "Check" : "Remove") + '</span>' +
+        '<span class="msg"><b>' + h.label + '</b>' + h.note +
+        '<br>' + h.found.map(function (f) {
+          return "<code>" + f.replace(/[<>&]/g, function (c) {
+            return { "<": "&lt;", ">": "&gt;", "&": "&amp;" }[c];
+          }) + "</code>";
+        }).join(" ") + '</span>';
+      wrap.appendChild(el);
+    });
+    out.appendChild(wrap);
+  }
+
+  /* =====================================================================
+     SCAFFOLD CONTROLS
+     ===================================================================== */
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-go]"), function (b) {
+    b.addEventListener("click", function () { location.hash = b.getAttribute("data-go"); });
+  });
+
+  document.getElementById("devSeed").addEventListener("click", function () {
+    P = clone(EMPTY);
+    P.org = { name: "Mountain Projects", counties: ["Haywood", "Jackson"], staffBand: "16-50",
+              model: "direct", programs: ["CSBG", "LIHEAP/WAP", "Food", "Transit"] };
+    P.systems = { caseManagement: "CARDS", reportsFiled: [], aiAccount: "free-personal" };
+    P.work = { processes: [], painPoint: "Pulling the annual report together — weeks of work on our smallest grant." };
+    P.funders = ["Dogwood Health Trust"];
+    P.createdAt = new Date().toISOString();
+    persist();
+    prefillIntake();
+    location.hash = "dash";
+    route();
+  });
+
+  document.getElementById("devClear").addEventListener("click", function () {
+    P = clone(EMPTY);
+    persist();
+    prefillIntake();
+    cur = 0; paintStep();
+    location.hash = "intake";
+    route();
+  });
+
+  prefillIntake();
+  paintStep();
+  route();
+})();
+</script>

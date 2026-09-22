@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 6 &middot; Ethics and Bias</title>
+<meta name="description" content="The three kinds of bias, what a needs assessment structurally cannot see, and a one-page adoption checklist sized for a five-person agency.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="sticky-head">
+  <div class="topbar" data-topbar></div>
+  <div class="progress-track" aria-hidden="true"><div class="progress-fill"></div></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Module 6 &middot; Ethical Use and Bias</p>
+    <h1>Judge the tool before you adopt it.</h1>
+    <p class="lede">
+      Including the ones this course just recommended. By now you know enough to evaluate a claim
+      about AI rather than accept one &mdash; so this module hands you the frame, and then turns it
+      on our own advice.
+    </p>
+    <div class="meta-row">
+      <span><strong>Module 6</strong> of six</span>
+      <span>About <strong>40 minutes</strong></span>
+      <span>Self-paced. <strong>Progress saved</strong> on this device.</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="objectives">
+    <h2>What you will be able to do</h2>
+    <ul>
+      <li>Describe the three categories of bias with a Community Action example of each.</li>
+      <li>Explain why a Community Needs Assessment can systematically miss needs residents don't know to name.</li>
+      <li>Apply a short adoption checklist, derived from the NIST AI Risk Management Framework, before adopting any tool.</li>
+      <li>Explain automation bias and name one safeguard against it.</li>
+      <li>Say what your agency owes a client when an automated process affects them.</li>
+    </ul>
+  </div>
+
+  <section class="lesson" id="s1">
+    <span class="section-num">Part 1</span>
+    <h2>Three kinds of bias</h2>
+    <p>
+      The word &ldquo;bias&rdquo; covers three different failures, and they need different fixes.
+      NIST separates them, and each one has a Community Action example close to hand.
+    </p>
+
+    <div class="evidence">
+      <div class="row">
+        <div class="who">Systemic</div>
+        <div class="what">
+          Built into the data, the process or the institution before any algorithm arrives. One NC
+          agency discovered its own prior Community Needs Assessment had <strong>oversampled
+          respondents well above the poverty guidelines</strong> &mdash; the opposite of what the
+          assessment was for. No AI involved. The bias was in who answered the survey. An AI trained
+          on that data would have inherited it perfectly.
+        </div>
+      </div>
+      <div class="row">
+        <div class="who">Computational and statistical</div>
+        <div class="what">
+          Arising from non-representative samples and systematic measurement error. The CSBG
+          allocation formula runs on estimated poverty counts believed to undercount rural
+          populations, an effect COVID worsened. Agencies have described being funded on a headcount
+          that does not reflect who is actually there &mdash; and that arithmetic then persists for
+          years.
+        </div>
+      </div>
+      <div class="row">
+        <div class="who">Human-cognitive</div>
+        <div class="what">
+          How people interpret and defer to system output. The one to watch here is
+          <strong>automation bias</strong>: deferring to a recommendation because the system made it,
+          even when you have full authority to overrule. It is the reason &ldquo;a human reviews
+          it&rdquo; is not automatically a safeguard.
+        </div>
+      </div>
+    </div>
+
+    <p>
+      AI does not usually invent bias. It <strong>inherits it and applies it faster, more
+      consistently, and at larger scale</strong> &mdash; which turns a tendency into a pattern.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s1">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s2">
+    <span class="section-num">Part 2</span>
+    <h2>What a needs assessment cannot see</h2>
+    <p>
+      This is the most important idea in the module, and it limits what any bias-detection tool can
+      do for you.
+    </p>
+    <p>
+      In one western North Carolina service area, copper landlines are being discontinued ahead of
+      the broadband buildout that was supposed to replace them. For elderly residents whose medical
+      alert devices and heart monitors run on those lines, in places with poor cell coverage, this is
+      an acute safety crisis. It surfaced within the last couple of years.
+    </p>
+
+    <div class="model-card">
+      <p>It appeared nowhere in the prior Community Needs Assessment.</p>
+      <p>
+        Not because the assessment was careless. Because residents were not asked, and would not
+        have raised it unprompted. As one agency leader put it: <em>if all you have ever had is
+        cornbread, you don't know chocolate cake tastes good.</em> People cannot report the absence
+        of something they have never had.
+      </p>
+    </div>
+
+    <p>
+      Now consider what a bias-audit tool could actually do with that assessment. It could compare
+      respondent demographics against census figures and flag an under-represented group. Useful.
+      But it could not have found the landline crisis, because <strong>the gap was not in who
+      answered &mdash; it was in what was asked.</strong> No amount of demographic weighting
+      surfaces a question nobody posed.
+    </p>
+
+    <div class="horizon">
+      <h3>What this means practically</h3>
+      <p style="margin-bottom:0;">
+        A tool can tell you whose voices are thin in your sample. Only people &mdash; outreach
+        workers, partners, residents in open conversation &mdash; can tell you what nobody thought
+        to ask about. Treat an automated audit as one input, never as a clean bill of health.
+      </p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s2">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s3">
+    <span class="section-num">Part 3</span>
+    <h2>Allegheny County, in full</h2>
+    <p>
+      You met this case briefly in Module 1. It is worth the whole story, because every decision in
+      it was defensible and the outcome was still bad. That is what makes it instructive rather than
+      merely cautionary.
+    </p>
+    <p>
+      Allegheny County, Pennsylvania built a screening tool to help child-welfare staff assess
+      maltreatment risk in incoming referrals. The goal was sound: overloaded screeners making
+      high-stakes judgments under time pressure.
+    </p>
+    <p>
+      The problem is that child maltreatment is not directly measurable. There is no column in any
+      database for it. So the designers used the closest available stand-ins &mdash;
+      <strong>re-referral</strong> and <strong>foster-care placement</strong>. Reasonable proxies.
+      Both correlate with the thing you care about.
+    </p>
+
+    <div class="risk">
+      <h3>What those proxies quietly encoded</h3>
+      <ul class="plain">
+        <li><strong>Who gets reported in the first place.</strong> Re-referral measures contact with the reporting system, not harm. Families already under scrutiny generate more of it.</li>
+        <li><strong>Who uses public services at all.</strong> The tool could only see data from residents who had touched public programs. Families wealthy enough to use private doctors, private therapists and private childcare were structurally close to invisible.</li>
+        <li><strong>The result:</strong> a system that, in effect, conflated being poor with being a risk &mdash; not because anyone intended it, but because that is what the available data encoded.</li>
+      </ul>
+    </div>
+
+    <p>
+      Nobody in this story was careless or malicious. The failure happened at the moment a
+      social problem was translated into something a computer could act on &mdash; and that
+      translation is a <em>policy</em> decision, not a technical one.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s3">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s4">
+    <span class="section-num">Part 4</span>
+    <h2>Is &ldquo;a human reviews it&rdquo; a real safeguard?</h2>
+    <p>
+      Honestly: sometimes. It depends entirely on how the tool is built and introduced, and the
+      research cuts both ways.
+    </p>
+
+    <div class="compare">
+      <div class="ex strong">
+        <span class="tag">When it works</span>
+        <span class="quote">
+          The reviewer has time, context the system lacks, an easy way to disagree, and no penalty
+          for doing so. Overrides are recorded and looked at. Disagreement is treated as information
+          about the tool, not as the reviewer being difficult.
+        </span>
+      </div>
+      <div class="ex weak">
+        <span class="tag">When it doesn't</span>
+        <span class="quote">
+          The recommendation appears first and anchors the judgment. Overriding takes extra clicks
+          and a written justification. Throughput is measured. The reviewer is new, or tired, or
+          handling forty cases. A signature at the bottom of a screen is not oversight.
+        </span>
+      </div>
+    </div>
+
+    <p>
+      This is why the assistant / decider line from Module 1 matters so much. An assistive tool
+      &mdash; one that helps a caseworker find the right rule in a policy manual &mdash; keeps the
+      judgment with the person by design. That is the configuration with the strongest evidence
+      behind it: a randomized trial found a 40 percent accuracy improvement, with the biggest gains
+      on the hardest cases. The tool never decided anything.
+    </p>
+
+    <div class="done-row"><button class="done-btn" data-done="s4">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s5">
+    <span class="section-num">Part 5</span>
+    <h2>The one-page checklist</h2>
+    <p>
+      The NIST AI Risk Management Framework is the reference standard &mdash; Govern, Map, Measure,
+      Manage. It was built over eighteen months with more than 240 organizations, and not one of
+      them was a three-person Community Action Agency. So here it is compressed to what an agency
+      your size can actually do. Five questions. If you cannot answer all five, you are not ready to
+      adopt the tool.
+    </p>
+
+    <div class="checklist">
+      <h3>Before adopting any AI tool</h3>
+      <label><input type="checkbox"> <span><strong>Who owns this?</strong> One named person answers for what it produces. Not &ldquo;the team&rdquo; &mdash; a name.</span></label>
+      <label><input type="checkbox"> <span><strong>What may it touch, and what may it never touch?</strong> Written down, in one sentence each, before anyone uses it.</span></label>
+      <label><input type="checkbox"> <span><strong>How will we know if it's wrong?</strong> A specific check somebody actually runs on a schedule &mdash; not &ldquo;we'll keep an eye on it.&rdquo;</span></label>
+      <label><input type="checkbox"> <span><strong>What happens when it is wrong?</strong> Who is told, what gets corrected, and who talks to the client if one was affected.</span></label>
+      <label><input type="checkbox"> <span><strong>Can the person using it overrule it without friction?</strong> If overriding is harder than agreeing, you have automation bias by design.</span></label>
+    </div>
+
+    <h3>Questions for any vendor</h3>
+    <ul class="plain">
+      <li>Where does our data go, and which country is it stored in?</li>
+      <li>Is anything we enter used to train your models? Can that be turned off in writing?</li>
+      <li>Can we have our data deleted on request, and how long does that take?</li>
+      <li>What happens to our data when the contract ends?</li>
+      <li>Who is liable if the tool produces an error that affects a client?</li>
+      <li>Has this been evaluated with organizations like ours, and can we see the results?</li>
+    </ul>
+
+    <div class="risk">
+      <h3>The procurement trap</h3>
+      <p style="margin-bottom:0;">
+        When you buy a tool rather than build one, you can accidentally outsource a policy decision
+        and never notice. What counts as a resolved case? What counts as a flagged risk? What is the
+        threshold for &ldquo;at risk of falling out of the program&rdquo;? Those are <em>your</em>
+        judgments, tied to your community and your mandate. A vendor who has already answered them
+        inside a product has made them for you, and has made them the same way for every agency that
+        buys it. Ask what definitions are baked in, and whether you can change them.
+      </p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s5">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s6">
+    <span class="section-num">Part 6</span>
+    <h2>Turning the frame on this course</h2>
+    <p>
+      Fair is fair. Here is where the advice in the preceding five modules is weakest.
+    </p>
+    <ul class="plain">
+      <li>
+        <strong>No study examines AI adoption in the CSBG network specifically.</strong> Every piece
+        of evidence cited here comes from an adjacent setting &mdash; Spanish community social
+        services, US child welfare, SNAP and Medicaid navigation, nonprofits generally. The
+        translation to Community Action is reasoned, not demonstrated.
+      </li>
+      <li>
+        <strong>We have not shown that time saved becomes client time.</strong> The whole case rests
+        on hours freed from reporting going back into direct service. That substitution is assumed
+        across this literature and has not been measured. It could just as easily absorb into other
+        administrative work.
+      </li>
+      <li>
+        <strong>Early enthusiasm fades.</strong> In the strongest pilot on record, tool usage
+        declined over time without deliberate organizational effort to sustain it. If your agency
+        adopts something after this course, plan for the ninety-day mark, not the first week.
+      </li>
+      <li>
+        <strong>AI is not neutral for your clients.</strong> One agency director pointed out that AI
+        and automation are already eliminating the entry-level manual jobs their participants depend
+        on. A course telling agencies to adopt AI should say plainly that the same technology is
+        reshaping the labour market those agencies exist to help people enter. Both things are true.
+      </li>
+    </ul>
+
+    <div class="done-row"><button class="done-btn" data-done="s6">Mark this part done</button></div>
+  </section>
+
+  <section class="lesson" id="s7">
+    <span class="section-num">Part 7</span>
+    <h2>Quick self-check</h2>
+
+    <div class="quiz-q" data-answer="c">
+      <p class="q">1. A bias-audit tool reports your CNA sample matches county demographics closely. What does that tell you?</p>
+      <button class="option" data-opt="a">The assessment is unbiased</button>
+      <button class="option" data-opt="b">Nothing useful</button>
+      <button class="option" data-opt="c">That who answered looks representative &mdash; it says nothing about what you failed to ask</button>
+      <p class="feedback">The landline crisis was missed by a demographically fine assessment. Sample representativeness and question coverage are different problems, and only one of them is measurable this way.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="b">
+      <p class="q">2. What went wrong in the Allegheny County screening tool?</p>
+      <button class="option" data-opt="a">The algorithm was poorly coded</button>
+      <button class="option" data-opt="b">The proxies chosen for an unmeasurable outcome encoded who gets reported and who uses public services</button>
+      <button class="option" data-opt="c">Staff ignored its recommendations</button>
+      <p class="feedback">The code worked as designed. The failure was upstream, at the moment someone translated &ldquo;maltreatment risk&rdquo; into two measurable stand-ins &mdash; a policy choice that looked like a technical one.</p>
+    </div>
+
+    <div class="quiz-q" data-answer="a">
+      <p class="q">3. Your vendor says a human always reviews the output, so bias isn't a concern. What's the follow-up question?</p>
+      <button class="option" data-opt="a">Can that person disagree with it easily, and does anyone look at how often they do?</button>
+      <button class="option" data-opt="b">How accurate is the model?</button>
+      <button class="option" data-opt="c">How many humans review it?</button>
+      <p class="feedback">Review is only a safeguard when overriding is genuinely easy and disagreement is tracked as information about the tool. If overriding takes extra steps and a written justification, you have automation bias built into the workflow.</p>
+    </div>
+
+    <div class="done-row"><button class="done-btn" data-done="s7">Mark this part done</button></div>
+  </section>
+
+  <div class="takeaways">
+    <h2>The five things that stick</h2>
+    <ol>
+      <li><strong>AI rarely invents bias. It inherits it and scales it.</strong> Systemic, statistical and human-cognitive &mdash; and the third one is about you, not the machine.</li>
+      <li><strong>A tool can show you who is missing from your data. It cannot show you what nobody asked about.</strong> That still takes people.</li>
+      <li><strong>The Allegheny failure was a policy decision disguised as a technical one.</strong> Watch the moment a human problem gets translated into a measurable proxy.</li>
+      <li><strong>Five questions before any tool:</strong> who owns it, what may it touch, how will we know it's wrong, what happens then, and can the user overrule it easily.</li>
+      <li><strong>Hold the honest version.</strong> The evidence here is borrowed from adjacent fields, the time-savings-to-client-hours link is unproven, and the same technology is reshaping the job market your clients are trying to enter.</li>
+    </ol>
+  </div>
+
+  <div class="next" data-next-module></div>
+
+</main>
+
+<footer class="attrib">
+  <div class="wrap">
+    <h4>Attribution</h4>
+    <p>
+      Compiled from open-source educational material and built with volunteer contributions from
+      members of the NCAF AI Task Force, a student project at the University of North Carolina at
+      Chapel Hill. Provided free to the Community Action network.
+    </p>
+    <p>
+      Research cited: the NIST AI Risk Management Framework; Levy, Chasalow and Riley on
+      public-sector algorithm life cycles, including the Allegheny County Family Screening Tool;
+      Virginia Eubanks, <em>Automating Inequality</em>; the Nava Public Benefit Corporation
+      caseworker chatbot trial with Georgetown and Cornell; and interviews with North Carolina
+      Community Action Agencies conducted through the NC DHHS Office of Economic Opportunity.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/course.js" defer></script>
+<script src="assets/feedback.js" defer></script>
+</body>
+</html>
