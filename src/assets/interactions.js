@@ -31,6 +31,12 @@
     var body = root.querySelector("[data-redact-text]");
     if (!body) return;
 
+    /* Same mechanic, two jobs: finding identifiers in a case note (Module 3)
+       and finding errors in an AI draft (Module 4). Only the wording differs. */
+    var NOUN = root.getAttribute("data-noun") || "found";
+    var CLOSING = root.getAttribute("data-done-note") ||
+      "Nothing left to find. Notice how little of the original is usable once the identifiers are gone — that is the point.";
+
     var targets = Array.prototype.slice.call(body.querySelectorAll("[data-pii]"));
     var total = targets.length;
     var found = 0;
@@ -51,8 +57,8 @@
 
     function paint() {
       status.innerHTML = found >= total
-        ? '<b class="ok">All ' + total + " found.</b> " + (wrong ? "You also flagged " + wrong + " thing" + (wrong > 1 ? "s" : "") + " that were safe — over-caution costs nothing here." : "No false alarms either.")
-        : "<b>" + found + " of " + total + "</b> found." + (wrong ? "  <span class=\"miss\">" + wrong + " safe word" + (wrong > 1 ? "s" : "") + " flagged.</span>" : "");
+        ? '<b class="ok">All ' + total + " " + NOUN + ".</b> " + (wrong ? "You also flagged " + wrong + " thing" + (wrong > 1 ? "s" : "") + " that were fine — over-caution costs nothing here." : "No false alarms either.")
+        : "<b>" + found + " of " + total + "</b> " + NOUN + "." + (wrong ? "  <span class=\"miss\">" + wrong + " that " + (wrong > 1 ? "were" : "was") + " fine.</span>" : "");
     }
 
     function note(text, cls) {
@@ -73,7 +79,7 @@
 
     function finish() {
       done(root);
-      actions.innerHTML = '<p class="rx-done">Nothing left to find. Notice how little of the original is usable once the identifiers are gone — that is the point.</p>';
+      actions.innerHTML = '<p class="rx-done">' + CLOSING + "</p>";
     }
 
     body.addEventListener("click", function (e) {
@@ -298,11 +304,89 @@
     });
   }
 
+
+  /* =====================================================================
+     ASSIST MAP — the keepsake table. Rows persist per device so a learner
+     can come back to it each reporting cycle, and it copies out as text.
+     ===================================================================== */
+
+  var MAP_KEY = "ncaf-assist-map";
+  var MAP_COLS = ["Reporting step", "AI help?", "How AI helps", "Human sign-off?", "Risk or note"];
+
+  function initAssistMap(root) {
+    var seed = [];
+    Array.prototype.forEach.call(root.querySelectorAll("[data-row]"), function (r) {
+      seed.push(r.getAttribute("data-row").split("|"));
+      r.remove();
+    });
+
+    var rows;
+    try { rows = JSON.parse(localStorage.getItem(MAP_KEY) || "null"); } catch (e) { rows = null; }
+    if (!Array.isArray(rows) || !rows.length) rows = seed.concat([["", "", "", "", ""], ["", "", "", "", ""]]);
+
+    function save() {
+      try { localStorage.setItem(MAP_KEY, JSON.stringify(rows)); } catch (e) {}
+    }
+
+    var wrap = document.createElement("div");
+    wrap.className = "am-wrap";
+    root.appendChild(wrap);
+
+    function render() {
+      var html = '<div class="table-scroll"><table class="data am-table"><thead><tr>' +
+        MAP_COLS.map(function (c) { return "<th>" + c + "</th>"; }).join("") +
+        '<th aria-label="Remove"></th></tr></thead><tbody>';
+      rows.forEach(function (r, ri) {
+        html += "<tr>" + MAP_COLS.map(function (c, ci) {
+          return '<td><input class="am-in" data-r="' + ri + '" data-c="' + ci +
+                 '" value="' + String(r[ci] || "").replace(/"/g, "&quot;") +
+                 '" aria-label="' + c + ', row ' + (ri + 1) + '"></td>';
+        }).join("") + '<td><button class="am-del" data-r="' + ri + '" type="button" aria-label="Remove row">&times;</button></td></tr>';
+      });
+      html += "</tbody></table></div>" +
+        '<div class="am-actions">' +
+          '<button class="am-add" type="button">+ Add a step</button>' +
+          '<button class="am-copy" type="button">Copy as text</button>' +
+        "</div>";
+      wrap.innerHTML = html;
+
+      Array.prototype.forEach.call(wrap.querySelectorAll(".am-in"), function (inp) {
+        inp.addEventListener("input", function () {
+          rows[+inp.getAttribute("data-r")][+inp.getAttribute("data-c")] = inp.value;
+          save();
+          if (rows.some(function (r) { return r.some(function (c) { return String(c).trim(); }); })) done(root);
+        });
+      });
+      Array.prototype.forEach.call(wrap.querySelectorAll(".am-del"), function (b) {
+        b.addEventListener("click", function () {
+          rows.splice(+b.getAttribute("data-r"), 1);
+          if (!rows.length) rows = [["", "", "", "", ""]];
+          save(); render();
+        });
+      });
+      wrap.querySelector(".am-add").addEventListener("click", function () {
+        rows.push(["", "", "", "", ""]); save(); render();
+      });
+      wrap.querySelector(".am-copy").addEventListener("click", function () {
+        var text = MAP_COLS.join("\t") + "\n" + rows.map(function (r) { return r.join("\t"); }).join("\n");
+        var btn = wrap.querySelector(".am-copy");
+        function ok() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy as text"; }, 1800); }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, ok);
+        else ok();
+        done(root);
+      });
+    }
+
+    render();
+    if (rows.some(function (r) { return r.some(function (c) { return String(c).trim(); }); })) done(root);
+  }
+
   /* =====================================================================
      GO
      ===================================================================== */
 
-  var KINDS = { redact: initRedact, compute: initCompute, tells: initTells, checklist: initChecklist };
+  var KINDS = { redact: initRedact, compute: initCompute, tells: initTells,
+                checklist: initChecklist, assistmap: initAssistMap };
 
   function init() {
     Array.prototype.forEach.call(document.querySelectorAll("[data-interaction]"), function (el) {

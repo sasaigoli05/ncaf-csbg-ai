@@ -104,6 +104,10 @@ is about". You rarely need to mark anything by hand.
 | `compute` | Module 4 | Recompute a reported figure and find the mismatch. `data-answer`, `data-tolerance`. |
 | `tells` | Module 5 | Live scan for machine-writing markers. Runs in the browser; paste your own draft. |
 | `checklist` | Module 6 | Judge a real vendor pitch against the five adoption questions. `data-verdict`. |
+| `assistmap` | Module 4 | A fillable, saved workflow table the learner keeps between reporting cycles. |
+
+`redact` does double duty: Module 3 hunts identifiers, Module 4 hunts errors in an AI draft. Set
+`data-noun` and `data-done-note` to change the wording.
 
 ---
 
@@ -213,7 +217,18 @@ page — each entry is `{ stem, answer: "go" | "ask" | "never", why }`. Any page
 **Removing the draft notice** when the course is final: set `NCAF_DRAFT = false` in
 `assets/config.js`.
 
-### Module 2 is included as authored
+### Modules 2 and 4 are Meryem's
+
+`module-2-how-to-prompt.html` and `module-4-reporting.html` are Meryem S. Golbasi's modules. The
+content, structure and wording are hers; changes to either should come from her.
+
+Module 4 was ported into the site shell from her standalone page, and two things there were built
+rather than copied, both flagged in a comment at the top of the file: Part 5's error hunt is
+clickable rather than reveal-only (the errors and data are hers, the per-error explanations were
+written here because her reveal text sat behind a button and did not survive to the PDF), and the
+Assist Map is a saved fillable table rather than a printed one.
+
+### Module 2 is included byte-for-byte
 
 `module-2-how-to-prompt.html` is Meryem S. Golbasi's finished module, included byte-for-byte apart
 from four additions listed in a comment at the top of the file: the nav bar, the script tags, a
@@ -231,6 +246,7 @@ a hosting decision.
 
 - **Module 2's practice sandbox is inert on a static host.** See above.
 - **Modules 1 and 3–6 have not been through faculty review.** Scheduled for October 2026.
+- **Module 4's error explanations need Meryem's review.** They were written here, not ported.
 - **Tailoring is thin so far.** The engine is in place and wired, but only Modules 1, 3 and 5
   actually use it. Adding slots and conditionals to 4 and 6 is authoring work, not engineering.
 - **Module 2 has no card breaks of its own**, so in Learn mode its sections become larger cards

@@ -750,3 +750,58 @@ mark.tl-hit { background: var(--marigold-soft); color: var(--rust); border-radiu
    the feedback button clear of it. */
 .mode-learn #ncaf-fb { bottom: 4.6rem; }
 @media (max-width: 620px) { .mode-learn #ncaf-fb { bottom: 6.6rem; } }
+
+/* ---------- STOP AND CHECK callout (Module 4) ---------- */
+
+.stopcheck {
+  background: var(--rust-soft); border: 1px solid var(--rust-line);
+  border-left: 4px solid var(--rust); border-radius: var(--radius);
+  padding: 1.15rem 1.35rem; margin: 1.25rem 0;
+}
+.stopcheck .sc-label {
+  font-family: "Public Sans", sans-serif; font-size: .76rem; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--rust);
+  margin-bottom: .45rem;
+}
+.stopcheck p:last-child { margin-bottom: 0; font-size: .97rem; }
+
+/* ---------- Assist Map ---------- */
+
+.am-table th { white-space: nowrap; }
+.am-table td { padding: .3rem .35rem; }
+.am-in {
+  width: 100%; min-width: 8rem; font-family: inherit; font-size: .92rem; color: var(--ink);
+  background: var(--paper); border: 1px solid transparent; border-radius: 4px; padding: .35rem .45rem;
+}
+.am-in:hover { border-color: var(--sage-line); }
+.am-in:focus { background: var(--white); border-color: var(--green); outline: 2px solid var(--marigold); outline-offset: 1px; }
+.am-del {
+  background: none; border: none; color: var(--ink-faint); font-size: 1.1rem; line-height: 1;
+  cursor: pointer; padding: .2rem .35rem;
+}
+.am-del:hover { color: var(--rust); }
+.am-actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: .9rem; }
+.am-add, .am-copy {
+  background: var(--paper-2); border: 1px solid var(--sage-line); border-radius: var(--radius);
+  padding: .45rem .9rem; font-family: inherit; font-size: .9rem; font-weight: 600;
+  color: var(--ink-soft); cursor: pointer;
+}
+.am-add:hover, .am-copy:hover { border-color: var(--green); color: var(--green); }
+
+/* ---------- facilitator notes ---------- */
+
+details.facilitator {
+  max-width: 46rem; margin: 0 auto 3rem; padding-inline: 1.25rem;
+  border-top: 1px solid var(--sage-line);
+}
+details.facilitator > summary {
+  cursor: pointer; padding: 1.1rem 0; font-size: .84rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint);
+}
+details.facilitator > summary:hover { color: var(--ink); }
+details.facilitator[open] > summary { color: var(--ink); }
+details.facilitator .wrap { padding-inline: 0; }
+details.facilitator h3 {
+  font-size: 1.1rem; margin: 1rem 0 .5rem; color: var(--green);
+}
+details.facilitator p { font-size: .95rem; color: var(--ink-soft); }

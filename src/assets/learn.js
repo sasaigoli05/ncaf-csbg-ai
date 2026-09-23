@@ -116,7 +116,14 @@
         var hasProse = current && current.some(function (n) {
           return n.tagName === "P" || n.tagName === "UL" || n.tagName === "OL";
         });
-        var auto = hasProse && el.matches && el.matches(EXHIBIT);
+        /* Also break when the card already holds an exhibit. Without this, a run
+           of exhibits with no prose between them — three self-check questions in
+           a row, say — collapses into one card, and answering the first does not
+           clear the gate because the other two are still pending on it. */
+        var hasExhibit = current && current.some(function (n) {
+          return n.matches && n.matches(EXHIBIT);
+        });
+        var auto = (hasProse || hasExhibit) && el.matches && el.matches(EXHIBIT);
         if (!groups.length || el.hasAttribute("data-card") || auto) groups.push([]);
         groups[groups.length - 1].push(el);
       });
