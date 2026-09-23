@@ -40,6 +40,8 @@ Static site. No build step, no dependencies. Everything that ships lives in `src
 src/
   index.html                      dashboard / course home
   setup.html                      the intake (nine questions, ~1 min)
+  tools.html                      the agency toolkit
+  library.html                    index of briefs, research and guidance
   module-1-foundations.html
   module-2-how-to-prompt.html
   module-3-data-privacy.html
@@ -130,6 +132,56 @@ each negatable with `!`. An unknown test resolves to *shown*, so content is neve
 Blocks that do not apply are dropped from the card deck entirely rather than rendering blank.
 
 Skipping setup is always allowed — every module reads correctly with an empty profile.
+
+---
+
+## The toolkit
+
+`tools.html` holds six tools, each anchored so a module can deep-link to it
+(`tools.html#redaction`). Five run entirely in the browser with no backend and no
+per-agency cost — which is the point: the toolkit stays useful even if the hosting and
+backend questions never resolve.
+
+| Tool | Anchor | Pairs with | State |
+|---|---|---|---|
+| Redaction Check | `#redaction` | Module 3 | Working |
+| Prompt Builder | `#prompt` | Module 2 | Working, pre-fills from the profile |
+| AI-Tell Scanner | `#tells` | Module 5 | Working |
+| AI Output Check | `#output-check` | Module 4 | Working |
+| Reporting Assist Map | `#assist-map` | Module 4 | Working, saves per device |
+| FNPI Validator | `#fnpi` | Module 4 | In build |
+
+Tools are the same components the modules use, declared the same way
+(`data-interaction="piicheck"`), so anything built for a module is one line away from being
+a standalone tool and vice versa.
+
+**FNPI Validator is the one to build next.** It is the highest-value item in the scoping
+register, it has a confirmed live defect to catch, and there are twenty-four real agency
+files in `Research-Statistics/` to test it against. It needs spreadsheet parsing, which is
+why it is not done yet.
+
+---
+
+## The library
+
+`library.html` indexes everything the project produces beyond the course. Items are listed
+whether or not they are finished, with an honest status — `published`, `review`, `draft`,
+`planned` — and no link until there is something real to link to.
+
+**To add an item**, add an object to the `LIBRARY` array in that file:
+
+```js
+{
+  group: "Policy recommendations",      // one of the four in ORDER
+  title: "CARDS findings memo",
+  status: "draft",
+  href: "briefs/cards-memo.html",       // omit entirely until it exists
+  desc: "One or two sentences on what it argues and who it is for.",
+  for: "NC DHHS Office of Economic Opportunity"
+}
+```
+
+The filters, counts and grouping all derive from that array — there is nothing else to update.
 
 ---
 

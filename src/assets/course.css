@@ -805,3 +805,77 @@ details.facilitator h3 {
   font-size: 1.1rem; margin: 1rem 0 .5rem; color: var(--green);
 }
 details.facilitator p { font-size: .95rem; color: var(--ink-soft); }
+
+/* ===========================================================================
+   TOOLKIT + LIBRARY
+   =========================================================================== */
+
+.sitenav { display: flex; gap: .25rem; }
+.sitenav a {
+  text-decoration: none; font-size: .86rem; font-weight: 600; color: var(--ink-soft);
+  padding: .25rem .7rem; border-radius: 999px; white-space: nowrap;
+}
+.sitenav a:hover { background: var(--paper-2); color: var(--ink); }
+.sitenav a.on { background: var(--sage); color: var(--green); }
+@media (max-width: 620px) { .sitenav { order: 3; width: 100%; } .topbar .seq { margin-left: 0; } }
+
+/* tool index chips */
+.tool-index {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: .7rem; margin: 2rem 0 1rem;
+}
+.tool-chip {
+  display: block; text-decoration: none; background: var(--white);
+  border: 1px solid var(--sage-line); border-radius: var(--radius-lg);
+  padding: .9rem 1.1rem; transition: border-color .15s ease, box-shadow .15s ease;
+}
+.tool-chip:hover { border-color: var(--green); box-shadow: var(--shadow-md); }
+.tool-chip b { display: block; font-family: "Zilla Slab", serif; font-size: 1.08rem; color: var(--ink); }
+.tool-chip span { display: block; font-size: .9rem; color: var(--ink-soft); margin-top: .12rem; }
+
+.tool-block { scroll-margin-top: 5rem; }
+.tool-block h2 { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; }
+.tool-pair { font-size: .92rem; color: var(--ink-faint); margin-bottom: 1rem; }
+.tool-pair a { font-weight: 600; }
+
+/* "use this on real work" pointer inside modules */
+.tool-point {
+  background: var(--sage); border: 1px solid var(--sage-line);
+  border-left: 4px solid var(--green); border-radius: var(--radius);
+  padding: 1.1rem 1.3rem; margin: 1.25rem 0;
+}
+.tool-point .tp-label {
+  font-size: .76rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--green); margin-bottom: .4rem;
+}
+.tool-point p:last-child { margin-bottom: 0; font-size: .97rem; }
+
+/* prompt builder */
+.pb-box .pb-in { margin-bottom: .35rem; min-height: 3.4rem; }
+.pb-box .cp-label { margin-top: .85rem; }
+.pb-box .cp-label:first-child { margin-top: 0; }
+
+/* output check status */
+.oc-status {
+  margin-top: 1rem; padding: .75rem .9rem; border-radius: var(--radius);
+  background: var(--marigold-soft); border: 1px solid #E3CFA4; font-size: .95rem;
+}
+.oc-status.ok { background: var(--sage); border-color: var(--green); color: var(--green); }
+
+/* library */
+.lib-filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2rem 0 .5rem; }
+.lib-list { display: grid; gap: .8rem; }
+.lib-item {
+  background: var(--white); border: 1px solid var(--sage-line);
+  border-radius: var(--radius-lg); padding: 1.2rem 1.35rem;
+}
+.lib-head { display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap; margin-bottom: .45rem; }
+.lib-head h3 { font-size: 1.14rem; font-weight: 600; }
+.lib-head h3 a { text-decoration: none; }
+.lib-head h3 a:hover { text-decoration: underline; }
+.lib-head .pill { margin-left: auto; }
+.lib-item p { font-size: .96rem; color: var(--ink-soft); margin-bottom: .5rem; }
+.lib-for {
+  font-size: .85rem; color: var(--ink-faint); margin: 0;
+  padding-top: .5rem; border-top: 1px solid var(--paper-2);
+}

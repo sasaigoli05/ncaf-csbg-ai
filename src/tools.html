@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toolkit</title>
+<meta name="description" content="Working tools for Community Action Agencies — check text for client information, build a prompt, run the pre-submission check. All of them run in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="sticky-head">
+  <div class="topbar" data-topbar></div>
+</div>
+
+<header class="hero">
+  <div class="wrap-wide">
+    <p class="kicker">NCAF AI Task Force &middot; Toolkit</p>
+    <h1>Tools you can actually use on Monday</h1>
+    <p class="lede">
+      The course teaches habits. These are the habits as working tools &mdash; bring your own
+      material and use them on real work. Each one pairs with the module that explains it.
+    </p>
+    <p class="tailored-note" id="tailoredNote" hidden>
+      Set up for <b id="tailoredName"></b>
+    </p>
+  </div>
+</header>
+
+<main class="wrap-wide">
+
+  <div class="callout" style="margin-top:2rem">
+    <h2>Five of these six run entirely in your browser</h2>
+    <p style="margin-bottom:0">
+      Nothing you type here is uploaded &mdash; not to us, not to an AI company, not anywhere. You
+      can check that yourself: turn off your wi-fi and they still work. That matters for a toolkit
+      whose whole subject is what you should and should not send outside your building, and it means
+      these cost your agency nothing to run, forever.
+    </p>
+  </div>
+
+  <div class="tool-index" id="toolIndex"></div>
+
+  <!-- ============ REDACTION CHECK ============ -->
+  <section class="lesson tool-block" id="redaction">
+    <span class="section-num">Before you paste</span>
+    <h2>Redaction Check</h2>
+    <p class="tool-pair">
+      Pairs with <a href="module-3-data-privacy.html">Module 3 &mdash; Data Privacy</a>
+      &middot; <span class="pill ready">Runs offline</span>
+    </p>
+    <p>
+      Paste anything you are about to put into an AI tool. This finds the names, addresses, dates of
+      birth, phone numbers, case identifiers and sensitive circumstances you missed. Use it on a
+      case note, an email, a draft letter &mdash; anything with a person behind it.
+    </p>
+    <div class="exercise" data-interaction="piicheck"></div>
+    <p class="source-note">
+      It will not catch everything. In a county of thirty thousand, a detailed enough description
+      identifies someone with no name attached at all. Treat a clean result as a good sign, not a
+      clearance.
+    </p>
+  </section>
+
+  <!-- ============ PROMPT BUILDER ============ -->
+  <section class="lesson tool-block" id="prompt">
+    <span class="section-num">Before you ask</span>
+    <h2>Prompt Builder</h2>
+    <p class="tool-pair">
+      Pairs with <a href="module-2-how-to-prompt.html">Module 2 &mdash; How to Prompt</a>
+      &middot; <span class="pill ready">Runs offline</span>
+    </p>
+    <p>
+      Most weak prompts are missing the same four things: who you are, what the tool needs to know,
+      what shape the answer should take, and what it must not do. Fill these in and it assembles the
+      whole briefing. If you have set up your agency profile, your details are already in.
+    </p>
+    <div class="exercise" data-interaction="promptbuilder"></div>
+  </section>
+
+  <!-- ============ AI-TELL SCANNER ============ -->
+  <section class="lesson tool-block" id="tells">
+    <span class="section-num">Before you submit</span>
+    <h2>AI-Tell Scanner</h2>
+    <p class="tool-pair">
+      Pairs with <a href="module-5-grant-writing.html">Module 5 &mdash; Grant Writing</a>
+      &middot; <span class="pill ready">Runs offline</span>
+    </p>
+    <p>
+      Paste a grant narrative and it marks the phrasing that reads as machine-written, then counts
+      how many actual figures you used. The second number is the one that matters &mdash; specific
+      writing does not sound generated, because the tool never had your data.
+    </p>
+    <div class="exercise" data-interaction="tells" data-seed=""></div>
+  </section>
+
+  <!-- ============ AI OUTPUT CHECK ============ -->
+  <section class="lesson tool-block" id="output-check">
+    <span class="section-num">Before it goes to a funder</span>
+    <h2>AI Output Check</h2>
+    <p class="tool-pair">
+      Pairs with <a href="module-4-reporting.html">Module 4 &mdash; CSBG Reporting</a>
+      &middot; <span class="pill ready">Runs offline</span>
+    </p>
+    <p>
+      Run this on every AI-assisted section before it is submitted. If any box cannot be checked, the
+      section is not ready. It resets each time on purpose &mdash; this is a check you do per
+      submission, not once.
+    </p>
+    <div class="exercise" data-interaction="outputcheck">
+      <div class="checklist" style="margin:0">
+        <label><input type="checkbox"> <span>Every number in the AI draft matches the source data.</span></label>
+        <label><input type="checkbox"> <span>Every rate or percentage was recalculated from the source counts.</span></label>
+        <label><input type="checkbox"> <span>No made-up facts. Nothing appears that the source does not support.</span></label>
+        <label><input type="checkbox"> <span>No overstated or &ldquo;record-breaking&rdquo; claims that were not verified.</span></label>
+        <label><input type="checkbox"> <span>No framing that leans on a stereotype about the people served.</span></label>
+        <label><input type="checkbox"> <span>Only de-identified summary data was entered into the AI tool.</span></label>
+        <label><input type="checkbox"> <span>A named person reviewed this section and is ready to sign off.</span></label>
+      </div>
+    </div>
+    <p class="source-note">From Module 4, by Meryem S. Golbasi.</p>
+  </section>
+
+  <!-- ============ ASSIST MAP ============ -->
+  <section class="lesson tool-block" id="assist-map">
+    <span class="section-num">Once a year</span>
+    <h2>Reporting Assist Map</h2>
+    <p class="tool-pair">
+      Pairs with <a href="module-4-reporting.html">Module 4 &mdash; CSBG Reporting</a>
+      &middot; <span class="pill ready">Saves on this device</span>
+    </p>
+    <p>
+      One row per step in your reporting workflow, marking where AI helps and where a person must
+      sign off. Fill it once and it is here next quarter. The first rows are examples &mdash; replace
+      them with your agency's real steps, then copy it out for your team.
+    </p>
+    <div class="exercise" data-interaction="assistmap">
+      <span data-row="Pull service counts from case system|No|Contains PII|Yes|Never paste raw records into AI"></span>
+      <span data-row="Clean and format the summary table|Partly|Reformat, spot blanks and duplicates|Yes|Human confirms counts are right"></span>
+      <span data-row="Draft narrative section|Yes|First draft from de-identified summary|Yes|Verify every number against source"></span>
+      <span data-row="Calculate official outcome rates|No|Judgment and compliance figure|Yes|Staff compute using agreed definitions"></span>
+      <span data-row="Final review and submission|No|Accountability sits with a person|Yes|Named signer confirms checks were done"></span>
+    </div>
+    <p class="source-note">From Module 4, by Meryem S. Golbasi.</p>
+  </section>
+
+  <!-- ============ FNPI VALIDATOR (in build) ============ -->
+  <section class="lesson tool-block" id="fnpi">
+    <span class="section-num">Before you submit 4A</span>
+    <h2>FNPI Validator <span class="pill">In build</span></h2>
+    <p class="tool-pair">
+      Pairs with <a href="module-4-reporting.html">Module 4 &mdash; CSBG Reporting</a>
+    </p>
+    <p>
+      Upload your Module 4A export and it checks the file before you submit it. This one is being
+      built rather than described, because we already know it catches real errors: a review of
+      twenty-four North Carolina FNPI exports in August 2026 found two defects that had passed
+      through the normal process.
+    </p>
+    <div class="model-card">
+      <p>What it will check</p>
+      <ul class="plain" style="margin-bottom:0">
+        <li>Whether each displayed percentage matches the formula its own column heading claims</li>
+        <li>Domains left blank against a nonzero served count</li>
+        <li>Indicators carrying a target with zero actual</li>
+        <li>Targets of zero where people were served</li>
+        <li>Whether a file named as a rollup actually aggregates its component files</li>
+      </ul>
+    </div>
+    <p class="source-note">
+      Every one of those runs on already-aggregated Served / Target / Actual counts, so the tool
+      cannot touch personal information even by accident. That is the reason it is first in the
+      build queue rather than something more impressive.
+    </p>
+  </section>
+
+  <div class="callout">
+    <h2>Something missing?</h2>
+    <p style="margin-bottom:0">
+      These came out of what agencies told us in interviews. If there is a repetitive, aggregate-data
+      job eating your week that is not here, say so with the <strong>Feedback</strong> button &mdash;
+      that is exactly how we decide what gets built next.
+    </p>
+  </div>
+
+</main>
+
+<footer class="attrib">
+  <div class="wrap-wide">
+    <h4>About these tools</h4>
+    <p>
+      Built by the NCAF AI Task Force, a student project at the University of North Carolina at
+      Chapel Hill, and provided free to the Community Action network. They are working drafts, not
+      certified compliance software. Nothing here replaces your own review, and no tool on this page
+      should be the last check before something reaches a funder.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/draft-banner.js"></script>
+<script src="assets/profile.js"></script>
+<script src="assets/interactions.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/feedback.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.Tailor && Tailor.isSetUp()) {
+    document.getElementById("tailoredName").textContent = Tailor.profile.org.name;
+    document.getElementById("tailoredNote").hidden = false;
+  }
+  var items = [
+    ["redaction", "Redaction Check", "Find client information before you paste"],
+    ["prompt", "Prompt Builder", "Assemble a complete briefing"],
+    ["tells", "AI-Tell Scanner", "Catch machine-written phrasing"],
+    ["output-check", "AI Output Check", "The pre-submission checklist"],
+    ["assist-map", "Reporting Assist Map", "Where AI fits in your workflow"],
+    ["fnpi", "FNPI Validator", "Check your 4A export — in build"]
+  ];
+  document.getElementById("toolIndex").innerHTML = items.map(function (t) {
+    return '<a class="tool-chip" href="#' + t[0] + '"><b>' + t[1] + "</b><span>" + t[2] + "</span></a>";
+  }).join("");
+});
+</script>
+</body>
+</html>

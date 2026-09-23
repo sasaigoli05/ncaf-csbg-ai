@@ -381,12 +381,217 @@
     if (rows.some(function (r) { return r.some(function (c) { return String(c).trim(); }); })) done(root);
   }
 
+
+  /* =====================================================================
+     PII CHECK — the standalone redaction tool.
+     Heuristic, client-side, and deliberately underclaiming: a clean result
+     is a good sign, not a guarantee. A privacy tool that phoned home would
+     undercut the lesson it exists to teach, so it never does.
+     ===================================================================== */
+
+  var PII = [
+    { sev: "stop", label: "Social Security number", re: /\b\d{3}-\d{2}-\d{4}\b/g,
+      note: "Never goes into any AI tool, on any account type." },
+    { sev: "stop", label: "Date of birth", re: /\b(?:0?[1-9]|1[0-2])[\/\-](?:0?[1-9]|[12]\d|3[01])[\/\-](?:19|20)\d{2}\b/g,
+      note: "A full date \u2014 often a date of birth. With a county, this identifies people." },
+    { sev: "stop", label: "Phone number", re: /\b(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/g,
+      note: "A phone number." },
+    { sev: "stop", label: "Email address", re: /\b[\w.+-]+@[\w-]+\.[\w.]{2,}\b/g,
+      note: "An email address." },
+    { sev: "stop", label: "Street address", re: /\b\d{1,5}\s+[A-Z][A-Za-z]*(?:\s+[A-Z][A-Za-z]*)*\s+(?:Street|St|Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Court|Ct|Way|Circle|Cir|Boulevard|Blvd|Trail|Trl|Highway|Hwy)\b\.?/g,
+      note: "A street address." },
+    { sev: "stop", label: "Case or client number", re: /\b(?:case|client|file|participant|acct|account)\s*(?:no\.?|number|#|id)?\s*[:#]?\s*[A-Z]?\d{3,}\b/gi,
+      note: "An identifier that links back to a person in your own system." },
+    { sev: "warn", label: "Name with a title", re: /\b(?:Mr\.|Mrs\.|Ms\.|Dr\.)\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\b/g,
+      note: "Looks like a person's name." },
+    { sev: "warn", label: "Sensitive circumstance", re: /\b(?:single (?:mother|father|parent)|disabled veteran|undocumented|pregnant|HIV|diagnos(?:ed|is)|incarcerat(?:ed|ion)|domestic violence|eviction notice|substance use|in recovery)\b/gi,
+      note: "Even with no name attached, this can identify someone in a small county." },
+    { sev: "warn", label: "Exact amount", re: /\$\s?\d{1,3}(?:,\d{3})*\.\d{2}\b/g,
+      note: "An amount to the cent usually comes from one household's record, not an aggregate." }
+  ];
+
+  var PII_SAMPLE =
+    "Follow-up needed for Ms. Angela Rivers, case #44812, DOB 04/17/1988, currently at " +
+    "214 Sycamore Street. She's a single mother of two and received $487.50 in emergency " +
+    "utility assistance last month. Reachable at (828) 555-0174 or arivers@example.com.\n\n" +
+    "Draft her a warm follow-up letter explaining next steps.";
+
+  function initPiiCheck(root) {
+    var box = document.createElement("div");
+    box.className = "tl-box";
+    box.innerHTML =
+      '<label class="cp-label" for="piiIn">Paste what you are about to put into an AI tool</label>' +
+      '<textarea class="field tl-in" id="piiIn" rows="7"></textarea>' +
+      '<div class="cp-row" style="margin-top:.8rem">' +
+        '<button class="cp-check" type="button" data-run>Check it</button>' +
+        '<button class="skip" type="button" data-sample>Load an example</button>' +
+        '<span class="tl-privacy">Runs in your browser. Nothing is uploaded, to us or to an AI.</span>' +
+      "</div>" +
+      '<div class="tl-out" hidden></div>';
+    root.appendChild(box);
+
+    var input = box.querySelector("#piiIn");
+    var out = box.querySelector(".tl-out");
+
+    box.querySelector("[data-sample]").addEventListener("click", function () {
+      input.value = PII_SAMPLE;
+      run();
+    });
+    box.querySelector("[data-run]").addEventListener("click", run);
+
+    function run() {
+      var text = input.value;
+      out.hidden = false;
+      if (!text.trim()) { out.innerHTML = '<p class="tl-clean">Paste something first.</p>'; return; }
+
+      var hits = [];
+      PII.forEach(function (p) {
+        var m = text.match(p.re);
+        if (m) {
+          var uniq = m.filter(function (v, i, a) { return a.indexOf(v) === i; });
+          hits.push({ sev: p.sev, label: p.label, note: p.note, found: uniq.slice(0, 5) });
+        }
+      });
+
+      done(root);
+
+      if (!hits.length) {
+        out.innerHTML =
+          '<div class="clear-note"><strong>Nothing obvious found.</strong> No names with titles, ' +
+          "addresses, dates of birth, phone numbers or case identifiers turned up. That is a good " +
+          "sign, not a guarantee \u2014 a detailed enough description can still identify someone in " +
+          "a county of thirty thousand with no name attached. Read it once more yourself.</div>";
+        return;
+      }
+
+      var stops = hits.filter(function (h) { return h.sev === "stop"; }).length;
+      out.innerHTML =
+        '<div class="clear-note" style="background:' + (stops ? "var(--rust-soft)" : "var(--marigold-soft)") +
+          ";border-color:" + (stops ? "var(--rust-line)" : "#E3CFA4") + '">' +
+          (stops
+            ? "<strong>Do not paste this.</strong> " + hits.length + " item" + (hits.length > 1 ? "s" : "") +
+              " found, " + stops + " of which identif" + (stops > 1 ? "y" : "ies") + " a person directly."
+            : "<strong>Worth a second look.</strong> Nothing that names someone outright, but " +
+              hits.length + " item" + (hits.length > 1 ? "s" : "") + " that could identify a household in a small service area.") +
+        "</div>" +
+        '<div class="findings">' + hits.map(function (h) {
+          return '<div class="finding' + (h.sev === "warn" ? " warn" : "") + '">' +
+            '<span class="sev">' + (h.sev === "warn" ? "Check" : "Remove") + "</span>" +
+            '<span class="msg"><b>' + h.label + "</b>" + h.note + "<br>" +
+            h.found.map(function (f) { return "<code>" + escapeHtml(f) + "</code>"; }).join(" ") +
+            "</span></div>";
+        }).join("") + "</div>";
+    }
+  }
+
+  /* =====================================================================
+     PROMPT BUILDER — assembles a full prompt from the parts people forget.
+     Pre-fills from the agency profile where one exists.
+     ===================================================================== */
+
+  function initPromptBuilder(root) {
+    var P = (window.Tailor && Tailor.profile) || null;
+    var agency = (P && P.org.name) || "";
+    var county = (P && P.org.counties[0]) || "";
+
+    var FIELDS = [
+      { k: "role",    label: "Who you are",          ph: "the CSBG director at " + (agency || "a Community Action Agency"), val: agency ? "the CSBG director at " + agency : "" },
+      { k: "task",    label: "What you need done",   ph: "summarise our quarterly weatherization figures for the board" },
+      { k: "context", label: "What it needs to know", ph: "we serve " + (county ? county + " County" : "four rural counties") + "; the board are volunteers, not programme staff", val: county ? "we serve " + county + " County" : "" },
+      { k: "format",  label: "Shape of the answer",  ph: "under 150 words, plain language, most important number first" },
+      { k: "guard",   label: "Guardrails",           ph: "use only the figures I paste; if something is missing say so rather than estimating", val: "Use only the figures I provide. If something is missing, say so rather than estimating. Do not invent statistics or citations." }
+    ];
+
+    var box = document.createElement("div");
+    box.className = "pb-box";
+    box.innerHTML = FIELDS.map(function (f) {
+      return '<label class="cp-label" for="pb-' + f.k + '">' + f.label + "</label>" +
+        '<textarea class="field pb-in" id="pb-' + f.k + '" rows="2" data-k="' + f.k +
+        '" placeholder="' + f.ph.replace(/"/g, "&quot;") + '">' + (f.val || "") + "</textarea>";
+    }).join("") +
+      '<div class="cp-row" style="margin-top:1rem"><button class="cp-check" type="button" data-build>Build my prompt</button></div>' +
+      '<div class="prompt-box" hidden data-result>' +
+        '<span class="label">Copy this into your AI tool</span>' +
+        '<span class="copy-target"></span>' +
+        '<button class="copy-btn" type="button" aria-label="Copy this prompt">Copy</button>' +
+      "</div>";
+    root.appendChild(box);
+
+    var result = box.querySelector("[data-result]");
+
+    box.querySelector("[data-build]").addEventListener("click", function () {
+      var v = {};
+      Array.prototype.forEach.call(box.querySelectorAll(".pb-in"), function (t) {
+        v[t.getAttribute("data-k")] = t.value.trim();
+      });
+
+      var parts = [];
+      if (v.role) parts.push("I'm " + v.role + ".");
+      if (v.context) parts.push("Context: " + v.context + ".");
+      if (v.task) parts.push("I need you to " + v.task + ".");
+      if (v.format) parts.push("Format: " + v.format + ".");
+      if (v.guard) parts.push(v.guard);
+      parts.push("If any part of this is unclear, ask me before you start.");
+
+      result.hidden = false;
+      result.querySelector(".copy-target").textContent = parts.join("\n\n");
+      done(root);
+    });
+
+    /* course.js wires .copy-btn on load; this one appears later. */
+    result.querySelector(".copy-btn").addEventListener("click", function () {
+      var btn = result.querySelector(".copy-btn");
+      var text = result.querySelector(".copy-target").textContent;
+      function ok() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1800); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, ok);
+      else ok();
+    });
+  }
+
+  /* =====================================================================
+     OUTPUT CHECK — Meryem's pre-submission checklist, as a working tool.
+     Resets per submission; remembers nothing between runs on purpose.
+     ===================================================================== */
+
+  function initOutputCheck(root) {
+    var boxes = root.querySelectorAll('input[type="checkbox"]');
+    var status = document.createElement("div");
+    status.className = "oc-status";
+    root.appendChild(status);
+
+    var actions = document.createElement("div");
+    actions.className = "am-actions";
+    actions.innerHTML = '<button class="am-add" type="button" data-reset>Start a new check</button>';
+    root.appendChild(actions);
+
+    function paint() {
+      var n = 0;
+      Array.prototype.forEach.call(boxes, function (b) { if (b.checked) n++; });
+      var all = n === boxes.length;
+      status.className = "oc-status" + (all ? " ok" : "");
+      status.innerHTML = all
+        ? "<b>All " + boxes.length + " checked.</b> This section is ready for a named person to sign off."
+        : "<b>" + n + " of " + boxes.length + "</b> checked. Until every box is ticked, this section is not ready to submit.";
+      if (all) done(root);
+    }
+
+    Array.prototype.forEach.call(boxes, function (b) { b.addEventListener("change", paint); });
+    actions.querySelector("[data-reset]").addEventListener("click", function () {
+      Array.prototype.forEach.call(boxes, function (b) { b.checked = false; });
+      root.classList.remove("is-complete");
+      paint();
+    });
+    paint();
+  }
+
   /* =====================================================================
      GO
      ===================================================================== */
 
   var KINDS = { redact: initRedact, compute: initCompute, tells: initTells,
-                checklist: initChecklist, assistmap: initAssistMap };
+                checklist: initChecklist, assistmap: initAssistMap,
+                piicheck: initPiiCheck, promptbuilder: initPromptBuilder,
+                outputcheck: initOutputCheck };
 
   function init() {
     Array.prototype.forEach.call(document.querySelectorAll("[data-interaction]"), function (el) {

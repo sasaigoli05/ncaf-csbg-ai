@@ -41,9 +41,14 @@
       var cls = m.file === thisFile ? "here" : (isModuleDone(m.n) ? "done" : "");
       return '<a class="' + cls + '" href="' + m.file + '" title="Module ' + m.n + ' — ' + m.name + '">' + m.n + "</a>";
     }).join("");
+    var here = thisFile;
     host.innerHTML =
       '<div class="topbar-in">' +
         '<a class="home" href="index.html">AI Literacy for Community Action</a>' +
+        '<nav class="sitenav" aria-label="Sections">' +
+          '<a href="tools.html"' + (here === "tools.html" ? ' class="on"' : "") + ">Toolkit</a>" +
+          '<a href="library.html"' + (here === "library.html" ? ' class="on"' : "") + ">Library</a>" +
+        "</nav>" +
         '<nav class="seq" aria-label="Modules">' + seq + "</nav>" +
       "</div>";
   }

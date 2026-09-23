@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research Library</title>
+<meta name="description" content="Policy briefs, research and guidance from the NCAF AI Task Force — what is published, what is in draft, and what is planned.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="sticky-head">
+  <div class="topbar" data-topbar></div>
+</div>
+
+<header class="hero">
+  <div class="wrap-wide">
+    <p class="kicker">NCAF AI Task Force &middot; Library</p>
+    <h1>Research Library</h1>
+    <p class="lede">
+      Everything this project produces beyond the course itself &mdash; policy briefs, technical
+      recommendations, survey instruments and the research behind them. Listed whether or not it is
+      finished, so you can see what is coming and tell us if we have the priorities wrong.
+    </p>
+  </div>
+</header>
+
+<main class="wrap-wide">
+
+  <div class="callout" style="margin-top:2rem">
+    <h2>Most of this is not published yet</h2>
+    <p style="margin-bottom:0">
+      This is a live index of a project still in progress, not a finished catalogue. Items marked
+      <span class="pill">In draft</span> or <span class="pill draft">Planned</span> have no link
+      because there is nothing to link to yet. We would rather show you the shape of the work than
+      an empty page &mdash; and if something you need is missing from this list, that is worth
+      telling us now, while the schedule can still change.
+    </p>
+  </div>
+
+  <div class="lib-filters" id="libFilters"></div>
+  <div id="libList"></div>
+
+  <div class="callout">
+    <h2>Using something from here</h2>
+    <p style="margin-bottom:0">
+      Everything the Task Force publishes is free to the Community Action network, including to
+      reuse and adapt in your own materials. We only ask that findings drawn from agency interviews
+      keep their attribution, since those came from people who gave their time to this.
+    </p>
+  </div>
+
+</main>
+
+<footer class="attrib">
+  <div class="wrap-wide">
+    <h4>About the Task Force</h4>
+    <p>
+      The NCAF AI Task Force is a student-led project at the University of North Carolina at Chapel
+      Hill, working with the National Community Action Foundation, the North Carolina Community
+      Action Association, and the NC DHHS Office of Economic Opportunity. Its purpose is to identify,
+      teach and share responsible AI tools and guidance that measurably and safely reduce
+      administrative burden on Community Action Agencies.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/draft-banner.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/feedback.js" defer></script>
+<script>
+/* ===========================================================================
+   The library index.
+
+   TO ADD AN ITEM: add an object below. That is the whole job — the filters,
+   counts and grouping all derive from this array.
+
+     status : "published" | "review" | "draft" | "planned"
+     href   : omit entirely until there is something real to link to
+     for    : who it is written for, shown as the audience line
+   =========================================================================== */
+
+var LIBRARY = [
+  {
+    group: "Guidance for agencies",
+    title: "AI Literacy for Community Action",
+    status: "review",
+    href: "index.html",
+    desc: "The six-module course. Free, self-paced, written for agencies with three to five staff and no IT department.",
+    for: "CAA directors and senior staff"
+  },
+  {
+    group: "Guidance for agencies",
+    title: "Agency Toolkit",
+    status: "review",
+    href: "tools.html",
+    desc: "Working tools that pair with the modules — redaction check, prompt builder, AI-tell scanner, pre-submission checklist, reporting assist map.",
+    for: "CAA staff"
+  },
+  {
+    group: "Guidance for agencies",
+    title: "Tool tiering and vendor-vetting rubric",
+    status: "planned",
+    desc: "The answer to the question every agency asks after the course: which one do we buy? A one-page rubric on account types, plus the five questions to put to any vendor. Deliberately names criteria, not products.",
+    for: "CAA directors"
+  },
+  {
+    group: "Guidance for agencies",
+    title: "AI adoption checklist, derived from the NIST AI Risk Management Framework",
+    status: "draft",
+    desc: "Govern / Map / Measure / Manage compressed to what a five-person agency can actually do. Five questions to answer before adopting any tool. Shared with the policy team's governance work so the two cannot drift apart.",
+    for: "CAA directors and boards"
+  },
+  {
+    group: "Guidance for agencies",
+    title: "Reference architecture for a 3–5 person agency",
+    status: "planned",
+    desc: "What a small CAA actually needs to use AI safely, written for an organisation with no IT staff: one organisational account rather than personal logins, role-based access, encrypted storage, a written retention policy, and a clear boundary with the case-management system.",
+    for: "CAA directors and fiscal staff"
+  },
+
+  {
+    group: "Policy recommendations",
+    title: "Agency-level AI governance guardrails",
+    status: "draft",
+    desc: "What minimum governance a CAA should adopt before deploying AI tools, given that most have no dedicated IT or data-governance staff. Built on the NIST framework and grounded in the North Carolina interviews.",
+    for: "NCAF, NCCAA, member agencies"
+  },
+  {
+    group: "Policy recommendations",
+    title: "Federal: defining acceptable AI-assisted reporting methods",
+    status: "planned",
+    desc: "Input timed to the CSBG data-reporting bill expected in early 2027 — defining what counts as acceptable AI-assisted reporting, avoiding standardisation that assumes manual-only capacity, and building in flexibility for agencies at different levels of technical adoption.",
+    for: "NCAF, congressional staff"
+  },
+  {
+    group: "Policy recommendations",
+    title: "CARDS findings memo",
+    status: "planned",
+    desc: "What agencies report about the state-mandated data system: a two-user cap that forces credential sharing, referral tracking that stops at the edge of the CAA network, and a state approval requirement that has already blocked at least one agency from adopting AI-featured referral software.",
+    for: "NC DHHS Office of Economic Opportunity"
+  },
+  {
+    group: "Policy recommendations",
+    title: "An approval pathway for AI-featured software",
+    status: "planned",
+    desc: "The constructive counterpart to the CARDS memo. Complaining about the block is a finding; proposing the pathway is a recommendation.",
+    for: "NC DHHS Office of Economic Opportunity"
+  },
+
+  {
+    group: "Research",
+    title: "Literature Review: the CSBG system and AI integration",
+    status: "draft",
+    desc: "Six themes across CSBG structure, AI in social services, documented CSBG gaps, data governance, adoption logistics at small organisations, and what AI has actually been deployed to do — as opposed to what it is marketed to do. The clearest finding is that nothing in the literature examines AI adoption in the CSBG network specifically.",
+    for: "Anyone working on this"
+  },
+  {
+    group: "Research",
+    title: "Technical scoping register",
+    status: "draft",
+    desc: "Every technical deliverable available to this project, with the evidence behind it, the client data it would touch, and a plain call on whether to build it — including five things recommended against, with reasons.",
+    for: "Task Force, OEO, NCAF"
+  },
+  {
+    group: "Research",
+    title: "FNPI export defect report",
+    status: "planned",
+    desc: "Two confirmed defects in the August 2026 batch of Module 4A exports, plus three agency-level anomalies worth confirming. Small, verifiable, and immediately useful — which is why it is first in the queue.",
+    for: "NC DHHS Office of Economic Opportunity"
+  },
+  {
+    group: "Research",
+    title: "County-level equity scorecard and funding model",
+    status: "planned",
+    desc: "A cost-of-living-adjusted view of how CSBG money is allocated against where need actually sits, built from interviews, Census data and agency reporting.",
+    for: "OEO, NC General Assembly, county commissioners"
+  },
+
+  {
+    group: "Evaluation",
+    title: "Pre and post confidence survey",
+    status: "planned",
+    desc: "Six matched items administered before and after the pilot. This is the instrument that turns the January pilot into a result rather than an anecdote, so it has to exist before the pilot rather than after it.",
+    for: "Pilot cohort"
+  },
+  {
+    group: "Evaluation",
+    title: "Network AI-usage survey",
+    status: "planned",
+    desc: "A short instrument to establish how agencies are actually using AI today. The current best figure — roughly one in ten of the more advanced agencies using AI for grant writing — is an informed estimate, not a measurement.",
+    for: "The national network, via NCAF and NCCAA"
+  },
+  {
+    group: "Evaluation",
+    title: "CSBG trial design memo",
+    status: "planned",
+    desc: "A design for a randomised evaluation of an AI reporting aid across CSBG agencies, written as a proposal for someone with more capacity to run. Beyond what a semester can execute; worth handing on.",
+    for: "NCAF and research partners"
+  }
+];
+
+document.addEventListener("DOMContentLoaded", function () {
+  var LABEL = {
+    published: ["Published", "ready"],
+    review:    ["In review", ""],
+    draft:     ["In draft", ""],
+    planned:   ["Planned", "draft"]
+  };
+  var ORDER = ["Guidance for agencies", "Policy recommendations", "Research", "Evaluation"];
+  var active = "all";
+
+  function render() {
+    var shown = LIBRARY.filter(function (it) { return active === "all" || it.group === active; });
+    var html = "";
+    ORDER.forEach(function (g) {
+      var items = shown.filter(function (it) { return it.group === g; });
+      if (!items.length) return;
+      html += '<div class="sec-head" style="margin-top:2.4rem"><h2>' + g + "</h2>" +
+              '<span class="note">' + items.length + " item" + (items.length > 1 ? "s" : "") + "</span></div>";
+      html += '<div class="lib-list">' + items.map(function (it) {
+        var s = LABEL[it.status] || ["", ""];
+        var titleHtml = it.href
+          ? '<a href="' + it.href + '">' + it.title + "</a>"
+          : it.title;
+        return '<article class="lib-item">' +
+          '<div class="lib-head"><h3>' + titleHtml + "</h3>" +
+          '<span class="pill ' + s[1] + '">' + s[0] + "</span></div>" +
+          "<p>" + it.desc + "</p>" +
+          '<p class="lib-for">For ' + it.for + "</p>" +
+          "</article>";
+      }).join("") + "</div>";
+    });
+    document.getElementById("libList").innerHTML = html;
+  }
+
+  var groups = ["all"].concat(ORDER);
+  document.getElementById("libFilters").innerHTML = groups.map(function (g) {
+    return '<button type="button" class="chip-btn' + (g === "all" ? " on" : "") + '" data-g="' + g + '">' +
+      (g === "all" ? "Everything" : g) + "</button>";
+  }).join("");
+
+  Array.prototype.forEach.call(document.querySelectorAll("#libFilters .chip-btn"), function (b) {
+    b.addEventListener("click", function () {
+      active = b.getAttribute("data-g");
+      Array.prototype.forEach.call(document.querySelectorAll("#libFilters .chip-btn"), function (x) {
+        x.classList.toggle("on", x === b);
+      });
+      render();
+    });
+  });
+
+  render();
+});
+</script>
+</body>
+</html>
