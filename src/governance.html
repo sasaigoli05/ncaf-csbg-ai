@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Governance Guardrails</title>
+<meta name="description" content="Seven minimum guardrails a Community Action Agency can put in place before deploying AI tools — each with the thing that implements it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="sticky-head">
+  <div class="topbar" data-topbar></div>
+</div>
+
+<header class="hero">
+  <div class="wrap-wide">
+    <p class="kicker">NCAF AI Task Force &middot; Governance</p>
+    <h1>Seven guardrails, and the thing that does each one</h1>
+    <p class="lede">
+      These are the minimum governance steps the Task Force recommends a Community Action Agency
+      put in place before deploying AI tools. Each one below says who does it, why it is here, and
+      which part of this site actually carries it out &mdash; because a recommendation nobody can
+      action is just a document.
+    </p>
+  </div>
+</header>
+
+<main class="wrap-wide">
+
+  <div class="callout" style="margin-top:2rem">
+    <h2>Why a CAA-sized standard exists at all</h2>
+    <p>
+      There is no comprehensive federal law on organizational AI use. North Carolina does have a
+      <strong>Responsible Use of Artificial Intelligence Framework</strong> for public agencies,
+      updated August 2025, which requires them to keep an inventory of AI tools and to assess risk
+      using the NIST framework before deployment.
+    </p>
+    <p>
+      <strong>It does not apply to you.</strong> The state framework covers state agencies, and
+      roughly 80 percent of Community Action Agencies are private nonprofits. So most CAAs sit
+      outside it entirely &mdash; while holding the same sensitive client records and reporting into
+      the same state and federal systems.
+    </p>
+    <p style="margin-bottom:0">
+      That gap is the reason for this page. The full NIST framework was built over a multi-year
+      process with hundreds of organizations, and not one of them had three staff and no IT
+      department. What follows is the subset that survives contact with an agency that size.
+    </p>
+  </div>
+
+  <div class="sec-head"><h2>The seven</h2><span class="note">Agency-level</span></div>
+
+  <div class="guard-list">
+
+    <article class="guard" id="g1">
+      <div class="guard-n">1</div>
+      <div class="guard-body">
+        <h3>Keep an inventory of the AI tools in use</h3>
+        <p>
+          Record each tool's name, what it is used for, who is responsible for it, and what client
+          data it touches. Without this, leadership has no record of which tools are in use or for
+          what &mdash; and in practice individual staff end up using personal accounts for case
+          notes, grant drafts and report figures.
+        </p>
+        <p class="guard-do">
+          <a href="tools.html#inventory">Open the AI Tool Inventory &rarr;</a>
+        </p>
+        <p class="guard-src">NIST AI RMF Govern 1.6 &middot; NC state framework (required of state agencies)</p>
+      </div>
+    </article>
+
+    <article class="guard" id="g2">
+      <div class="guard-n">2</div>
+      <div class="guard-body">
+        <h3>Name one AI-accountable person</h3>
+        <p>
+          One named staff member &mdash; usually the executive director &mdash; signs off on any
+          AI-assisted output before it is final. That matters most for CSBG Annual Report and
+          ROMA/NPI figures, where a number has to be defensible in review. Accountability spread
+          across everyone is accountability nobody holds.
+        </p>
+        <p class="guard-do">
+          <a href="setup.html">Record who that is in your setup &rarr;</a>
+          <span class="guard-state" id="accState"></span>
+        </p>
+        <p class="guard-src">NIST AI RMF Govern 3.2</p>
+      </div>
+    </article>
+
+    <article class="guard" id="g3">
+      <div class="guard-n">3</div>
+      <div class="guard-body">
+        <h3>Assign someone to track changes and keep policy current</h3>
+        <p>
+          Tools, terms of service and state guidance all move. One person should be the contact
+          point for questions and should keep the agency's position up to date. This can be the same
+          person as guardrail 2 at a small agency &mdash; the point is that it is somebody's job
+          rather than nobody's.
+        </p>
+        <p class="guard-src">Future of Privacy Forum, Internal Policy Checklist</p>
+      </div>
+    </article>
+
+    <article class="guard" id="g4">
+      <div class="guard-n">4</div>
+      <div class="guard-body">
+        <h3>Update the employee handbook to cover generative AI</h3>
+        <p>
+          Most agencies already have a confidentiality policy that forbids disclosing client
+          information to outside parties. An AI vendor is an outside party. Say so explicitly, decide
+          whether staff must use organizational accounts rather than personal ones, and write down
+          what may never be entered.
+        </p>
+        <p class="guard-src">Future of Privacy Forum, Internal Policy Checklist</p>
+      </div>
+    </article>
+
+    <article class="guard" id="g5">
+      <div class="guard-n">5</div>
+      <div class="guard-body">
+        <h3>Train staff on the limits of AI output</h3>
+        <p>
+          Inaccuracy, bias, confidentiality, data minimisation, and the fact that the person who
+          submits the work is responsible for it regardless of what produced the draft. Verification
+          matters most wherever accuracy has to be certified &mdash; which in this sector means the
+          financial and performance figures that go to a funder.
+        </p>
+        <p class="guard-do">
+          <a href="index.html">That is what this course is &rarr;</a>
+          <span class="guard-state" id="courseState"></span>
+        </p>
+        <p class="guard-src">FPF checklist &middot; NIST AI RMF Govern 2.2</p>
+      </div>
+    </article>
+
+    <article class="guard" id="g6">
+      <div class="guard-n">6</div>
+      <div class="guard-body">
+        <h3>Restrict confidential client data through settings and permissions</h3>
+        <p>
+          Not only through instruction. Check the account type, switch off training on your inputs
+          where the setting exists, and control who can reach what. One concrete thing to check
+          today: <strong>CARDS reports export to Excel with client and caseworker names
+          included</strong> unless staff remove them, and those exports paste into a consumer AI
+          tool as easily as anything else.
+        </p>
+        <p class="guard-do">
+          <a href="tools.html#redaction">Check a file before it goes anywhere &rarr;</a>
+        </p>
+        <p class="guard-src">FPF checklist &middot; NC framework, privacy by default</p>
+      </div>
+    </article>
+
+    <article class="guard" id="g7">
+      <div class="guard-n">7</div>
+      <div class="guard-body">
+        <h3>Keep a simple log of AI errors and corrections</h3>
+        <p>
+          When something comes out wrong, write down what it was, how it was caught and what
+          changed. Two reasons: your own agency learns faster than it would from memory, and pattern
+          data across agencies is the only way anyone spots a tool failing systematically rather
+          than once.
+        </p>
+        <p class="guard-do">
+          <a href="tools.html#incidents">Open the AI Incident Log &rarr;</a>
+        </p>
+        <p class="guard-src">Task Force agency-level recommendation 7</p>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="sec-head"><h2>One rule worth memorising</h2></div>
+  <div class="model-card" style="margin-bottom:2rem">
+    <p>Aggregate, never infer.</p>
+    <p>
+      AI may aggregate and pre-populate data your agency already collected. It may not infer or fill
+      in what is missing. <strong>Missing data gets flagged, not estimated.</strong>
+    </p>
+    <p style="margin-bottom:0">
+      This is proposed as a rule for the state data system, and it works just as well as a personal
+      one. An estimate that reaches a federal report is indistinguishable from a count once it is in
+      the cell &mdash; and a lower number you can defend beats a fuller one you cannot.
+    </p>
+  </div>
+
+  <div class="callout">
+    <h2>What this is drawn from</h2>
+    <p>
+      The guardrails come from the Task Force's agency-level policy recommendations, which adapt
+      three sources: the <strong>NIST AI Risk Management Framework</strong>, the
+      <strong>North Carolina State Government Responsible Use of Artificial Intelligence
+      Framework</strong>, and the <strong>Future of Privacy Forum's Internal Policy
+      Checklist</strong>. Each provision was screened against a single question &mdash; could an
+      agency with three to five CSBG staff and no IT capacity actually do this? Anything needing
+      specialist staff, new spending or continuous monitoring was cut.
+    </p>
+    <p style="margin-bottom:0">
+      The underlying brief is still in draft and carries open citations. See the
+      <a href="library.html">Library</a> for its status.
+    </p>
+  </div>
+
+</main>
+
+<footer class="attrib">
+  <div class="wrap-wide">
+    <h4>Sources</h4>
+    <p>
+      National Institute of Standards and Technology, <em>Artificial Intelligence Risk Management
+      Framework (AI RMF 1.0)</em>, NIST AI 100-1, and the AI RMF Playbook. N.C. Department of
+      Information Technology, <em>North Carolina State Government Responsible Use of Artificial
+      Intelligence Framework</em> (2025). Future of Privacy Forum, <em>Generative AI for
+      Organizational Use: Internal Policy Checklist</em> (2023). Agency-level detail from
+      semi-structured interviews with North Carolina Community Action Agency leaders conducted
+      through the NC DHHS Office of Economic Opportunity.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/draft-banner.js"></script>
+<script src="assets/profile.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/feedback.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var P = window.Tailor ? Tailor.profile : null;
+  var who = P && P.people && P.people.accountable;
+  document.getElementById("accState").textContent = who ? "✓ " + who : "";
+
+  var prog = window.NCAF_progress ? window.NCAF_progress() : {};
+  var mods = window.NCAF_MODULES || [];
+  var done = mods.filter(function (m) { return prog["m" + m.n] && prog["m" + m.n].complete; }).length;
+  document.getElementById("courseState").textContent =
+    done === mods.length && mods.length ? "✓ complete" : (done ? done + " of " + mods.length + " done" : "");
+});
+</script>
+</body>
+</html>

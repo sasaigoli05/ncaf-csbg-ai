@@ -33,14 +33,20 @@
 <main class="wrap-wide">
 
   <div class="callout" style="margin-top:2rem">
-    <h2>Five of these six run entirely in your browser</h2>
+    <h2>Seven of these eight run entirely in your browser</h2>
     <p style="margin-bottom:0">
       Nothing you type here is uploaded &mdash; not to us, not to an AI company, not anywhere. You
       can check that yourself: turn off your wi-fi and they still work. That matters for a toolkit
       whose whole subject is what you should and should not send outside your building, and it means
-      these cost your agency nothing to run, forever.
+      these cost your agency nothing to run, forever. The registers save on your device, so they are
+      still here next quarter &mdash; and they export as text when you need to share them.
     </p>
   </div>
+
+  <p class="tool-pair" style="margin:0 0 .5rem">
+    Three of these implement guardrails from the Task Force's
+    <a href="governance.html">agency governance recommendations</a>.
+  </p>
 
   <div class="tool-index" id="toolIndex"></div>
 
@@ -147,6 +153,58 @@
     <p class="source-note">From Module 4, by Meryem S. Golbasi.</p>
   </section>
 
+
+  <!-- ============ AI TOOL INVENTORY ============ -->
+  <section class="lesson tool-block" id="inventory">
+    <span class="section-num">Guardrail 1</span>
+    <h2>AI Tool Inventory</h2>
+    <p class="tool-pair">
+      Implements <a href="governance.html#g1">guardrail 1</a>
+      &middot; <span class="pill ready">Saves on this device</span>
+    </p>
+    <p>
+      Which AI tools are in use at your agency, what for, who is responsible, and what client data
+      each one touches. North Carolina requires this of state agencies; most CAAs are private
+      nonprofits and fall outside that rule, which is exactly why keeping the record yourself is
+      worth doing. It is also the first thing anyone will ask for if something goes wrong.
+    </p>
+    <div class="exercise" data-interaction="register"
+         data-key="ncaf-ai-inventory"
+         data-cols="Tool|What it is used for|Who is responsible|Client data it touches|Approved?|Last reviewed">
+      <span data-row="ChatGPT (free, personal accounts)|Drafting emails, rewriting paragraphs|Unassigned|Unknown — staff use own accounts|No|—"></span>
+      <span data-row="Microsoft Copilot (in Office)|Summarising documents|IT contact|Whatever is in the open file|Not reviewed|—"></span>
+    </div>
+    <p class="source-note">
+      The two example rows are the situation most agencies are actually in. Replace them with what
+      is true at yours &mdash; including the tools nobody formally approved, since those are the
+      ones the inventory exists to surface.
+    </p>
+  </section>
+
+  <!-- ============ AI INCIDENT LOG ============ -->
+  <section class="lesson tool-block" id="incidents">
+    <span class="section-num">Guardrail 7</span>
+    <h2>AI Incident Log</h2>
+    <p class="tool-pair">
+      Implements <a href="governance.html#g7">guardrail 7</a>
+      &middot; <span class="pill ready">Saves on this device</span>
+    </p>
+    <p>
+      When an AI tool gets something wrong, write down what happened. Your agency learns faster from
+      a list than from memory, and pattern data across agencies is the only way anyone catches a
+      tool failing systematically rather than once. Counts and patterns, never client detail.
+    </p>
+    <div class="exercise" data-interaction="register"
+         data-key="ncaf-ai-incidents"
+         data-cols="Date|Tool|What went wrong|How it was caught|What we changed">
+      <span data-row="—|—|e.g. invented a county poverty figure|Checked against SAIPE before submission|Added source-check step to the report routine"></span>
+    </div>
+    <p class="source-note">
+      Keep it free of client information. &ldquo;Invented a figure in a grant narrative&rdquo; is
+      the entry; the narrative itself is not.
+    </p>
+  </section>
+
   <!-- ============ FNPI VALIDATOR (in build) ============ -->
   <section class="lesson tool-block" id="fnpi">
     <span class="section-num">Before you submit 4A</span>
@@ -218,6 +276,8 @@ document.addEventListener("DOMContentLoaded", function () {
     ["tells", "AI-Tell Scanner", "Catch machine-written phrasing"],
     ["output-check", "AI Output Check", "The pre-submission checklist"],
     ["assist-map", "Reporting Assist Map", "Where AI fits in your workflow"],
+    ["inventory", "AI Tool Inventory", "What is in use, and who owns it"],
+    ["incidents", "AI Incident Log", "What went wrong, and what changed"],
     ["fnpi", "FNPI Validator", "Check your 4A export — in build"]
   ];
   document.getElementById("toolIndex").innerHTML = items.map(function (t) {

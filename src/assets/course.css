@@ -879,3 +879,36 @@ details.facilitator p { font-size: .95rem; color: var(--ink-soft); }
   font-size: .85rem; color: var(--ink-faint); margin: 0;
   padding-top: .5rem; border-top: 1px solid var(--paper-2);
 }
+
+/* ---------- governance guardrails ---------- */
+
+.guard-list { display: grid; gap: .8rem; margin-bottom: 2.5rem; }
+.guard {
+  display: grid; grid-template-columns: 3rem 1fr; gap: 1rem;
+  background: var(--white); border: 1px solid var(--sage-line);
+  border-radius: var(--radius-lg); padding: 1.3rem 1.45rem;
+  scroll-margin-top: 5rem;
+}
+.guard:target { border-color: var(--green); box-shadow: var(--shadow-md); }
+.guard-n {
+  width: 2.4rem; height: 2.4rem; border-radius: 999px; display: grid; place-items: center;
+  font-family: "Zilla Slab", serif; font-weight: 600; font-size: 1.1rem;
+  background: var(--sage); color: var(--green); border: 1px solid var(--sage-line);
+}
+.guard-body h3 { font-size: 1.16rem; margin-bottom: .45rem; }
+.guard-body p { font-size: .97rem; color: var(--ink-soft); }
+.guard-do {
+  margin: .7rem 0 .5rem; font-size: .95rem;
+  display: flex; gap: .7rem; align-items: baseline; flex-wrap: wrap;
+}
+.guard-do a { font-weight: 600; }
+.guard-state { color: var(--green); font-weight: 600; font-size: .9rem; }
+.guard-src {
+  font-size: .84rem; color: var(--ink-faint); margin: 0;
+  padding-top: .55rem; border-top: 1px solid var(--paper-2);
+}
+@media (max-width: 560px) {
+  .guard { grid-template-columns: 1fr; gap: .6rem; }
+}
+
+.lib-head .ext { font-size: .8em; opacity: .7; }

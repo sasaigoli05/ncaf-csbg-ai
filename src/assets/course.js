@@ -47,6 +47,7 @@
         '<a class="home" href="index.html">AI Literacy for Community Action</a>' +
         '<nav class="sitenav" aria-label="Sections">' +
           '<a href="tools.html"' + (here === "tools.html" ? ' class="on"' : "") + ">Toolkit</a>" +
+          '<a href="governance.html"' + (here === "governance.html" ? ' class="on"' : "") + ">Governance</a>" +
           '<a href="library.html"' + (here === "library.html" ? ' class="on"' : "") + ">Library</a>" +
         "</nav>" +
         '<nav class="seq" aria-label="Modules">' + seq + "</nav>" +

@@ -125,10 +125,33 @@ var LIBRARY = [
 
   {
     group: "Policy recommendations",
-    title: "Agency-level AI governance guardrails",
+    title: "Artificial Intelligence for Community Action Agencies",
     status: "draft",
-    desc: "What minimum governance a CAA should adopt before deploying AI tools, given that most have no dedicated IT or data-governance staff. Built on the NIST framework and grounded in the North Carolina interviews.",
+    href: "governance.html",
+    desc: "The Task Force's agency-level policy brief. Sets a minimum responsible-AI governance standard for CAAs by screening the NIST AI RMF, the NC state AI framework and the Future of Privacy Forum checklist against one test \u2014 could an agency with three to five CSBG staff and no IT capacity actually do this? Produces seven agency guardrails and five state-level supports. Built on semi-structured interviews with twenty-three leaders across twelve North Carolina agencies. Still a draft with open citations.",
     for: "NCAF, NCCAA, member agencies"
+  },
+  {
+    group: "Policy recommendations",
+    title: "Seven governance guardrails",
+    status: "review",
+    href: "governance.html",
+    desc: "The agency-facing version of the brief's recommendations, with the tool or module that implements each one. Inventory your tools, name who signs off, keep policy current, cover AI in the handbook, train staff, restrict data by settings not instruction, and log what goes wrong.",
+    for: "CAA directors and boards"
+  },
+  {
+    group: "Policy recommendations",
+    title: "State-level supports for OEO",
+    status: "planned",
+    desc: "Five asks that would let agencies adopt guardrails without building them from scratch: collect the AI inventory as a short annual CARDS field set, publish one pre-filled NIST-based risk template scoped to common CAA uses, adopt an \u201caggregate, never infer\u201d rule at the CARDS level, require annual reporting of each agency's accountable staff member, and roll up incidents at pattern level to catch systemic tool errors.",
+    for: "NC DHHS Office of Economic Opportunity"
+  },
+  {
+    group: "Policy recommendations",
+    title: "Referral follow-up and NCCARE360 capacity",
+    status: "draft",
+    desc: "CSBG has no federal exit-tracking requirement and CARDS has no follow-up function, yet National Performance Indicators require verified outcomes \u2014 so most agencies count a referral as an output rather than a result. Evidence suggests resolution rates track receiving-end capacity, which means pushing platform adoption without funding follow-up may just reproduce low resolution rates.",
+    for: "NCAF, OEO, NCCARE360"
   },
   {
     group: "Policy recommendations",
@@ -196,6 +219,30 @@ var LIBRARY = [
     for: "The national network, via NCAF and NCCAA"
   },
   {
+    group: "Reference",
+    title: "NIST AI Risk Management Framework (AI RMF 1.0)",
+    status: "published",
+    href: "https://www.nist.gov/itl/ai-risk-management-framework",
+    desc: "The most widely referenced voluntary US standard. Defines seven characteristics of trustworthy AI and organises risk into four functions \u2014 Govern, Map, Measure, Manage. Flexible by design, and not written for organisations with three to five staff, which is the gap this project's guardrails try to close.",
+    for: "Anyone adopting AI in a public-facing organisation"
+  },
+  {
+    group: "Reference",
+    title: "NC State Government Responsible Use of Artificial Intelligence Framework",
+    status: "published",
+    href: "https://it.nc.gov/resources/artificial-intelligence",
+    desc: "North Carolina's own expectations for public agencies, updated August 2025 and built on the state's 2022 Fair Information Practice Principles. Requires an inventory of AI tools in use and a NIST-based risk assessment before deployment. Note that it covers state agencies \u2014 roughly 80 percent of CAAs are private nonprofits and fall outside it.",
+    for: "NC state agencies; useful precedent for CAAs"
+  },
+  {
+    group: "Reference",
+    title: "Future of Privacy Forum: Generative AI for Organizational Use",
+    status: "published",
+    href: "https://fpf.org/wp-content/uploads/2023/07/Generative-AI-Checklist.pdf",
+    desc: "An internal policy checklist that turns responsible-use principles into steps an organisation can take: protect confidential data, train employees, update internal policies, review outputs for accuracy. The most directly actionable of the three frameworks for a small agency.",
+    for: "Any organisation writing its first AI policy"
+  },
+  {
     group: "Evaluation",
     title: "CSBG trial design memo",
     status: "planned",
@@ -211,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
     draft:     ["In draft", ""],
     planned:   ["Planned", "draft"]
   };
-  var ORDER = ["Guidance for agencies", "Policy recommendations", "Research", "Evaluation"];
+  var ORDER = ["Guidance for agencies", "Policy recommendations", "Research", "Evaluation", "Reference"];
   var active = "all";
 
   function render() {
@@ -224,8 +271,10 @@ document.addEventListener("DOMContentLoaded", function () {
               '<span class="note">' + items.length + " item" + (items.length > 1 ? "s" : "") + "</span></div>";
       html += '<div class="lib-list">' + items.map(function (it) {
         var s = LABEL[it.status] || ["", ""];
+        var ext = /^https?:/.test(it.href || "");
         var titleHtml = it.href
-          ? '<a href="' + it.href + '">' + it.title + "</a>"
+          ? '<a href="' + it.href + '"' + (ext ? ' target="_blank" rel="noopener"' : "") + ">" +
+            it.title + (ext ? ' <span class="ext">&#8599;</span>' : "") + "</a>"
           : it.title;
         return '<article class="lib-item">' +
           '<div class="lib-head"><h3>' + titleHtml + "</h3>" +

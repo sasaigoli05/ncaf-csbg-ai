@@ -58,7 +58,8 @@
       hasGrantWriter: null,  // true | false | null
       hasDataStaff: null,
       hasIT: null,
-      askFirst: ""           // free text — the person to ask. Module 1 Part 5 writes this.
+      askFirst: "",          // free text — the person to ask. Module 1 Part 5 writes this.
+      accountable: ""        // guardrail 2: the named person who signs off on AI-assisted output
     },
 
     work: {
@@ -135,6 +136,9 @@
     },
     "derived.topFunder": function () {
       return profile.funders[0] || "";
+    },
+    "derived.signer": function () {
+      return profile.people.accountable || profile.people.askFirst || "";
     }
   };
 
@@ -180,6 +184,7 @@
     staff:   function (v) { return profile.org.staffBand === v; },
     role:    function (v) { return profile.people.learnerRole === v; },
     has:     function (v) { return profile.people["has" + v] === true; },
+    signer:  function (v) { return v === "yes" ? !!profile.people.accountable : !profile.people.accountable; },
     setup:   function () { return isSetUp(); }
   };
 

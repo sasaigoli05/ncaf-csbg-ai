@@ -42,7 +42,7 @@
 
   <!-- 1 -->
   <div class="step" data-step="1">
-    <p class="eyebrow">Question 1 of 9</p>
+    <p class="eyebrow">Question 1 of 10</p>
     <h2>What should we call your agency?</h2>
     <p class="sub">However you'd say it out loud is fine.</p>
     <input class="field" id="qName" type="text" placeholder="Mountain Projects" autocomplete="organization">
@@ -51,7 +51,7 @@
 
   <!-- 2 -->
   <div class="step" data-step="2">
-    <p class="eyebrow">Question 2 of 9</p>
+    <p class="eyebrow">Question 2 of 10</p>
     <h2>Which counties do you serve?</h2>
     <p class="sub">Separate them with commas.</p>
     <input class="field" id="qCounties" type="text" placeholder="Haywood, Jackson">
@@ -67,7 +67,7 @@
 
   <!-- 3 -->
   <div class="step" data-step="3">
-    <p class="eyebrow">Question 3 of 9</p>
+    <p class="eyebrow">Question 3 of 10</p>
     <h2>How many people work there?</h2>
     <p class="sub">Roughly &mdash; across all programs.</p>
     <div class="choices" data-single="org.staffBand">
@@ -80,7 +80,7 @@
 
   <!-- 4 -->
   <div class="step" data-step="4">
-    <p class="eyebrow">Question 4 of 9</p>
+    <p class="eyebrow">Question 4 of 10</p>
     <h2>How do people get help from you?</h2>
     <div class="choices" data-single="org.model">
       <button class="choice" type="button" data-val="direct"><span class="mark"></span><span><span class="lbl">We serve them directly</span><span class="hint">We deliver the assistance ourselves</span></span></button>
@@ -95,7 +95,7 @@
 
   <!-- 5 -->
   <div class="step" data-step="5">
-    <p class="eyebrow">Question 5 of 9</p>
+    <p class="eyebrow">Question 5 of 10</p>
     <h2>Which programs do you run?</h2>
     <p class="sub">Pick all that apply.</p>
     <div class="chips" data-multi="org.programs">
@@ -113,7 +113,7 @@
 
   <!-- 6 -->
   <div class="step" data-step="6">
-    <p class="eyebrow">Question 6 of 9</p>
+    <p class="eyebrow">Question 6 of 10</p>
     <h2>What do you use to track clients?</h2>
     <div class="choices" data-single="systems.caseManagement">
       <button class="choice" type="button" data-val="CARDS"><span class="mark"></span><span><span class="lbl">CARDS</span><span class="hint">The state-built system</span></span></button>
@@ -126,7 +126,7 @@
 
   <!-- 7 -->
   <div class="step" data-step="7">
-    <p class="eyebrow">Question 7 of 9</p>
+    <p class="eyebrow">Question 7 of 10</p>
     <h2>Is anyone there using AI today?</h2>
     <div class="choices" data-single="systems.aiAccount">
       <button class="choice" type="button" data-val="none"><span class="mark"></span><span><span class="lbl">Not that I know of</span></span></button>
@@ -143,7 +143,7 @@
 
   <!-- 8 -->
   <div class="step" data-step="8">
-    <p class="eyebrow">Question 8 of 9</p>
+    <p class="eyebrow">Question 8 of 10</p>
     <h2>What eats the most time?</h2>
     <p class="sub">The thing you'd hand off tomorrow if you could.</p>
     <textarea class="field" id="qPain" placeholder="Pulling the annual report together — it takes weeks and it's our smallest grant."></textarea>
@@ -155,7 +155,7 @@
 
   <!-- 9 -->
   <div class="step" data-step="9">
-    <p class="eyebrow">Question 9 of 9</p>
+    <p class="eyebrow">Question 9 of 10</p>
     <h2>Who else funds you, besides CSBG?</h2>
     <p class="sub">Comma-separated. Used in the grant-writing module.</p>
     <input class="field" id="qFunders" type="text" placeholder="Dogwood Health Trust, United Way">
@@ -165,8 +165,28 @@
     </div>
   </div>
 
+
   <!-- 10 -->
   <div class="step" data-step="10">
+    <p class="eyebrow">Last one</p>
+    <h2>Who signs off on AI-assisted work?</h2>
+    <p class="sub">
+      One named person &mdash; usually the executive director. If nobody holds this yet, say so and
+      we will treat it as the first thing to fix.
+    </p>
+    <input class="field" id="qAccountable" type="text" placeholder="Dawn Cheek, Executive Director">
+    <p class="whyask">
+      This is the second of seven governance guardrails, and the one agencies most often skip.
+      Accountability spread across everyone is accountability nobody holds. It stays on this device.
+    </p>
+    <div class="step-actions">
+      <button class="cta" data-next type="button">Build my course</button>
+      <button class="skip" data-next type="button">We haven't decided yet</button>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="step" data-step="11">
     <div class="building">
       <h2 id="buildTitle">Setting things up&hellip;</h2>
       <div class="bar"><i id="buildBar"></i></div>
@@ -185,7 +205,7 @@
 
   var P = Tailor.profile;
   var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
-  var LAST_Q = 9;
+  var LAST_Q = 10;
   var cur = 0;
 
   var dotsEl = document.getElementById("dots");
@@ -258,7 +278,8 @@
     Tailor.set({
       org: { name: n || P.org.name, counties: list(document.getElementById("qCounties").value) },
       work: { painPoint: document.getElementById("qPain").value.trim() },
-      funders: list(document.getElementById("qFunders").value)
+      funders: list(document.getElementById("qFunders").value),
+      people: { accountable: document.getElementById("qAccountable").value.trim() }
     });
   }
 
@@ -267,6 +288,7 @@
     document.getElementById("qCounties").value = (P.org.counties || []).join(", ");
     document.getElementById("qPain").value = P.work.painPoint || "";
     document.getElementById("qFunders").value = (P.funders || []).join(", ");
+    document.getElementById("qAccountable").value = (P.people && P.people.accountable) || "";
     Array.prototype.forEach.call(document.querySelectorAll("[data-single]"), function (g) {
       var v = g.getAttribute("data-single").split(".").reduce(function (o, k) { return o ? o[k] : null; }, P);
       Array.prototype.forEach.call(g.querySelectorAll(".choice"), function (b) {
@@ -285,7 +307,7 @@
      invisible — and it names what was actually adapted. Under three seconds. */
   function build() {
     collect();
-    steps.forEach(function (s) { s.classList.toggle("is-active", s.getAttribute("data-step") === "10"); });
+    steps.forEach(function (s) { s.classList.toggle("is-active", s.getAttribute("data-step") === "11"); });
     dotsEl.hidden = true;
     document.getElementById("backBtn").disabled = true;
 
@@ -298,6 +320,7 @@
         ? "Noting your " + P.systems.caseManagement + " constraints"
         : "Setting up your systems guidance",
       P.org.model === "referral" ? "Swapping in referral-model scenarios" : "Selecting reporting scenarios",
+      P.people && P.people.accountable ? "Noting " + P.people.accountable + " as your sign-off" : "Flagging the sign-off question",
       "Laying out six modules"
     ];
 

@@ -41,6 +41,7 @@ src/
   index.html                      dashboard / course home
   setup.html                      the intake (nine questions, ~1 min)
   tools.html                      the agency toolkit
+  governance.html                 the seven guardrails, each wired to what implements it
   library.html                    index of briefs, research and guidance
   module-1-foundations.html
   module-2-how-to-prompt.html
@@ -149,7 +150,12 @@ backend questions never resolve.
 | AI-Tell Scanner | `#tells` | Module 5 | Working |
 | AI Output Check | `#output-check` | Module 4 | Working |
 | Reporting Assist Map | `#assist-map` | Module 4 | Working, saves per device |
+| AI Tool Inventory | `#inventory` | Guardrail 1 | Working, saves per device |
+| AI Incident Log | `#incidents` | Guardrail 7 | Working, saves per device |
 | FNPI Validator | `#fnpi` | Module 4 | In build |
+
+The last three registers are all one component. `data-interaction="register"` with `data-cols`
+and `data-key` gives you a saved, editable, exportable table — a new one is markup only.
 
 Tools are the same components the modules use, declared the same way
 (`data-interaction="piicheck"`), so anything built for a module is one line away from being
@@ -159,6 +165,41 @@ a standalone tool and vice versa.
 register, it has a confirmed live defect to catch, and there are twenty-four real agency
 files in `Research-Statistics/` to test it against. It needs spreadsheet parsing, which is
 why it is not done yet.
+
+---
+
+## Alignment with the policy recommendations
+
+`governance.html` is the platform's answer to the Task Force's agency-level policy brief. It lists
+the seven recommended guardrails and, for each, links the thing on this site that actually carries
+it out — because a recommendation nobody can action is just a document.
+
+| # | Guardrail | Implemented by |
+|---|---|---|
+| 1 | Keep an inventory of AI tools in use | AI Tool Inventory |
+| 2 | Name one AI-accountable person | Setup, question 10; surfaced across the site |
+| 3 | Assign someone to track changes | Named, no tool — it is an assignment, not an artifact |
+| 4 | Cover generative AI in the handbook | Named, no tool yet |
+| 5 | Train staff on the limits of AI output | The course itself |
+| 6 | Restrict data by settings, not instruction | Redaction Check, and Module 3's account section |
+| 7 | Log AI errors and corrections | AI Incident Log |
+
+Guardrails 3 and 4 are deliberately unimplemented. A policy-language template for 4 is worth
+building; 3 is a staffing decision and a tool would be theatre.
+
+Two things from the brief now run through the whole platform:
+
+- **"Aggregate, never infer."** AI may aggregate data the agency already collected; it may not
+  infer or fill what is missing. Missing data gets flagged, not estimated. In Modules 3 and 4 and
+  on the governance page.
+- **The CARDS export risk.** CARDS reports export to Excel with client and caseworker names
+  included unless staff remove them, and agencies record identifiers inconsistently. That is the
+  most concrete data-exposure path these agencies have, and it is now Module 3's lead warning.
+
+Module 6 also cites all three frameworks the brief screens, not just NIST — and makes the brief's
+sharpest point: the NC state AI framework requires an inventory and a risk assessment, and
+**it does not apply to CAAs**, since roughly 80 percent are private nonprofits. Same data, same
+reporting systems, no coverage.
 
 ---
 

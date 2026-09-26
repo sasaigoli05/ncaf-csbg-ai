@@ -313,19 +313,32 @@
   var MAP_KEY = "ncaf-assist-map";
   var MAP_COLS = ["Reporting step", "AI help?", "How AI helps", "Human sign-off?", "Risk or note"];
 
+  /* Generalised: the same saved, editable, exportable table backs the Reporting
+     Assist Map, the AI Tool Inventory and the AI Incident Log. Columns come from
+     data-cols and storage from data-key, so a new register is markup only.
+
+     The inventory and the log are not conveniences — they are guardrails 1 and 7
+     of the Task Force policy brief, and the inventory is what the NC state AI
+     framework requires of state agencies. Most CAAs are private nonprofits and
+     fall outside that rule, which is exactly why having the artifact matters. */
   function initAssistMap(root) {
+    var cols = root.getAttribute("data-cols");
+    var COLS = cols ? cols.split("|") : MAP_COLS;
+    var KEY = root.getAttribute("data-key") || MAP_KEY;
     var seed = [];
     Array.prototype.forEach.call(root.querySelectorAll("[data-row]"), function (r) {
       seed.push(r.getAttribute("data-row").split("|"));
       r.remove();
     });
 
+    function blank() { return COLS.map(function () { return ""; }); }
+
     var rows;
-    try { rows = JSON.parse(localStorage.getItem(MAP_KEY) || "null"); } catch (e) { rows = null; }
-    if (!Array.isArray(rows) || !rows.length) rows = seed.concat([["", "", "", "", ""], ["", "", "", "", ""]]);
+    try { rows = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { rows = null; }
+    if (!Array.isArray(rows) || !rows.length) rows = seed.concat([blank(), blank()]);
 
     function save() {
-      try { localStorage.setItem(MAP_KEY, JSON.stringify(rows)); } catch (e) {}
+      try { localStorage.setItem(KEY, JSON.stringify(rows)); } catch (e) {}
     }
 
     var wrap = document.createElement("div");
@@ -334,10 +347,10 @@
 
     function render() {
       var html = '<div class="table-scroll"><table class="data am-table"><thead><tr>' +
-        MAP_COLS.map(function (c) { return "<th>" + c + "</th>"; }).join("") +
+        COLS.map(function (c) { return "<th>" + c + "</th>"; }).join("") +
         '<th aria-label="Remove"></th></tr></thead><tbody>';
       rows.forEach(function (r, ri) {
-        html += "<tr>" + MAP_COLS.map(function (c, ci) {
+        html += "<tr>" + COLS.map(function (c, ci) {
           return '<td><input class="am-in" data-r="' + ri + '" data-c="' + ci +
                  '" value="' + String(r[ci] || "").replace(/"/g, "&quot;") +
                  '" aria-label="' + c + ', row ' + (ri + 1) + '"></td>';
@@ -360,15 +373,15 @@
       Array.prototype.forEach.call(wrap.querySelectorAll(".am-del"), function (b) {
         b.addEventListener("click", function () {
           rows.splice(+b.getAttribute("data-r"), 1);
-          if (!rows.length) rows = [["", "", "", "", ""]];
+          if (!rows.length) rows = [blank()];
           save(); render();
         });
       });
       wrap.querySelector(".am-add").addEventListener("click", function () {
-        rows.push(["", "", "", "", ""]); save(); render();
+        rows.push(blank()); save(); render();
       });
       wrap.querySelector(".am-copy").addEventListener("click", function () {
-        var text = MAP_COLS.join("\t") + "\n" + rows.map(function (r) { return r.join("\t"); }).join("\n");
+        var text = COLS.join("\t") + "\n" + rows.map(function (r) { return r.join("\t"); }).join("\n");
         var btn = wrap.querySelector(".am-copy");
         function ok() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy as text"; }, 1800); }
         if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, ok);
@@ -590,6 +603,7 @@
 
   var KINDS = { redact: initRedact, compute: initCompute, tells: initTells,
                 checklist: initChecklist, assistmap: initAssistMap,
+                register: initAssistMap,
                 piicheck: initPiiCheck, promptbuilder: initPromptBuilder,
                 outputcheck: initOutputCheck };
 
