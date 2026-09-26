@@ -30,7 +30,8 @@
   var POS_KEY  = "ncaf-card-pos";            // { "<page>": index }
 
   function mode() {
-    try { return localStorage.getItem(MODE_KEY) || "learn"; } catch (e) { return "learn"; }
+    var fallback = window.NCAF_DEFAULT_VIEW === "read" ? "read" : "learn";
+    try { return localStorage.getItem(MODE_KEY) || fallback; } catch (e) { return fallback; }
   }
   function setMode(m) {
     try { localStorage.setItem(MODE_KEY, m); } catch (e) {}

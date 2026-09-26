@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Sticks</title>
+<meta name="description" content="The thirty things worth remembering from the AI literacy course, on one page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+
+<div class="sticky-head">
+  <div class="topbar" data-topbar></div>
+</div>
+
+<header class="hero">
+  <div class="wrap-wide">
+    <p class="kicker">NCAF AI Task Force &middot; Recap</p>
+    <h1>What sticks</h1>
+    <p class="lede">
+      Every module closes with five things worth remembering. Here they all are on one page &mdash;
+      to skim before a staff meeting, to print for the wall, or to check a decision against without
+      working through the course again.
+    </p>
+    <div class="meta-row">
+      <span><strong>30</strong> takeaways</span>
+      <span><strong>6</strong> modules</span>
+      <span>About <strong>four minutes</strong> to read</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap-wide">
+
+  <div class="model-card" style="margin:2.25rem 0">
+    <p>If you remember one thing</p>
+    <p style="margin-bottom:0">
+      <strong>Aggregate data and your own words are fine. Anything that identifies a person is
+      not.</strong> And AI may aggregate what you already collected &mdash; it may never infer or
+      fill in what is missing. Missing data gets flagged, not estimated.
+    </p>
+  </div>
+
+  <div id="recap"></div>
+
+  <div class="callout">
+    <h2>Take it with you</h2>
+    <p>
+      Copy the whole list into your own notes, or print this page. It is the same recap that closes
+      each module, gathered in order.
+    </p>
+    <div class="prompt-box" style="margin-bottom:0">
+      <span class="label">The full list</span>
+      <span class="copy-target" id="copyAll"></span>
+      <button class="copy-btn" type="button" aria-label="Copy every takeaway">Copy</button>
+    </div>
+  </div>
+
+</main>
+
+<footer class="attrib">
+  <div class="wrap-wide">
+    <h4>AI Literacy for Community Action</h4>
+    <p>
+      A free, self-paced course from the NCAF AI Task Force, a student project at the University of
+      North Carolina at Chapel Hill, provided to the Community Action network at no cost.
+      <a href="index.html">Start the course</a> &middot;
+      <a href="tools.html">Open the toolkit</a> &middot;
+      <a href="governance.html">Governance guardrails</a>
+    </p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/mode.js"></script>
+<script src="assets/draft-banner.js"></script>
+<script src="assets/course.js"></script>
+<script src="assets/feedback.js" defer></script>
+<script>
+/* Kept here rather than scraped from the modules: the recap should not break
+   because a module page changed shape. If a module's takeaways are edited,
+   edit them here too — there are only six lists. */
+var RECAP = [
+  { n: 1, name: "Foundations", file: "module-1-foundations.html",
+    line: "What the tool is doing, and where it belongs",
+    items: [
+      ["It predicts likely text.", "Not searching, not looking anything up, and not consulting a rulebook written for your question."],
+      ["It cannot tell when it is wrong.", "A correct answer and an invented one are produced the same way and arrive in the same confident voice. Verify every number, citation and rule you put your agency's name behind."],
+      ["It never sees your systems.", "Nothing reaches it unless a person puts it there — which is both why it needs a thorough briefing and why client privacy is a live risk."],
+      ["Assistant, not decider.", "It drafts, summarizes and checks. A person decides and signs. The strongest evidence is for helping staff find information; the clearest harm is from systems that shape decisions about people."],
+      ["Ask before you paste.", "Know today whether your agency has an AI policy, whether your account trains on what you type, and who you go to when you are not sure."]
+    ] },
+  { n: 2, name: "How to Prompt", file: "module-2-how-to-prompt.html",
+    line: "Briefing it like a capable new coworker",
+    items: [
+      ["Brief it like a new coworker.", "Give context, be specific, and expect to revise."],
+      ["Set standing instructions once", "so you stop repeating your preferences every time."],
+      ["Treat the first answer as a draft.", "Correct it, and ask it to show its work."],
+      ["Verify anything you will report or submit.", "It can be confidently wrong."],
+      ["Never put client personal information into a public AI tool.", ""]
+    ] },
+  { n: 3, name: "Data Privacy", file: "module-3-data-privacy.html",
+    line: "The line you do not cross",
+    items: [
+      ["Aggregate data and your own words are fine. Anything that identifies a person is not.", "That one sentence covers almost every case you will meet."],
+      ["You cannot take it back.", "Unlike a bad draft, a paste is irreversible. Check before, not after."],
+      ["Removing the name is step one, not the whole job.", "Ask whether a neighbour would know who it is."],
+      ["Find out which account you are on.", "Free consumer tiers usually train on your input and carry no agreement with your agency."],
+      ["Some tasks cannot be made safe.", "Unduplicated counts and case-level outcome tracking need personal identifiers by construction. They stay in your own systems."]
+    ] },
+  { n: 4, name: "CSBG Reporting", file: "module-4-reporting.html",
+    line: "Drafting and checking, before it ships",
+    items: [
+      ["Map your workflow first.", "Hand AI the repetitive steps, not the judgment steps."],
+      ["AI drafts and flags. People decide, certify, and sign off.", ""],
+      ["Only de-identified summaries go into the tool.", "Never raw client records."],
+      ["Trace every number back to the source", "before you trust it."],
+      ["No AI-assisted section is submission-ready", "until a named person has checked it."]
+    ] },
+  { n: 5, name: "Grant Writing", file: "module-5-grant-writing.html",
+    line: "Reusing what you have already written",
+    items: [
+      ["Start from what you have already written.", "The tool's job is adaptation, not invention — and invention is where it goes wrong."],
+      ["Build the library once.", "Past applications, program descriptions, outcome tables, CNA summary, boilerplate. Every future deadline gets shorter."],
+      ["Use reviewer mode before you submit.", "Ask for the weakest paragraph and the unanswered question. It is free criticism from the only critic who will read it twice."],
+      ["Every number and citation must trace to a document you hold.", "If you cannot open the source, cut the sentence."],
+      ["The cure for machine-sounding prose is your own data.", "Swap a general claim for a local figure and the problem mostly disappears."]
+    ] },
+  { n: 6, name: "Ethics & Bias", file: "module-6-ethics-bias.html",
+    line: "Judging a tool before you adopt it",
+    items: [
+      ["AI rarely invents bias. It inherits it and scales it.", "Systemic, statistical and human-cognitive — and the third one is about you, not the machine."],
+      ["A tool can show you who is missing from your data. It cannot show you what nobody asked about.", "That still takes people."],
+      ["Watch the moment a human problem gets translated into a measurable proxy.", "That translation is a policy decision, however technical it looks."],
+      ["Five questions before any tool:", "who owns it, what may it touch, how will we know it is wrong, what happens then, and can the user overrule it easily."],
+      ["Hold the honest version.", "The evidence here is borrowed from adjacent fields, and the same technology is reshaping the job market your clients are trying to enter."]
+    ] }
+];
+
+document.addEventListener("DOMContentLoaded", function () {
+  var prog = window.NCAF_progress ? window.NCAF_progress() : {};
+  var html = "", plain = "AI Literacy for Community Action — what sticks\n";
+
+  RECAP.forEach(function (mod) {
+    var done = prog["m" + mod.n] && prog["m" + mod.n].complete;
+    html += '<section class="recap-mod">' +
+      '<div class="recap-head">' +
+        '<span class="recap-n' + (done ? " done" : "") + '">' + (done ? "✓" : mod.n) + "</span>" +
+        '<div><h2><a href="' + mod.file + '">' + mod.name + "</a></h2>" +
+        '<p class="recap-line">' + mod.line + "</p></div>" +
+      "</div><ol class='recap-list'>";
+    plain += "\n" + mod.n + ". " + mod.name.toUpperCase() + "\n";
+    mod.items.forEach(function (it) {
+      html += "<li><strong>" + it[0] + "</strong>" + (it[1] ? " " + it[1] : "") + "</li>";
+      plain += "   - " + it[0] + (it[1] ? " " + it[1] : "") + "\n";
+    });
+    html += "</ol></section>";
+  });
+
+  document.getElementById("recap").innerHTML = html;
+  document.getElementById("copyAll").textContent = plain.trim();
+});
+</script>
+</body>
+</html>

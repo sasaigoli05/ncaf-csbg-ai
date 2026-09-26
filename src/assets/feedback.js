@@ -190,6 +190,9 @@
 
   function init() {
     if (document.getElementById("ncaf-fb")) return;
+    /* A demo audience is not a review audience. Force it on with
+       NCAF_FEEDBACK_ALWAYS if you want notes during a demo too. */
+    if (window.NCAF_isDemo && window.NCAF_isDemo() && !window.NCAF_FEEDBACK_ALWAYS) return;
 
     var style = document.createElement("style");
     style.textContent = CSS;

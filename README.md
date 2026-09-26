@@ -40,6 +40,7 @@ Static site. No build step, no dependencies. Everything that ships lives in `src
 src/
   index.html                      dashboard / course home
   setup.html                      the intake (nine questions, ~1 min)
+  takeaways.html                  all 30 takeaways on one page
   tools.html                      the agency toolkit
   governance.html                 the seven guardrails, each wired to what implements it
   library.html                    index of briefs, research and guidance
@@ -52,6 +53,7 @@ src/
   .nojekyll                       stops GitHub running Jekyll over it
   assets/
     course.css                    the whole design system
+    mode.js                       demo / full presentation mode
     course.js                     nav, progress, quizzes, sorters, copy buttons
     learn.js                      the stepped card flow + Learn/Read toggle
     interactions.js               redact / compute / tells / checklist exercises
@@ -133,6 +135,42 @@ each negatable with `!`. An unknown test resolves to *shown*, so content is neve
 Blocks that do not apply are dropped from the card deck entirely rather than rendering blank.
 
 Skipping setup is always allowed — every module reads correctly with an empty profile.
+
+---
+
+## What you can change without touching code
+
+Everything below lives in **`src/assets/config.js`**. One file, five settings, no build step —
+edit, commit, push, and the deploy picks it up.
+
+| Setting | Values | What it does |
+|---|---|---|
+| `NCAF_MODE` | `"demo"` / `"full"` | **Demo** hides internal and process-facing content — facilitator notes, citation blocks, "not finished yet" hedging, feedback requests — and quiets the banner. **Full** shows everything. Nothing is ever deleted; content marked `data-editorial` is hidden by a stylesheet rule, so flipping back restores it instantly. |
+| `NCAF_DRAFT` | `true` / `false` | The banner at the top of every page. `false` removes it entirely. In demo mode it reads "Preview" rather than the full warning. |
+| `NCAF_FEEDBACK_ENDPOINT` | URL or `""` | Empty keeps reviewer notes in their own browser (export as CSV). A Google Apps Script URL sends every note to one shared Sheet as well. |
+| `NCAF_FEEDBACK_ALWAYS` | `true` / `false` | Forces the feedback widget on even in demo mode. Useful when demoing *to* reviewers. |
+| `NCAF_DEFAULT_VIEW` | `"learn"` / `"read"` | What a first-time visitor gets — the stepped card flow, or the whole module as one page. Either way the toggle is in the top bar and their choice is remembered. |
+| `NCAF_TAILOR_ENDPOINT` | URL or `""` | Optional server-side proxy for agency-specific generated scenarios. Empty means every module falls back to its authored text, which always works. **Never put an API key in this file — it is public.** |
+
+### Hiding something else in demo mode
+
+Add `data-editorial` to any element. That is the whole mechanism.
+
+```html
+<div class="callout" data-editorial>…internal note…</div>
+```
+
+### Other things that are data, not code
+
+| Change | Where |
+|---|---|
+| Add, reorder or retime modules | `MODULES` array at the top of `assets/course.js` — nav, home page and "next module" all read from it |
+| Add a library item | `LIBRARY` array in `library.html`; omit `href` until the document exists |
+| Edit the takeaways recap | `RECAP` array in `takeaways.html` |
+| Add a register (a saved, editable, exportable table) | Markup only: `data-interaction="register"` with `data-cols` and `data-key` |
+| Change the sorting exercise | `window.SORT_TASKS` inline on the module page |
+| Palette, type, spacing | Tokens at the top of `assets/course.css` |
+| Card boundaries | Automatic. Add `data-card` only to force an extra break |
 
 ---
 

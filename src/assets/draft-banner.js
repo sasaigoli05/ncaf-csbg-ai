@@ -23,10 +23,11 @@
     var bar = document.createElement("div");
     bar.id = "ncaf-draft";
     bar.setAttribute("role", "note");
-    bar.innerHTML =
-      "<b>Review draft.</b> " +
-      "<span>This course is still being written and reviewed. " +
-      "Content will change, and nothing here should be treated as final guidance yet.</span>";
+    bar.innerHTML = window.NCAF_isDemo && window.NCAF_isDemo()
+      ? "<b>Preview.</b> <span>A working build of the NCAF AI Task Force platform.</span>"
+      : "<b>Review draft.</b> " +
+        "<span>This course is still being written and reviewed. " +
+        "Content will change, and nothing here should be treated as final guidance yet.</span>";
 
     document.body.insertBefore(bar, document.body.firstChild);
   }

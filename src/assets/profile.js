@@ -244,7 +244,7 @@
        c) No endpoint. Everything falls back to Tier 3. This must always work.
      --------------------------------------------------------------------- */
 
-  var ENDPOINT = null;   // e.g. "/api/tailor" — set at build time per deployment
+  var ENDPOINT = window.NCAF_TAILOR_ENDPOINT || null;   // set in config.js
 
   function generated(id) {
     return profile.generated[id] || null;

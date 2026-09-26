@@ -912,3 +912,32 @@ details.facilitator p { font-size: .95rem; color: var(--ink-soft); }
 }
 
 .lib-head .ext { font-size: .8em; opacity: .7; }
+
+/* ---------- takeaways recap ---------- */
+
+.recap-mod {
+  background: var(--white); border: 1px solid var(--sage-line);
+  border-radius: var(--radius-lg); padding: 1.4rem 1.6rem; margin-bottom: .9rem;
+}
+.recap-head { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: .9rem; }
+.recap-n {
+  flex: none; width: 2.4rem; height: 2.4rem; border-radius: 999px;
+  display: grid; place-items: center; font-family: "Zilla Slab", serif;
+  font-weight: 600; font-size: 1.05rem;
+  background: var(--paper-2); color: var(--ink-faint); border: 1px solid var(--sage-line);
+}
+.recap-n.done { background: var(--green); color: #fff; border-color: var(--green); }
+.recap-head h2 { font-size: 1.3rem; }
+.recap-head h2 a { text-decoration: none; color: var(--ink); }
+.recap-head h2 a:hover { color: var(--green); text-decoration: underline; }
+.recap-line { font-size: .94rem; color: var(--ink-faint); margin: .1rem 0 0; }
+.recap-list { margin: 0; padding-left: 1.3rem; }
+.recap-list li { margin-bottom: .65rem; color: var(--ink-soft); font-size: .99rem; }
+.recap-list li:last-child { margin-bottom: 0; }
+.recap-list strong { color: var(--ink); }
+
+@media print {
+  .sticky-head, #ncaf-fb, #ncaf-draft, .callout, footer.attrib { display: none !important; }
+  .recap-mod { break-inside: avoid; border-color: #999; }
+  body { background: #fff; }
+}
