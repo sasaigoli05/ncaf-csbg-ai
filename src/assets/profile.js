@@ -9,7 +9,7 @@
       so out loud. This is the course practicing what Module 3 teaches.
 
    2. ON-DEVICE. The profile lives in localStorage. It is never transmitted
-      except, optionally, the one freeform sentence the learner chooses to send
+      except, optionally, the one open-text sentence the learner chooses to send
       to the parse endpoint. Storage can fail (private window, blocked cookies),
       so every read is wrapped and every module must render sensibly with an
       empty profile.
@@ -50,7 +50,7 @@
     systems: {
       caseManagement: "",    // "CARDS" | "Cap60" | "other" | "none" | "unsure"
       reportsFiled: [],      // ["1B","2A","2C","3","4A","4B","4C"]
-      aiAccount: ""          // "none" | "free-personal" | "paid-individual" | "org-account" | "unsure"
+      aiAccount: ""          // "none" | "personal-unpaid" | "paid-individual" | "org-account" | "unsure"
     },
 
     people: {
@@ -58,13 +58,13 @@
       hasGrantWriter: null,  // true | false | null
       hasDataStaff: null,
       hasIT: null,
-      askFirst: "",          // free text — the person to ask. Module 1 Part 5 writes this.
+      askFirst: "",          // open text — the person to ask. Module 1 Part 5 writes this.
       accountable: ""        // guardrail 2: the named person who signs off on AI-assisted output
     },
 
     work: {
-      processes: [],         // free text list — "what are you working on"
-      painPoint: ""          // free text — the single thing that eats the most time
+      processes: [],         // open text list — "what are you working on"
+      painPoint: ""          // open text — the single thing that eats the most time
     },
 
     funders: [],             // ["Dogwood Health Trust","United Way","HUD"]
@@ -169,7 +169,7 @@
        <div data-if="model:referral">…</div>
        <div data-if="!system:CARDS">…</div>
        <div data-if="report:4A">…</div>
-       <div data-if="ai:free-personal">…</div>
+       <div data-if="ai:personal-unpaid">…</div>
 
      Unknown or unevaluable tests resolve TRUE, so content is never silently
      lost because a profile field is missing. Hiding is opt-in, not default.
