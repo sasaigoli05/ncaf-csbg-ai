@@ -91,6 +91,9 @@ into **cards** at runtime, so there is one source of content and two ways to rea
 
 - **Learn** (default) — one idea per card, and a card holding an unfinished exercise will not let
   you continue. Borrowed from Brilliant: commit to an answer first, then get the explanation.
+  Progress shows as one segment per section rather than a single creeping bar, cards slide in
+  directionally, the top bar carries overall course progress, and finishing a module lands on a
+  completion screen with a progress ring rather than a silent redirect.
 - **Read** — the untouched document, for scanning in submission week.
 
 The toggle sits in the top bar and is remembered per device.
@@ -166,6 +169,7 @@ Add `data-editorial` to any element. That is the whole mechanism.
 |---|---|
 | Add, reorder or retime modules | `MODULES` array at the top of `assets/course.js` — nav, home page and "next module" all read from it |
 | Add a library item | `LIBRARY` array in `library.html`; omit `href` until the document exists |
+| Edit the research findings | The `.fnd` cards and `.stat-row` blocks in `library.html` — plain markup |
 | Edit the takeaways recap | `RECAP` array in `takeaways.html` |
 | Add a register (a saved, editable, exportable table) | Markup only: `data-interaction="register"` with `data-cols` and `data-key` |
 | Change the sorting exercise | `window.SORT_TASKS` inline on the module page |

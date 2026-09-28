@@ -577,8 +577,18 @@ textarea.field { font-size: 1.05rem; min-height: 6.5rem; resize: vertical; line-
 
 .learn-stage { display: flex; flex-direction: column; min-height: calc(100vh - 6.5rem); }
 
-.learn-rail { height: 3px; background: var(--paper-2); }
-.learn-rail i { display: block; height: 100%; background: var(--marigold); width: 0%; transition: width .35s ease; }
+.learn-rail { display: flex; gap: 3px; padding: 0 1.25rem; height: 16px; align-items: center; }
+.learn-rail .seg {
+  height: 4px; border-radius: 999px; background: var(--paper-2);
+  overflow: hidden; min-width: 8px; transition: height .2s ease;
+}
+.learn-rail .seg.current { height: 6px; }
+.learn-rail .seg i {
+  display: block; height: 100%; width: 0%; background: var(--sage-line);
+  transition: width .4s cubic-bezier(.2,.8,.2,1);
+}
+.learn-rail .seg.current i { background: var(--marigold); }
+.learn-rail .seg i[style*="100%"] { background: var(--green); }
 
 .learn-viewport { flex: 1; overflow-y: auto; padding-block: 2.5rem 1.5rem; }
 .learn-card { max-width: 42rem; margin: 0 auto; padding-inline: 1.25rem; }
@@ -941,3 +951,66 @@ details.facilitator p { font-size: .95rem; color: var(--ink-soft); }
   .recap-mod { break-inside: avoid; border-color: #999; }
   body { background: #fff; }
 }
+
+/* ---------- card transitions ---------- */
+
+@keyframes cardInR { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+@keyframes cardInL { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
+.learn-card.slide-in-r { animation: cardInR .26s cubic-bezier(.2,.8,.2,1) both; }
+.learn-card.slide-in-l { animation: cardInL .26s cubic-bezier(.2,.8,.2,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .learn-card.slide-in-r, .learn-card.slide-in-l { animation: none; }
+}
+
+/* ---------- module completion ---------- */
+
+.done-screen { text-align: center; padding-block: 2.5rem 1rem; }
+.done-screen h2 { font-size: 2rem; font-weight: 600; margin-bottom: .7rem; }
+.done-screen p { color: var(--ink-soft); max-width: 30rem; margin: 0 auto 1.9rem; }
+
+.done-ring {
+  width: 7.5rem; height: 7.5rem; border-radius: 999px; margin: 0 auto 1.6rem;
+  display: grid; place-items: center;
+  background:
+    conic-gradient(var(--green) calc(var(--pct) * 1%), var(--paper-2) 0);
+  position: relative;
+}
+.done-ring::after {
+  content: ""; position: absolute; inset: 9px; border-radius: 999px; background: var(--paper);
+}
+.done-ring span {
+  position: relative; z-index: 1;
+  font-family: "Zilla Slab", serif; font-size: 2rem; font-weight: 600; color: var(--ink);
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+.done-ring span i { font-style: normal; font-size: 1.1rem; color: var(--ink-faint); }
+
+.done-actions { display: flex; flex-direction: column; align-items: center; gap: .9rem; }
+.done-actions .cta { text-decoration: none; }
+.done-actions .skip { text-decoration: none; }
+
+/* overall course progress in the top bar on module pages */
+.course-pct {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .78rem; font-weight: 600; color: var(--ink-faint); white-space: nowrap;
+}
+.course-pct .bar {
+  width: 3.2rem; height: 4px; border-radius: 999px; background: var(--paper-2); overflow: hidden;
+}
+.course-pct .bar i { display: block; height: 100%; background: var(--green); }
+@media (max-width: 760px) { .course-pct { display: none; } }
+
+/* ---------- research findings ---------- */
+
+.finding-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: .8rem; margin-bottom: 1rem;
+}
+.finding-grid.two { grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); }
+.fnd {
+  background: var(--white); border: 1px solid var(--sage-line);
+  border-left: 3px solid var(--green); border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+}
+.fnd h3 { font-size: 1.05rem; margin-bottom: .45rem; line-height: 1.25; }
+.fnd p { font-size: .94rem; color: var(--ink-soft); margin: 0; }

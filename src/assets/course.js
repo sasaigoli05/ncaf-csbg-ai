@@ -37,6 +37,14 @@
   function buildTopbar() {
     var host = document.querySelector("[data-topbar]");
     if (!host) return;
+    var doneN = MODULES.filter(function (m) { return isModuleDone(m.n); }).length;
+    var pct = Math.round((doneN / MODULES.length) * 100);
+    var meter = thisMod
+      ? '<span class="course-pct" title="' + doneN + ' of ' + MODULES.length + ' modules complete">' +
+          '<span class="bar"><i style="width:' + pct + '%"></i></span>' + doneN + "/" + MODULES.length +
+        "</span>"
+      : "";
+
     var seq = MODULES.map(function (m) {
       var cls = m.file === thisFile ? "here" : (isModuleDone(m.n) ? "done" : "");
       return '<a class="' + cls + '" href="' + m.file + '" title="Module ' + m.n + ' — ' + m.name + '">' + m.n + "</a>";
@@ -51,6 +59,7 @@
           '<a href="governance.html"' + (here === "governance.html" ? ' class="on"' : "") + ">Governance</a>" +
           '<a href="library.html"' + (here === "library.html" ? ' class="on"' : "") + ">Library</a>" +
         "</nav>" +
+        meter +
         '<nav class="seq" aria-label="Modules">' + seq + "</nav>" +
       "</div>";
   }

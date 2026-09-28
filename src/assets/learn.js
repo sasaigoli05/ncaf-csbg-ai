@@ -209,7 +209,7 @@
     var stage = document.createElement("div");
     stage.className = "learn-stage";
     stage.innerHTML =
-      '<div class="learn-rail"><i id="learnRail"></i></div>' +
+      '<div class="learn-rail" id="learnRail"></div>' +
       '<div class="learn-viewport"><div class="learn-card" id="learnCard"></div></div>' +
       '<div class="learn-bar">' +
         '<div class="learn-bar-in">' +
@@ -259,8 +259,37 @@
     var hintEl = document.getElementById("learnHint");
 
     var idx = 0;
+    var dir = 1;
     var saved = readPos()[page()];
     if (typeof saved === "number" && saved >= 0 && saved < deck.length) idx = saved;
+
+    /* One segment per section, so the bar means something: you can see how many
+       parts are left, not just a percentage creeping along. The current
+       section's segment fills partially. */
+    var segments = [];
+    deck.forEach(function (c) {
+      var key = c.intro ? "_intro" : c.outro ? "_outro" : (c.sectionId || c.label);
+      if (!segments.length || segments[segments.length - 1].key !== key) {
+        segments.push({ key: key, label: c.label || "", count: 0, start: 0 });
+      }
+      segments[segments.length - 1].count++;
+    });
+    (function () { var at = 0; segments.forEach(function (sg) { sg.start = at; at += sg.count; }); })();
+
+    railEl.innerHTML = segments.map(function (sg) {
+      return '<span class="seg" style="flex:' + sg.count + '" title="' +
+             String(sg.label).replace(/"/g, "") + '"><i></i></span>';
+    }).join("");
+
+    function paintRail() {
+      Array.prototype.forEach.call(railEl.children, function (el, i) {
+        var sg = segments[i];
+        var doneCards = Math.min(Math.max(idx + 1 - sg.start, 0), sg.count);
+        var pct = (doneCards / sg.count) * 100;
+        el.firstChild.style.width = pct + "%";
+        el.classList.toggle("current", idx >= sg.start && idx < sg.start + sg.count);
+      });
+    }
 
     function render() {
       var c = deck[idx];
@@ -289,10 +318,14 @@
 
       backBtn.disabled = idx === 0;
       countEl.textContent = (idx + 1) + " of " + deck.length;
-      railEl.style.width = ((idx + 1) / deck.length) * 100 + "%";
+      paintRail();
 
-      nextBtn.textContent = idx === deck.length - 1 ? "Finish" : "Continue →";
+      nextBtn.textContent = idx === deck.length - 1 ? "Finish module" : "Continue →";
       refreshGate();
+
+      cardEl.classList.remove("slide-in-l", "slide-in-r");
+      void cardEl.offsetWidth;                 // restart the animation
+      cardEl.classList.add(dir < 0 ? "slide-in-l" : "slide-in-r");
 
       cardEl.scrollTop = 0;
       document.querySelector(".learn-viewport").scrollTop = 0;
@@ -309,6 +342,7 @@
 
     function go(n) {
       if (n < 0 || n >= deck.length) return;
+      dir = n > idx ? 1 : -1;
       idx = n;
       render();
     }
@@ -333,18 +367,43 @@
     });
 
     function markComplete() {
-      // Mirror into the shared course progress so the home page checkmark lands.
       var mods = window.NCAF_MODULES || [];
       var me = mods.filter(function (m) { return m.file === page(); })[0];
+      var all;
+      try { all = JSON.parse(localStorage.getItem("ncaf-course-progress") || "{}") || {}; }
+      catch (e) { all = {}; }
       if (me) {
-        var all;
-        try { all = JSON.parse(localStorage.getItem("ncaf-course-progress") || "{}") || {}; }
-        catch (e) { all = {}; }
         all["m" + me.n] = { parts: { all: true }, complete: true };
         try { localStorage.setItem("ncaf-course-progress", JSON.stringify(all)); } catch (e) {}
       }
-      var next = document.querySelector("[data-next-module] a.go");
-      if (next) next.click(); else location.href = "index.html";
+
+      var doneCount = mods.filter(function (m) { return all["m" + m.n] && all["m" + m.n].complete; }).length;
+      var next = mods.filter(function (m) { return m.n === (me ? me.n + 1 : 1); })[0];
+      var pct = mods.length ? Math.round((doneCount / mods.length) * 100) : 0;
+
+      /* Finishing should feel like finishing. A card that says "done, here is
+         where you are in the course, here is what is next" does more for
+         completion than a silent redirect. */
+      var wrap = document.querySelector(".learn-viewport");
+      wrap.innerHTML =
+        '<div class="learn-card"><div class="done-screen">' +
+          '<div class="done-ring" style="--pct:' + pct + '">' +
+            '<span>' + doneCount + "<i>/" + mods.length + "</i></span>" +
+          "</div>" +
+          "<h2>" + (me ? "Module " + me.n + " complete" : "Complete") + "</h2>" +
+          "<p>" + (doneCount === mods.length
+            ? "That is the whole course. The takeaways from all six are gathered on one page, and the toolkit is where you use them on real work."
+            : doneCount + " of " + mods.length + " modules done. Your progress is saved on this device \u2014 you can stop here and pick up later.") +
+          "</p>" +
+          '<div class="done-actions">' +
+            (next
+              ? '<a class="cta" href="' + next.file + '">Start Module ' + next.n + " \u2014 " + next.name + " \u2192</a>"
+              : '<a class="cta" href="takeaways.html">See what sticks \u2192</a>') +
+            '<a class="skip" href="index.html">Back to the course</a>' +
+          "</div>" +
+        "</div></div>";
+      document.querySelector(".learn-bar").hidden = true;
+      window.scrollTo(0, 0);
     }
 
     render();
