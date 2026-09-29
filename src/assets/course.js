@@ -8,12 +8,13 @@
   "use strict";
 
   var MODULES = [
-    { n: 1, file: "module-1-foundations.html",  name: "Foundations",     ds: "What it is, and what it isn't",          mins: 35 },
-    { n: 2, file: "module-2-how-to-prompt.html", name: "How to Prompt",   ds: "Briefing it like a new coworker",        mins: 40 },
-    { n: 3, file: "module-3-data-privacy.html", name: "Data Privacy",     ds: "The line you don't cross",               mins: 35 },
-    { n: 4, file: "module-4-reporting.html",    name: "CSBG Reporting",   ds: "Drafting and checking, before it ships", mins: 30 },
-    { n: 5, file: "module-5-grant-writing.html", name: "Grant Writing",   ds: "Reusing what you've already written",    mins: 40 },
-    { n: 6, file: "module-6-ethics-bias.html",  name: "Ethics & Bias",    ds: "Judging a tool before you adopt it",     mins: 40 }
+    { n: 1, file: "module-1-foundations.html",    name: "Foundations",        ds: "What it is, and what it isn't",          mins: 35 },
+    { n: 2, file: "module-2-how-to-prompt.html",  name: "How to Prompt",      ds: "Briefing it like a new coworker",        mins: 40 },
+    { n: 3, file: "module-3-data-privacy.html",   name: "Data Privacy",       ds: "The line you don't cross",               mins: 35 },
+    { n: 4, file: "module-4-reporting.html",      name: "CSBG Reporting",     ds: "Drafting and checking, before it ships", mins: 30 },
+    { n: 5, file: "module-5-grant-writing.html",  name: "Grant Writing",      ds: "Reusing what you've already written",    mins: 40 },
+    { n: 6, file: "module-6-ethics-bias.html",    name: "Ethics & Bias",      ds: "Judging a tool before you adopt it",     mins: 40 },
+    { n: 7, file: "module-7-bias-in-output.html", name: "Bias in AI Writing", ds: "Reading what it wrote about people",     mins: 35 }
   ];
   window.NCAF_MODULES = MODULES;
 
