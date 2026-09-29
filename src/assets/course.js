@@ -14,7 +14,6 @@
     { n: 4, file: "module-4-reporting.html",      name: "CSBG Reporting",     ds: "Drafting and checking, before it ships", mins: 30 },
     { n: 5, file: "module-5-grant-writing.html",  name: "Grant Writing",      ds: "Reusing what you've already written",    mins: 40 },
     { n: 6, file: "module-6-ethics-bias.html",    name: "Ethics & Bias",      ds: "Judging a tool before you adopt it",     mins: 40 },
-    { n: 7, file: "module-7-bias-in-output.html", name: "Bias in AI Writing", ds: "Reading what it wrote about people",     mins: 35 }
   ];
   window.NCAF_MODULES = MODULES;
 
