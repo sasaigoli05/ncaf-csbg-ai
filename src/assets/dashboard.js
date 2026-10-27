@@ -4,6 +4,10 @@
    Seven widgets an agency already recognises as its own work. Each opens to
    reveal the tools inside it, and each tool is switched on or off per agency.
 
+   Tools open as windows on a canvas. Drag them by the title bar, resize from the
+   bottom-right, collapse to a bar, close to put them back in the drawer. Position,
+   size and stacking are remembered.
+
    TO FLESH OUT A TOOL: find it in WIDGETS below and give it a `render`.
      render: "piicheck"              -> mounts that interaction component
      render: {fn: "courseProgress"}  -> calls a custom renderer from RENDERERS
@@ -20,7 +24,7 @@
 
   var WIDGETS = [
     {
-      id: "safety", n: 1, name: "Keeping client data safe",
+      id: "safety", n: 1, accent: "#A2412A", name: "Keeping client data safe",
       blurb: "What may go into a tool, and the record that it did.",
       tools: [
         { id: "redaction", name: "Redaction Check", needs: "Nothing", render: "piicheck", on: true,
@@ -39,7 +43,7 @@
       ]
     },
     {
-      id: "reporting", n: 2, name: "Getting the report out",
+      id: "reporting", n: 2, accent: "#2E5D4E", name: "Getting the report out",
       blurb: "Turning the four CARDS exports into the federal Annual Report.",
       tools: [
         { id: "assembler", name: "Annual Report Assembler", needs: "Their file", render: null, on: true,
@@ -64,7 +68,7 @@
       ]
     },
     {
-      id: "money", n: 3, name: "Finding and winning money",
+      id: "money", n: 3, accent: "#B0740F", name: "Finding and winning money",
       blurb: "Supplemental grants, from first search to submission.",
       tools: [
         { id: "tells", name: "AI-Tell Scanner", needs: "Nothing", render: "tells", on: true,
@@ -91,7 +95,7 @@
       ]
     },
     {
-      id: "community", n: 4, name: "Understanding the community",
+      id: "community", n: 4, accent: "#35566B", name: "Understanding the community",
       blurb: "The needs assessment, and the data underneath it.",
       tools: [
         { id: "questionbank", name: "CNA Question Bank", needs: "Nothing", on: true,
@@ -117,7 +121,7 @@
       ]
     },
     {
-      id: "service", n: 5, name: "Delivering and tracking service",
+      id: "service", n: 5, accent: "#2F6B63", name: "Delivering and tracking service",
       blurb: "Referrals, capacity and the gaps. Counts only — nothing here reads a case record.",
       tools: [
         { id: "gaplog", name: "Gap Logger", needs: "Nothing", on: true,
@@ -139,7 +143,7 @@
       ]
     },
     {
-      id: "story", n: 6, name: "Telling the story",
+      id: "story", n: 6, accent: "#7A4A63", name: "Telling the story",
       blurb: "The same numbers, framed for boards and funders.",
       tools: [
         { id: "plainlang", name: "Plain-Language Checker", needs: "Nothing", render: null, on: true,
@@ -155,7 +159,7 @@
       ]
     },
     {
-      id: "capability", n: 7, name: "Building staff capability",
+      id: "capability", n: 7, accent: "#3B534A", name: "Building staff capability",
       blurb: "The course, and what people keep after it. Turnover is high — assume whoever opens this is new.",
       tools: [
         { id: "progress", name: "Course Progress", needs: "Nothing", render: { fn: "courseProgress" }, on: true,
@@ -177,31 +181,9 @@
     }
   ];
 
-  /* ---------------- state ---------------- */
-
-  function load() {
-    try { return JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { return {}; }
-  }
-  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
-
-  var state = load();
-  state.open = state.open || {};
-  state.on = state.on || {};
-
-  /* First visit: switch on whatever is marked `on` and already works. */
-  if (!state.seeded) {
-    WIDGETS.forEach(function (w) {
-      w.tools.forEach(function (t) { if (t.on) state.on[t.id] = true; });
-    });
-    state.open.safety = true;
-    state.seeded = true;
-    save(state);
-  }
-
-  function isOn(t) { return !!state.on[t.id]; }
-  function isBuilt(t) { return !!t.render; }
-
-  /* ---------------- custom renderers ---------------- */
+  /* =======================================================================
+     HOW A TOOL RENDERS
+     ======================================================================= */
 
   var RENDERERS = {
     courseProgress: function (host) {
@@ -245,87 +227,281 @@
       "</div>";
   }
 
+  /* =======================================================================
+     WINDOW MANAGER
+     ======================================================================= */
+
+  var KEY = "ncaf-workspace-v2";
+  var GRID = 8;                    // light snap, enough to keep edges tidy
+  var MINW = 260, MINH = 150;
+
+  var TOOLS = {};                  // id -> {tool, group}
+  WIDGETS.forEach(function (g) {
+    g.tools.forEach(function (t) { TOOLS[t.id] = { tool: t, group: g }; });
+  });
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; }
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  var state = load();
+  if (!state || !Array.isArray(state.win)) {
+    /* First visit opens a small, working set rather than an empty canvas —
+       an empty desk tells you nothing about what the desk is for. */
+    state = { win: [], z: 10 };
+    [["redaction", 24, 24, 420, 400],
+     ["progress", 468, 24, 360, 210],
+     ["register", 24, 448, 560, 320],
+     ["prompt", 468, 258, 360, 510]].forEach(function (d, i) {
+      state.win.push({ id: d[0], x: d[1], y: d[2], w: d[3], h: d[4], z: 10 + i, collapsed: false });
+    });
+    state.z = 20;
+    save();
+  }
+
+  var canvas, drawer, isTouchLayout = false;
+
+  function snap(n) { return Math.round(n / GRID) * GRID; }
+  function findWin(id) {
+    for (var i = 0; i < state.win.length; i++) if (state.win[i].id === id) return state.win[i];
+    return null;
+  }
+
+  /* ---------------- open / close ---------------- */
+
+  function openTool(id) {
+    if (findWin(id)) { focusWin(id); return; }
+    var entry = TOOLS[id];
+    if (!entry) return;
+    /* Drop it somewhere visible and slightly offset from the last one. */
+    var n = state.win.length;
+    var w = { id: id, x: snap(40 + (n % 5) * 28), y: snap(40 + (n % 5) * 28),
+              w: 420, h: 380, z: ++state.z, collapsed: false };
+    state.win.push(w);
+    save();
+    renderCanvas();
+    focusWin(id);
+    var el = canvas.querySelector('[data-win="' + id + '"]');
+    if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  function closeTool(id) {
+    state.win = state.win.filter(function (w) { return w.id !== id; });
+    save();
+    renderCanvas();
+    renderDrawer();
+  }
+
+  function focusWin(id) {
+    var w = findWin(id);
+    if (!w) return;
+    w.z = ++state.z;
+    save();
+    var el = canvas.querySelector('[data-win="' + id + '"]');
+    if (el) el.style.zIndex = w.z;
+  }
+
+  /* ---------------- drag + resize ---------------- */
+
+  function wireDrag(el, win) {
+    var bar = el.querySelector(".win-bar");
+    var grip = el.querySelector(".win-grip");
+
+    function start(e, mode) {
+      if (isTouchLayout) return;
+      if (e.target.closest("button") && mode === "move") return;
+      e.preventDefault();
+      focusWin(win.id);
+      el.classList.add("is-dragging");
+
+      var sx = e.clientX, sy = e.clientY;
+      var ox = win.x, oy = win.y, ow = win.w, oh = win.h;
+
+      function move(ev) {
+        var dx = ev.clientX - sx, dy = ev.clientY - sy;
+        if (mode === "move") {
+          win.x = Math.max(0, snap(ox + dx));
+          win.y = Math.max(0, snap(oy + dy));
+          el.style.left = win.x + "px";
+          el.style.top = win.y + "px";
+        } else {
+          win.w = Math.max(MINW, snap(ow + dx));
+          win.h = Math.max(MINH, snap(oh + dy));
+          el.style.width = win.w + "px";
+          el.style.height = win.h + "px";
+        }
+      }
+      function up() {
+        el.classList.remove("is-dragging");
+        document.removeEventListener("pointermove", move);
+        document.removeEventListener("pointerup", up);
+        save();
+        growCanvas();
+      }
+      document.addEventListener("pointermove", move);
+      document.addEventListener("pointerup", up);
+    }
+
+    bar.addEventListener("pointerdown", function (e) { start(e, "move"); });
+    if (grip) grip.addEventListener("pointerdown", function (e) { start(e, "resize"); });
+    el.addEventListener("pointerdown", function () { focusWin(win.id); });
+  }
+
+  function growCanvas() {
+    if (isTouchLayout) { canvas.style.height = ""; return; }
+    var max = 600;
+    state.win.forEach(function (w) {
+      max = Math.max(max, w.y + (w.collapsed ? 44 : w.h) + 80);
+    });
+    canvas.style.height = max + "px";
+  }
+
   /* ---------------- render ---------------- */
 
-  function stateLine(w) {
-    var on = w.tools.filter(isOn);
-    var ready = on.filter(isBuilt).length;
-    if (!on.length) return "Nothing switched on";
-    return on.length + (on.length === 1 ? " tool on" : " tools on") +
-           (ready < on.length ? " · " + ready + " ready to use" : "");
+  function renderCanvas() {
+    canvas.innerHTML = "";
+
+    if (!state.win.length) {
+      canvas.innerHTML =
+        '<div class="canvas-empty"><p><b>Nothing open.</b></p>' +
+        "<p>Pick a tool from the drawer to put it on your workspace.</p></div>";
+      canvas.style.height = "";
+      return;
+    }
+
+    state.win.forEach(function (win) {
+      var entry = TOOLS[win.id];
+      if (!entry) return;
+      var t = entry.tool, g = entry.group;
+
+      var el = document.createElement("section");
+      el.className = "win" + (win.collapsed ? " is-collapsed" : "");
+      el.setAttribute("data-win", win.id);
+      el.style.setProperty("--accent", g.accent);
+      if (!isTouchLayout) {
+        el.style.left = win.x + "px";
+        el.style.top = win.y + "px";
+        el.style.width = win.w + "px";
+        el.style.height = win.collapsed ? "auto" : win.h + "px";
+        el.style.zIndex = win.z;
+      }
+
+      el.innerHTML =
+        '<header class="win-bar">' +
+          '<span class="win-dot"></span>' +
+          '<span class="win-title"><b>' + t.name + "</b><span>" + g.name + "</span></span>" +
+          '<button class="win-btn" data-act="collapse" type="button" aria-label="Collapse">' +
+            (win.collapsed ? "⬜" : "—") + "</button>" +
+          '<button class="win-btn" data-act="close" type="button" aria-label="Close">×</button>' +
+        "</header>" +
+        '<div class="win-body"></div>' +
+        '<span class="win-grip" aria-hidden="true"></span>';
+
+      canvas.appendChild(el);
+
+      if (!win.collapsed) mount(el.querySelector(".win-body"), t);
+
+      el.querySelector('[data-act="close"]').addEventListener("click", function (e) {
+        e.stopPropagation(); closeTool(win.id);
+      });
+      el.querySelector('[data-act="collapse"]').addEventListener("click", function (e) {
+        e.stopPropagation();
+        win.collapsed = !win.collapsed;
+        save(); renderCanvas(); growCanvas();
+      });
+
+      wireDrag(el, win);
+    });
+
+    growCanvas();
   }
 
-  function render() {
-    var host = document.getElementById("workspace");
-    host.innerHTML = WIDGETS.map(function (w) {
-      var open = !!state.open[w.id];
-      return '<section class="wdg' + (open ? " is-open" : "") + '" id="w-' + w.id + '">' +
-        '<button class="wdg-head" type="button" data-w="' + w.id + '" aria-expanded="' + open + '">' +
-          '<span class="wdg-n">' + w.n + "</span>" +
-          '<span class="wdg-title"><b>' + w.name + "</b><span>" + w.blurb + "</span></span>" +
-          '<span class="wdg-state">' + stateLine(w) + "</span>" +
-          '<span class="wdg-chev" aria-hidden="true"></span>' +
+  function renderDrawer() {
+    drawer.innerHTML = WIDGETS.map(function (g) {
+      return '<div class="dw-group" style="--accent:' + g.accent + '">' +
+        '<button class="dw-head" type="button" data-g="' + g.id + '">' +
+          '<span class="dw-dot"></span><b>' + g.name + "</b>" +
+          '<span class="dw-count">' + g.tools.length + "</span>" +
         "</button>" +
-        '<div class="wdg-body">' + w.tools.map(function (t) {
-          var on = isOn(t), built = isBuilt(t);
-          return '<div class="tl' + (on ? " is-on" : "") + '">' +
-            '<div class="tl-head">' +
-              '<label class="tl-switch"><input type="checkbox" data-t="' + t.id + '"' + (on ? " checked" : "") + '><span></span></label>' +
-              '<div class="tl-name"><b>' + t.name + "</b>" +
-                (built ? "" : '<span class="pill soon">Not built</span>') +
-                '<span class="tl-needs">' + t.needs + "</span>" +
-              "</div>" +
-            "</div>" +
-            (on ? '<div class="tl-body" data-mount="' + t.id + '"></div>' : "") +
-          "</div>";
-        }).join("") + "</div>" +
-      "</section>";
+        '<div class="dw-list">' + g.tools.map(function (t) {
+          var open = !!findWin(t.id);
+          return '<button class="dw-tool' + (open ? " is-open" : "") +
+            '" type="button" data-t="' + t.id + '" title="' + t.what.replace(/"/g, "") + '">' +
+            "<b>" + t.name + "</b>" +
+            (t.render ? "" : '<span class="pill soon">Soon</span>') +
+            "<span>" + (open ? "On canvas" : "Add") + "</span></button>";
+        }).join("") + "</div></div>";
     }).join("");
 
-    // Mount only what is both switched on and inside an open widget.
-    WIDGETS.forEach(function (w) {
-      if (!state.open[w.id]) return;
-      w.tools.forEach(function (t) {
-        if (!isOn(t)) return;
-        var slot = host.querySelector('[data-mount="' + t.id + '"]');
-        if (slot) mount(slot, t);
-      });
-    });
-
-    Array.prototype.forEach.call(host.querySelectorAll(".wdg-head"), function (b) {
+    Array.prototype.forEach.call(drawer.querySelectorAll(".dw-head"), function (b) {
       b.addEventListener("click", function () {
-        var id = b.getAttribute("data-w");
-        state.open[id] = !state.open[id];
-        save(state);
-        render();
-        var el = document.getElementById("w-" + id);
-        if (el && state.open[id]) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        b.parentElement.classList.toggle("is-open");
       });
     });
-
-    Array.prototype.forEach.call(host.querySelectorAll("[data-t]"), function (cb) {
-      cb.addEventListener("change", function () {
-        state.on[cb.getAttribute("data-t")] = cb.checked;
-        save(state);
-        render();
+    Array.prototype.forEach.call(drawer.querySelectorAll("[data-t]"), function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-t");
+        if (findWin(id)) { closeTool(id); } else { openTool(id); }
+        renderDrawer();
       });
     });
-
-    var tot = 0, ready = 0;
-    WIDGETS.forEach(function (w) {
-      w.tools.forEach(function (t) { tot++; if (isBuilt(t)) ready++; });
-    });
-    var sum = document.getElementById("wsSummary");
-    if (sum) {
-      var onCount = 0;
-      WIDGETS.forEach(function (w) { w.tools.forEach(function (t) { if (isOn(t)) onCount++; }); });
-      sum.textContent = onCount + " of " + tot + " tools switched on · " + ready + " built so far";
-    }
   }
 
+  /* ---------------- presets ---------------- */
+
+  var PRESETS = {
+    reporting: ["assembler", "sourcemap", "outputcheck", "redaction"],
+    grants:    ["tells", "boilerplate", "pipeline", "prompt"],
+    governance:["register", "redaction", "progress", "gaplog"]
+  };
+
+  function applyPreset(name) {
+    var ids = PRESETS[name] || [];
+    state.win = [];
+    state.z = 10;
+    var x = 24, y = 24;
+    ids.forEach(function (id, i) {
+      state.win.push({ id: id, x: x, y: y, w: 420, h: 380, z: 10 + i, collapsed: false });
+      if (i % 2 === 0) { x += 444; } else { x = 24; y += 404; }
+    });
+    save(); renderCanvas(); renderDrawer();
+  }
+
+  /* ---------------- go ---------------- */
+
   function init() {
-    if (!document.getElementById("workspace")) return;
-    render();
+    canvas = document.getElementById("canvas");
+    drawer = document.getElementById("drawer");
+    if (!canvas || !drawer) return;
+
+    function layout() {
+      var touch = window.matchMedia("(max-width: 860px)").matches;
+      if (touch !== isTouchLayout) {
+        isTouchLayout = touch;
+        document.body.classList.toggle("stacked", touch);
+        renderCanvas();
+      }
+    }
+    layout();
+    window.addEventListener("resize", layout);
+
+    renderCanvas();
+    renderDrawer();
+
+    var dt = document.getElementById("drawerToggle");
+    if (dt) dt.addEventListener("click", function () {
+      document.body.classList.toggle("drawer-open");
+      dt.setAttribute("aria-expanded", document.body.classList.contains("drawer-open"));
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll("[data-preset]"), function (b) {
+      b.addEventListener("click", function () { applyPreset(b.getAttribute("data-preset")); });
+    });
+    var clr = document.getElementById("clearAll");
+    if (clr) clr.addEventListener("click", function () {
+      state.win = []; save(); renderCanvas(); renderDrawer();
+    });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

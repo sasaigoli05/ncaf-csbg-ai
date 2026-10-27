@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agency Workspace</title>
-<meta name="description" content="Seven areas of agency work, each with the tools that support it. Switch on what you need.">
+<meta name="description" content="A workspace you arrange yourself — open the tools you need, move them where you want them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
@@ -16,58 +16,25 @@
   <div class="topbar" data-topbar></div>
 </div>
 
-<header class="hero">
-  <div class="wrap-wide">
-    <p class="kicker">NCAF AI Task Force &middot; Workspace</p>
-    <h1 id="wsTitle">Your workspace</h1>
-    <p class="lede">
-      Seven areas of the work, each holding the tools that support it. Open one, switch on what you
-      need, and ignore the rest. Nothing is switched on without you asking for it.
-    </p>
-    <p class="tailored-note" id="tailoredNote" hidden>
-      Set up for <b id="tailoredName"></b> &middot; <a href="setup.html" style="font-weight:400">edit</a>
-    </p>
-    <div class="meta-row">
-      <span id="wsSummary"></span>
-    </div>
+<div class="ws-bar">
+  <div class="ws-bar-in">
+    <button class="ws-add" id="drawerToggle" type="button" aria-expanded="false">
+      <span class="plus">+</span> Add a tool
+    </button>
+    <span class="ws-who" id="wsWho"></span>
+    <span class="ws-presets">
+      <button type="button" data-preset="reporting">Reporting season</button>
+      <button type="button" data-preset="grants">Grant deadline</button>
+      <button type="button" data-preset="governance">Governance</button>
+      <button type="button" id="clearAll" class="ws-clear">Clear</button>
+    </span>
   </div>
-</header>
+</div>
 
-<main class="wrap-wide">
-
-  <div class="callout" style="margin-top:2rem">
-    <h2>How this works</h2>
-    <p style="margin-bottom:0">
-      Each area opens to show its tools. Switch one on and it appears right there, ready to use.
-      Tools marked <span class="pill soon">Not built</span> are planned &mdash; switching them on
-      shows what they will do, which is also how you tell us they matter. Everything you enter stays
-      in this browser.
-    </p>
-  </div>
-
-  <div id="workspace"></div>
-
-  <div class="callout" data-editorial>
-    <h2>Something missing?</h2>
-    <p style="margin-bottom:0">
-      These came out of what agencies told us in interviews. If a repetitive, aggregate-data job is
-      eating your week and it is not here, say so with the <strong>Feedback</strong> button.
-    </p>
-  </div>
-
-</main>
-
-<footer class="attrib">
-  <div class="wrap-wide">
-    <h4>About the workspace</h4>
-    <p>
-      Built by the NCAF AI Task Force, a student project at the University of North Carolina at
-      Chapel Hill, for the Community Action network. These are working drafts, not certified
-      compliance software. Nothing here replaces your own review, and no tool on this page should be
-      the last check before something reaches a funder.
-    </p>
-  </div>
-</footer>
+<div class="ws-stage">
+  <aside class="ws-drawer" id="drawer" aria-label="Tool drawer"></aside>
+  <div class="ws-canvas" id="canvas"></div>
+</div>
 
 <script src="assets/config.js"></script>
 <script src="assets/mode.js"></script>
@@ -80,9 +47,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   if (window.Tailor && Tailor.isSetUp()) {
-    document.getElementById("wsTitle").textContent = Tailor.profile.org.name;
-    document.getElementById("tailoredName").textContent = Tailor.profile.org.name;
-    document.getElementById("tailoredNote").hidden = false;
+    document.getElementById("wsWho").textContent = Tailor.profile.org.name;
   }
 });
 </script>
