@@ -54,6 +54,7 @@
       '<div class="topbar-in">' +
         '<a class="home" href="index.html">AI Literacy for Community Action</a>' +
         '<nav class="sitenav" aria-label="Sections">' +
+          '<a href="workspace.html"' + (here === "workspace.html" ? ' class="on"' : "") + ">Workspace</a>" +
           '<a href="takeaways.html"' + (here === "takeaways.html" ? ' class="on"' : "") + ">Recap</a>" +
           '<a href="tools.html"' + (here === "tools.html" ? ' class="on"' : "") + ">Toolkit</a>" +
           '<a href="governance.html"' + (here === "governance.html" ? ' class="on"' : "") + ">Governance</a>" +

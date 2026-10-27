@@ -607,13 +607,21 @@
                 piicheck: initPiiCheck, promptbuilder: initPromptBuilder,
                 outputcheck: initOutputCheck };
 
-  function init() {
-    Array.prototype.forEach.call(document.querySelectorAll("[data-interaction]"), function (el) {
+  /* Scoped and idempotent, so the dashboard can mount a tool the moment a
+     widget is expanded without re-initialising anything already on the page. */
+  function init(root) {
+    var scope = root || document;
+    Array.prototype.forEach.call(scope.querySelectorAll("[data-interaction]"), function (el) {
+      if (el.getAttribute("data-inited") === "1") return;
       var fn = KINDS[el.getAttribute("data-interaction")];
-      if (fn) { try { fn(el); } catch (e) { el.classList.add("is-complete"); } }
+      if (!fn) return;
+      el.setAttribute("data-inited", "1");
+      try { fn(el); } catch (e) { el.classList.add("is-complete"); }
     });
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  window.NCAF_initInteractions = init;
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { init(); });
   else init();
 })();
