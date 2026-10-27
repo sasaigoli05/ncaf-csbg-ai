@@ -1016,79 +1016,8 @@ details.facilitator p { font-size: .95rem; color: var(--ink-soft); }
 .fnd p { font-size: .94rem; color: var(--ink-soft); margin: 0; }
 
 /* ===========================================================================
-   WORKSPACE — seven widgets, each holding its tools
+   WHAT A TOOL LOOKS LIKE INSIDE ITS WINDOW
    =========================================================================== */
-
-#workspace { display: grid; gap: .7rem; margin: 1.5rem 0 2rem; }
-
-.wdg {
-  background: var(--white); border: 1px solid var(--sage-line);
-  border-radius: var(--radius-lg); overflow: hidden;
-}
-.wdg.is-open { border-color: var(--green); box-shadow: var(--shadow-md); }
-
-.wdg-head {
-  display: grid; grid-template-columns: 2.4rem 1fr auto 1.2rem;
-  gap: 1rem; align-items: center; width: 100%; text-align: left;
-  background: none; border: none; cursor: pointer;
-  padding: 1.15rem 1.3rem; font-family: inherit;
-}
-.wdg-head:hover { background: var(--paper); }
-.wdg-n {
-  width: 2.2rem; height: 2.2rem; border-radius: 999px; display: grid; place-items: center;
-  font-family: "Zilla Slab", serif; font-weight: 600; font-size: 1rem;
-  background: var(--paper-2); color: var(--ink-faint); border: 1px solid var(--sage-line);
-}
-.wdg.is-open .wdg-n { background: var(--green); color: #fff; border-color: var(--green); }
-.wdg-title b {
-  display: block; font-family: "Zilla Slab", serif; font-size: 1.18rem;
-  font-weight: 600; color: var(--ink);
-}
-.wdg-title span { display: block; font-size: .93rem; color: var(--ink-soft); margin-top: .1rem; }
-.wdg-state { font-size: .85rem; color: var(--ink-faint); white-space: nowrap; font-weight: 600; }
-.wdg-chev {
-  width: .62rem; height: .62rem; border-right: 2px solid var(--ink-faint);
-  border-bottom: 2px solid var(--ink-faint); transform: rotate(45deg) translateY(-2px);
-  transition: transform .2s ease; justify-self: end;
-}
-.wdg.is-open .wdg-chev { transform: rotate(-135deg) translateY(-2px); border-color: var(--green); }
-
-.wdg-body { display: none; padding: 0 1.3rem 1.1rem; }
-.wdg.is-open .wdg-body { display: block; }
-
-@media (max-width: 700px) {
-  .wdg-head { grid-template-columns: 2.4rem 1fr 1.2rem; }
-  .wdg-state { grid-column: 2; font-size: .82rem; }
-}
-
-/* ---- a tool inside a widget ---- */
-
-.tl { border-top: 1px solid var(--paper-2); padding: .9rem 0; }
-.tl:first-child { border-top: none; }
-.tl-head { display: flex; gap: .85rem; align-items: flex-start; }
-.tl-name b { font-size: 1.01rem; font-weight: 600; }
-.tl-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; }
-.tl-needs {
-  font-size: .78rem; color: var(--ink-faint); font-weight: 600;
-  letter-spacing: .03em; text-transform: uppercase;
-}
-.tl-body { margin-top: .85rem; }
-.tl:not(.is-on) .tl-name b { color: var(--ink-soft); font-weight: 500; }
-
-.tl-switch { position: relative; flex: none; width: 2.4rem; height: 1.35rem; cursor: pointer; margin-top: .1rem; }
-.tl-switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
-.tl-switch span {
-  position: absolute; inset: 0; border-radius: 999px; background: var(--sage-line);
-  transition: background .18s ease; pointer-events: none;
-}
-.tl-switch span::after {
-  content: ""; position: absolute; top: 3px; left: 3px; width: 1.05rem; height: 1.05rem;
-  border-radius: 999px; background: #fff; transition: transform .18s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,.2);
-}
-.tl-switch input:checked + span { background: var(--green); }
-.tl-switch input:checked + span::after { transform: translateX(1.05rem); }
-.tl-switch input:focus-visible + span { outline: 2px solid var(--marigold); outline-offset: 2px; }
 
 .tool-stub {
   background: var(--paper-2); border: 1px dashed var(--sage-line);
@@ -1105,13 +1034,15 @@ details.facilitator p { font-size: .95rem; color: var(--ink-soft); }
 .cp-progress p { font-size: .96rem; margin: 0; }
 
 /* ===========================================================================
-   WORKSPACE — a canvas of draggable windows
+   WORKSPACE — a board you arrange: windows, headings, sections, notes
    =========================================================================== */
+
+body.ws-page:not(.stacked) { overflow: hidden; }
 
 .ws-bar { border-bottom: 1px solid var(--sage-line); background: var(--paper); }
 .ws-bar-in {
-  max-width: none; padding: .6rem 1.1rem;
-  display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
+  max-width: none; padding: .55rem 1.1rem;
+  display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
 }
 .ws-add {
   display: inline-flex; align-items: center; gap: .45rem;
@@ -1123,6 +1054,17 @@ details.facilitator p { font-size: .95rem; color: var(--ink-soft); }
 .ws-add .plus { font-size: 1.1rem; line-height: 1; }
 body.drawer-open .ws-add { background: var(--ink); }
 
+.ws-sep { width: 1px; height: 1.4rem; background: var(--sage-line); flex: none; }
+
+.ws-adds { display: flex; gap: .3rem; }
+.ws-adds button {
+  background: var(--white); border: 1px solid var(--sage-line); border-radius: 999px;
+  padding: .35rem .75rem; font-family: inherit; font-size: .83rem; font-weight: 600;
+  color: var(--ink-soft); cursor: pointer;
+}
+.ws-adds button::before { content: "+ "; color: var(--ink-faint); }
+.ws-adds button:hover { border-color: var(--marigold); color: var(--marigold); }
+
 .ws-who { font-family: "Zilla Slab", serif; font-size: 1.02rem; font-weight: 600; color: var(--ink); }
 .ws-presets { margin-left: auto; display: flex; gap: .35rem; flex-wrap: wrap; }
 .ws-presets button {
@@ -1133,15 +1075,18 @@ body.drawer-open .ws-add { background: var(--ink); }
 .ws-presets button:hover { border-color: var(--green); color: var(--green); }
 .ws-presets .ws-clear:hover { border-color: var(--rust); color: var(--rust); }
 
-/* ---- stage: drawer + canvas ---- */
+/* ---- stage: drawer + the board ---- */
 
-.ws-stage { display: flex; align-items: flex-start; min-height: 70vh; }
+.ws-stage {
+  position: relative; display: flex; align-items: stretch;
+  height: calc(100vh - var(--ws-chrome, 6.9rem));
+}
 
 .ws-drawer {
-  width: 0; flex: none; overflow: hidden; background: var(--paper-2);
+  width: 0; flex: none; background: var(--paper-2);
   border-right: 1px solid transparent;
   transition: width .22s cubic-bezier(.2,.8,.2,1);
-  position: sticky; top: 3.4rem; max-height: calc(100vh - 3.4rem); overflow-y: auto;
+  overflow-x: hidden; overflow-y: auto;
 }
 body.drawer-open .ws-drawer { width: 19rem; border-right-color: var(--sage-line); }
 @media (prefers-reduced-motion: reduce) { .ws-drawer { transition: none; } }
@@ -1171,13 +1116,39 @@ body.drawer-open .ws-drawer { width: 19rem; border-right-color: var(--sage-line)
 .dw-tool.is-open { border-color: var(--accent); background: var(--sage); }
 .dw-tool.is-open > span:last-child { color: var(--accent); }
 
-/* ---- canvas ---- */
+/* ---- the board: its own scrolling surface, as big as you need ---- */
 
-.ws-canvas { position: relative; flex: 1; min-height: 70vh; padding: 1rem; overflow: visible; }
+.ws-canvas { flex: 1; min-width: 0; overflow: auto; overscroll-behavior: contain; }
+.ws-surface {
+  position: relative; min-width: 100%; min-height: 100%;
+  background-color: var(--paper);
+  background-image: radial-gradient(circle, rgba(20,48,42,.11) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 12px 12px;
+}
 .canvas-empty {
-  max-width: 24rem; margin: 5rem auto; text-align: center; color: var(--ink-soft);
+  position: absolute; left: 50%; top: 22%; transform: translateX(-50%);
+  max-width: 26rem; text-align: center; color: var(--ink-soft);
 }
 .canvas-empty b { color: var(--ink); }
+
+.ws-room {
+  position: absolute; right: .9rem; bottom: .9rem; z-index: 60;
+  display: flex; align-items: center; gap: .3rem;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(4px);
+  border: 1px solid var(--sage-line); border-radius: 999px; padding: .25rem .3rem .25rem .7rem;
+  box-shadow: 0 2px 10px rgba(20,48,42,.1);
+}
+.room-size {
+  font-size: .74rem; color: var(--ink-faint); font-variant-numeric: tabular-nums;
+  margin-right: .25rem;
+}
+.ws-room button {
+  background: var(--paper-2); border: 1px solid var(--sage-line); border-radius: 999px;
+  padding: .22rem .6rem; font-family: inherit; font-size: .76rem; font-weight: 600;
+  color: var(--ink-soft); cursor: pointer;
+}
+.ws-room button:hover { border-color: var(--green); color: var(--green); }
 
 /* ---- a window ---- */
 
@@ -1192,6 +1163,8 @@ body.drawer-open .ws-drawer { width: 19rem; border-right-color: var(--sage-line)
   box-shadow: 0 18px 42px rgba(20,48,42,.24);
   transition: none; cursor: grabbing; user-select: none;
 }
+.win.is-blocked { outline: 2px dashed var(--rust); outline-offset: 2px; }
+.win.is-settling { transition: left .2s cubic-bezier(.2,.8,.2,1), top .2s cubic-bezier(.2,.8,.2,1); }
 .win.is-collapsed { height: auto !important; }
 
 .win-bar {
@@ -1214,7 +1187,7 @@ body.drawer-open .ws-drawer { width: 19rem; border-right-color: var(--sage-line)
 .win-btn {
   flex: none; width: 1.5rem; height: 1.5rem; border-radius: 999px; border: none;
   background: rgba(20,48,42,.06); color: var(--ink-soft); cursor: pointer;
-  font-size: .82rem; line-height: 1; display: grid; place-items: center; font-family: inherit;
+  font-size: .9rem; line-height: 1; display: grid; place-items: center; font-family: inherit;
 }
 .win-btn:hover { background: rgba(20,48,42,.14); color: var(--ink); }
 
@@ -1232,18 +1205,116 @@ body.drawer-open .ws-drawer { width: 19rem; border-right-color: var(--sage-line)
 }
 .win:hover .win-grip::after { border-color: var(--ink-faint); }
 
-/* ---- small screens: no dragging, just a stack ---- */
+/* ---- headings, sections, notes: the layer you design with ---- */
 
-body.stacked .ws-stage { display: block; }
+.bnote { position: absolute; }
+.bnote .note-text:focus { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.bnote .note-text:empty::before { content: "Type here"; color: var(--ink-faint); }
+.note-grip-move {
+  position: absolute; left: -1.1rem; top: .25rem; width: 1rem;
+  color: var(--ink-faint); font-size: .8rem; line-height: 1; cursor: grab;
+  opacity: 0; transition: opacity .12s ease; user-select: none;
+}
+.bnote:hover .note-grip-move { opacity: 1; }
+.bnote.is-dragging .note-grip-move { cursor: grabbing; opacity: 1; }
+.note-tools {
+  position: absolute; right: .25rem; top: .25rem; display: flex; gap: .2rem;
+  opacity: 0; transition: opacity .12s ease;
+}
+.bnote:hover .note-tools { opacity: 1; }
+.note-btn {
+  width: 1.15rem; height: 1.15rem; border-radius: 999px; border: none; cursor: pointer;
+  background: rgba(20,48,42,.08); color: var(--ink-soft); font-family: inherit;
+  font-size: .72rem; line-height: 1; display: grid; place-items: center; padding: 0;
+}
+.note-btn:hover { background: rgba(20,48,42,.18); }
+.note-tone { background: var(--accent); }
+.note-tone:hover { background: var(--accent); filter: brightness(1.15); }
+
+.bnote.is-heading {
+  z-index: 3; padding-bottom: .3rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.bnote.is-heading .note-text {
+  font-family: "Zilla Slab", serif; font-size: 1.22rem; font-weight: 600; color: var(--ink);
+  letter-spacing: .01em;
+}
+
+.bnote.is-zone {
+  z-index: 1; border-radius: 16px;
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--accent) 32%, transparent);
+}
+.bnote.is-zone .note-text {
+  display: inline-block; margin: .45rem 0 0 .7rem;
+  font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent) 80%, var(--ink));
+}
+
+.bnote.is-note {
+  z-index: 4; border-radius: 12px; padding: .6rem .7rem;
+  background: color-mix(in srgb, var(--accent) 12%, #fff);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, #fff);
+  box-shadow: 0 2px 8px rgba(20,48,42,.08);
+}
+.bnote.is-note .note-text {
+  font-size: .85rem; line-height: 1.45; color: var(--ink); height: 100%; overflow: auto;
+}
+
+/* ---- the county map ---- */
+
+.ncmap-svg {
+  display: block; width: 100%; height: auto;
+  background: var(--paper-2); border: 1px solid var(--sage-line); border-radius: 10px;
+}
+.ncmap .cty {
+  fill: #E8E7DF; stroke: var(--white); stroke-width: 1; cursor: pointer;
+  transition: fill .12s ease;
+}
+.ncmap .cty:hover { fill: #D5D3C7; }
+.ncmap .cty.is-served { fill: color-mix(in srgb, var(--green) 55%, #fff); }
+.ncmap .cty.is-served:hover { fill: color-mix(in srgb, var(--green) 72%, #fff); }
+.ncmap .cty.is-gap { fill: color-mix(in srgb, var(--rust) 62%, #fff); }
+.ncmap .cty.is-thin { fill: color-mix(in srgb, var(--marigold) 55%, #fff); }
+.ncmap .cty.is-covered { fill: color-mix(in srgb, var(--green) 62%, #fff); }
+.ncmap-cap { font-size: .86rem; color: var(--ink-soft); margin: .6rem 0 .45rem; min-height: 1.2em; }
+.ncmap-key { display: flex; flex-wrap: wrap; gap: .25rem .9rem; font-size: .76rem; color: var(--ink-faint); }
+.ncmap-key span { display: inline-flex; align-items: center; gap: .3rem; }
+.ncmap-key .sw {
+  width: .75rem; height: .75rem; border-radius: 3px; background: #E8E7DF; border: 1px solid var(--sage-line);
+}
+.ncmap-key .sw.is-served { background: color-mix(in srgb, var(--green) 55%, #fff); }
+.ncmap-key .sw.is-gap { background: color-mix(in srgb, var(--rust) 62%, #fff); }
+.ncmap-key .sw.is-thin { background: color-mix(in srgb, var(--marigold) 55%, #fff); }
+.ncmap-key .sw.is-covered { background: color-mix(in srgb, var(--green) 62%, #fff); }
+.ncmap-act { display: flex; gap: .35rem; margin-top: .7rem; }
+.ncmap-act .mini {
+  background: var(--paper-2); border: 1px solid var(--sage-line); border-radius: 999px;
+  padding: .26rem .7rem; font-family: inherit; font-size: .78rem; font-weight: 600;
+  color: var(--ink-soft); cursor: pointer;
+}
+.ncmap-act .mini:hover { border-color: var(--green); color: var(--green); }
+
+/* ---- small screens: no dragging, just the board read as a document ---- */
+
+body.stacked .ws-stage { display: block; height: auto; }
 body.stacked .ws-drawer {
-  position: static; width: auto; max-height: none; border-right: none;
-  border-bottom: 1px solid var(--sage-line);
+  width: auto; max-height: none; border-right: none;
+  border-bottom: 1px solid var(--sage-line); overflow: visible;
 }
 body.stacked:not(.drawer-open) .ws-drawer { display: none; }
-body.stacked .ws-canvas { height: auto !important; padding: 1rem .9rem; }
-body.stacked .win {
-  position: static !important; width: auto !important; height: auto !important;
-  margin-bottom: .9rem;
+body.stacked .ws-canvas { overflow: visible; height: auto; }
+body.stacked .ws-surface {
+  width: auto !important; height: auto !important; background-image: none;
+  padding: 1rem .9rem;
 }
+body.stacked .ws-room { display: none; }
+body.stacked .win,
+body.stacked .bnote {
+  position: static !important; width: auto !important; height: auto !important;
+  margin: 0 0 .9rem;
+}
+body.stacked .bnote.is-heading { margin-top: 1.6rem; }
 body.stacked .win-bar { cursor: default; }
-body.stacked .win-grip { display: none; }
+body.stacked .win-grip, body.stacked .note-grip-move { display: none; }
+body.stacked .canvas-empty { position: static; transform: none; margin: 4rem auto; }

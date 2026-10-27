@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Zilla+Slab:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="assets/course.css">
 </head>
-<body>
+<body class="ws-page">
 
 <div class="sticky-head">
   <div class="topbar" data-topbar></div>
@@ -21,11 +21,19 @@
     <button class="ws-add" id="drawerToggle" type="button" aria-expanded="false">
       <span class="plus">+</span> Add a tool
     </button>
+    <span class="ws-sep" aria-hidden="true"></span>
+    <span class="ws-adds">
+      <button type="button" data-add="heading" title="A line of text to label a section">Heading</button>
+      <button type="button" data-add="zone" title="A tinted area to group windows into a section">Section</button>
+      <button type="button" data-add="note" title="A small card of text">Note</button>
+    </span>
     <span class="ws-who" id="wsWho"></span>
     <span class="ws-presets">
       <button type="button" data-preset="reporting">Reporting season</button>
       <button type="button" data-preset="grants">Grant deadline</button>
       <button type="button" data-preset="governance">Governance</button>
+      <button type="button" data-preset="area">Service area</button>
+      <button type="button" id="resetBoard" title="Back to the starting layout">Reset</button>
       <button type="button" id="clearAll" class="ws-clear">Clear</button>
     </span>
   </div>
@@ -33,7 +41,14 @@
 
 <div class="ws-stage">
   <aside class="ws-drawer" id="drawer" aria-label="Tool drawer"></aside>
-  <div class="ws-canvas" id="canvas"></div>
+  <div class="ws-canvas" id="canvas">
+    <div class="ws-surface" id="surface"></div>
+  </div>
+  <div class="ws-room">
+    <span class="room-size" id="boardSize"></span>
+    <button type="button" id="roomWider" title="Make the board wider">+ width</button>
+    <button type="button" id="roomTaller" title="Make the board taller">+ height</button>
+  </div>
 </div>
 
 <script src="assets/config.js"></script>
@@ -42,6 +57,7 @@
 <script src="assets/profile.js"></script>
 <script src="assets/interactions.js"></script>
 <script src="assets/course.js"></script>
+<script src="assets/nc-counties.js"></script>
 <script src="assets/dashboard.js"></script>
 <script src="assets/feedback.js" defer></script>
 <script>

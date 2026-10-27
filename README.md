@@ -42,6 +42,7 @@ src/
   setup.html                      the intake (nine questions, ~1 min)
   takeaways.html                  all 30 takeaways on one page
   tools.html                      the agency toolkit
+  workspace.html                  the board: a canvas you arrange yourself
   governance.html                 the seven guardrails, each wired to what implements it
   library.html                    index of briefs, research and guidance
   module-1-foundations.html
@@ -58,6 +59,8 @@ src/
     learn.js                      the stepped card flow + Learn/Read toggle
     interactions.js               redact / compute / tells / checklist exercises
     profile.js                    agency profile + tailoring engine
+    dashboard.js                  the tool catalogue + the board's window manager
+    nc-counties.js                100 NC county outlines, generated, ~28 KB
     feedback.js                   reviewer feedback widget
     draft-banner.js               the review-draft notice
     config.js                     ← the one file you edit
@@ -175,8 +178,62 @@ Add `data-editorial` to any element. That is the whole mechanism.
 | Change the sorting exercise | `window.SORT_TASKS` inline on the module page |
 | Palette, type, spacing | Tokens at the top of `assets/course.css` |
 | Card boundaries | Automatic. Add `data-card` only to force an extra break |
+| Add, rename or regroup a tool on the board | `WIDGETS` array at the top of `assets/dashboard.js` — the drawer, the counts and the windows all read from it |
+| Give a tool a bigger default window | `size: [width, height]` on that tool in `WIDGETS` |
+| Change what a board preset opens | `PRESETS` at the bottom of `assets/dashboard.js` |
+| Change the board's starting layout | `starter()` in `assets/dashboard.js` — windows, headings, sections and notes, all with coordinates |
 
 ---
+
+## The board (`workspace.html`)
+
+A canvas, not a page. Tools open as windows you drag by the title bar and resize
+from the corner; headings, sections and notes are the layer you label the board
+with. Everything — position, size, stacking, collapsed state, your text — is kept
+in `localStorage` under `ncaf-board-v1`. Nothing is sent anywhere.
+
+Three rules are worth knowing because they are easy to break by accident:
+
+- **Windows never overlap.** Drop one on another and it slides to the nearest
+  free space; drag a corner and it stops when it meets its neighbour. `findSpot()`
+  and `room()` in `assets/dashboard.js` do this. `GAP` is the space they keep.
+- **The board grows.** It starts at 1480 × 940 and extends as you fill it, with
+  `+ width` / `+ height` for room beyond that. It is its own scrolling area, so
+  the page itself never scrolls.
+- **Below 860px there is no dragging.** The board becomes a document, read
+  section by section in the order you arranged it. Headings still do their job;
+  sections are dropped.
+
+### Fleshing out a tool
+
+Find it in `WIDGETS` and give it a `render`. Nothing else changes — the drawer,
+the counts and the "not built yet" panel all follow from that one field.
+
+```js
+render: "piicheck"                      // mount an interactions.js component
+render: { fn: "countyMap", mode: "service" }   // call a renderer from RENDERERS
+render: null                            // show what it will do, and what it needs
+```
+
+### The county map
+
+`assets/nc-counties.js` holds all 100 North Carolina counties as SVG paths,
+generated from the US Census cartographic boundary files (public domain) and
+shipped with the page. No map service, no API key, no request leaving the
+browser. Two tools draw it:
+
+- **Service Area Map** — click counties to mark the ones you serve. The set is
+  stored under `ncaf-service-area` and is available to anything else that wants it.
+- **Partner Coverage Map** — the same counties, shaded by how many partners the
+  Referral Directory lists in each one. Counties you serve with nobody listed are
+  the holes. It reads the register directly, so the directory is the input and the
+  map is the view; "Show example data" demonstrates it without touching what you
+  have entered.
+
+To redraw the paths (a different state, a finer simplification), the generator is
+`00-planning`-side, not shipped: it reads `us-atlas/counties-10m.json`, filters on
+the state FIPS prefix, projects with a latitude-corrected equirectangular fit and
+simplifies with Douglas–Peucker.
 
 ## The toolkit
 
